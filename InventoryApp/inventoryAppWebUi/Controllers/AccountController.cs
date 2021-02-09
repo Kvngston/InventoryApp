@@ -61,8 +61,6 @@ namespace inventoryAppWebUi.Controllers
             return View();
         }
 
-        
-
         //
         // POST: /Account/Login
         [HttpPost]
@@ -91,13 +89,6 @@ namespace inventoryAppWebUi.Controllers
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
-        }
-
-        // Sign Up
-        [AllowAnonymous]
-        public ActionResult SignUp()
-        {
-            return View();
         }
 
         //

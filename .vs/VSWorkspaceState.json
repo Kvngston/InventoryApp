@@ -1,15 +1,6 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\InventoryApp",
-    "\\InventoryApp\\inventoryAppWebUi",
-    "\\InventoryApp\\inventoryAppWebUi\\Content",
-    "\\InventoryApp\\inventoryAppWebUi\\Content\\Assets",
-    "\\InventoryApp\\inventoryAppWebUi\\Content\\Assets\\css",
-    "\\InventoryApp\\inventoryAppWebUi\\Views",
-    "\\InventoryApp\\inventoryAppWebUi\\Views\\Shared",
-    "\\InventoryApp\\packages"
+    ""
   ],
-  "SelectedNode": "\\InventoryApp\\InventoryApp.sln",
   "PreviewInSolutionExplorer": false
 }

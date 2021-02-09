@@ -32,7 +32,7 @@ namespace inventoryAppWebUi.App_Start
         public static void Stop()
         {
             bootstrapper.ShutDown();
-        }
+        }z
 
         /// <summary>
         /// Creates the kernel that will manage your application.

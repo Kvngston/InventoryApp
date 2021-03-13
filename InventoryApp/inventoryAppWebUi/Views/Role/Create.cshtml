@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Create";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<style type="text/css">
+    #tbrole, .c{
+        border:double;
+    }
+</style>
+
+@using (Html.BeginForm("Create", "Role", FormMethod.Post))
+{   
+    <input type="text" name="roleName" placeholder="Enter Role Name" class="form-control"/>
+
+    <input type="submit" value="Create Role"/>
+}

@@ -1,0 +1,340 @@
+﻿@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+
+    <!-- Fav  Icon Link -->
+    <link rel="shortcut icon" type="image/png" href="~/Content/Assets/images/fav.png">
+
+    <link rel="stylesheet" href="~/Content/assets/css/green.css" id="style_theme">
+
+    <script src="~/Content/assets/js/modernizr.min.js"></script>
+
+    <title>@ViewBag.Title - ProClinic-Bootstrap4 Hospital </title>
+
+    @Styles.Render("~/Content/template/css")
+    @Scripts.Render("~/bundles/modernizr")
+    
+    <style>
+        .dropdown-text {
+            margin-left: 10px;
+        }
+    </style>
+
+</head>
+<body>
+
+    @Html.Partial("_PageLoading")
+
+
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="proclinic-bg">
+            <div class="sidebar-header">
+                <a href=""><img src="~/Content/Assets/images/logo.png" class="logo" alt="logo"></a>
+            </div>
+            <ul class="list-unstyled components">
+                <li class="active">
+                    <a href="#nav-dashboard" data-toggle="collapse" aria-expanded="true">
+                        <span class="ti-home"></span> Dashboard
+                    </a>
+
+                    <ul class="collapse list-unstyled show" id="nav-dashboard">
+                        <li>
+                            @Html.ActionLink("Graph Chart", "")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Pie Chart", "")
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#nav-patients" data-toggle="collapse" aria-expanded="false">
+                        <span class="ti-wheelchair"></span> Request Drugs
+                    </a>
+                    <ul class="collapse list-unstyled" id="nav-patients">
+                        <li>
+                            @Html.ActionLink("Request Drugs", "About", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Request Drugs", "")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Request Details", "")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Request Drugs", "")
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#nav-doctors" data-toggle="collapse" aria-expanded="false">
+                        <span class="ti-user"></span> Drugs
+                    </a>
+                    <ul class="collapse list-unstyled" id="nav-doctors">
+                        <li>
+                            @Html.ActionLink("Add Drugs", "")
+                        </li>
+                        <li>
+                            @Html.ActionLink("All Drugs", "")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Drug Details", "")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Edit Drugs", "")
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#nav-appointment" data-toggle="collapse" aria-expanded="false">
+                        <span class="ti-pencil-alt"></span> Suppliers
+                    </a>
+                    <ul class="collapse list-unstyled" id="nav-appointment">
+                        <li>
+                            @Html.ActionLink("Add Appointment", "")
+                        </li>
+                        <li>
+                            @Html.ActionLink("All Appointment", "")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Appointment Details", "")
+
+                        </li>
+                        <li>
+                            @Html.ActionLink("Edit Appointment", "")
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#nav-payment" data-toggle="collapse" aria-expanded="false">
+                        <span class="ti-money"></span> Payments
+                    </a>
+                    <ul class="collapse list-unstyled" id="nav-payment">
+                        <li>
+                            @Html.ActionLink("Add Payment", "")
+                        </li>
+                        <li>
+                            @Html.ActionLink("All Payments", "")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Payment Invoice", "")
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#nav-pages" data-toggle="collapse" aria-expanded="false">
+                        <span class="ti-file"></span> Other Pages
+                    </a>
+                    <ul class="collapse list-unstyled" id="nav-pages">
+                        <li>
+                            @Html.ActionLink("Login", "Login", "Account")
+
+                        </li>
+                        <li>
+                            @Html.ActionLink("Sign Up", "SignUp", "Account")
+                        </li>
+                        <li>
+                            @Html.ActionLink("404", "")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Blank Page", "")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Manage Roles", "Index", "Role")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Pricing", "")
+                        </li>
+                        <li>
+                            @Html.ActionLink("FAQ", "")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Invoice", "")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Others", "")
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="nav-help animated fadeIn">
+                <h5><span class="ti-comments"></span> Need Help</h5>
+                <h6>
+                    <span class="ti-mobile"></span> +234 704 567 8090
+                </h6>
+                <h6>
+                    <span class="ti-email"></span> admin@proclinic.com
+                </h6>
+                <p class="copyright-text">Copy rights &copy; 2021</p>
+            </div>
+        </nav>
+        <!-- /Sidebar -->
+        <div id="content">
+            <!-- Top Navigation -->
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="responsive-logo">
+                        <a href="#"><img src="~/Content/assets/images/logo-dark.png" class="logo" alt="logo"></a>
+                    </div>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <span class="ti-menu" id="sidebarCollapse"></span>
+                        </li>
+                        <li class="nav-item">
+                            <span title="Fullscreen" class="ti-fullscreen fullscreen"></span>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="modal" data-target=".proclinic-modal-lg">
+                                <span class="ti-search"></span>
+                            </a>
+                            <div class="modal fade proclinic-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-lorvens">
+                                    <div class="modal-content proclinic-box-shadow2">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Search Patient/Doctor:</h5>
+                                            <span class="ti-close" data-dismiss="modal" aria-label="Close">
+                                            </span>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="search-term" placeholder="Type text here">
+                                                    <button type="button" class="btn btn-lorvens proclinic-bg">
+                                                        <span class="ti-location-arrow"></span> Search
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="ti-announcement"></span>
+                            </a>
+                            <div class="dropdown-menu proclinic-box-shadow2 notifications animated flipInY">
+                                <h5>Notifications</h5>
+                                <a class="dropdown-item" href="#">
+                                    <span class="ti-wheelchair"></span> New Patient Added
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <span class="ti-money"></span> Patient payment done
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <span class="ti-time"></span>Patient Appointment booked
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <span class="ti-wheelchair"></span> New Patient Added
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="ti-user"></span>
+                            </a>
+                            <div class="dropdown-menu proclinic-box-shadow2 profile animated flipInY">
+                                <h5>John Willing</h5>
+                                <a class="dropdown-item" href="@Url.Action("Login", "Account")">
+                                    <span class="ti-settings"><span class="dropdown-text">Settings</span></span>
+                                </a>
+                                <a class="dropdown-item" href="@Url.Action("Login", "Account")">
+                                    <span class="ti-help-alt"><span class="dropdown-text">Help</span></span>
+                                </a>
+                                @if (Request.IsAuthenticated)
+                                {
+                                    <a class="dropdown-item" href="@Url.Action("Login", "Account")"><span class="ti-power-off"><span class="dropdown-text">Log off</span></span></a>
+                                }
+
+
+                                @*<a class="dropdown-item" href="#">
+
+            @if (Request.IsAuthenticated)
+            {
+                using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <p>
+                        <span class="ti-power-off"> </span>Log off
+                        @Html.ActionLink("Log off", "Login", "Account", "Account", new { href = "javascript:document.getElementById('logoutForm').submit()", @class = "ti-power-off dropdown-item" })
+                    </p>
+
+
+                }
+            }
+        </a>*@
+
+
+
+
+
+                            </div>
+                            
+
+                        </li>
+                    </ul>
+
+                </div>
+            </nav>
+            <!-- /Top Navigation -->
+            <!-- Breadcrumb -->
+            <!-- Page Title -->
+            <div class="row no-margin-padding">
+                <div class="col-md-6">
+                    <h3 class="block-title">Quick Statistics</h3>
+                </div>
+                <div class="col-md-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">
+                                <span class="ti-home"></span>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- /Page Title -->
+            <!-- /Breadcrumb -->
+            <!-- Jquery Library-->
+
+
+            <div class="container-fluid home">
+                @RenderBody()
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Back to Top -->
+    <a id="back-to-top" href="#" class="back-to-top">
+        <span class="ti-angle-up"></span>
+    </a>
+    <!-- /Back to Top -->
+    <script>
+        var sessionTimeoutWarning = @Session.Timeout - 1;
+
+        var sTimeout = parseInt(sessionTimeoutWarning) * 60 * 1000;
+        setTimeout('SessionEnd()', sTimeout);
+
+        function SessionEnd() {
+            window.location = "/Account/Login";
+        }
+    </script>
+
+    @Scripts.Render("~/bundles/js")
+    @RenderSection("scripts", required: false)
+
+    @*Delete the scripts below*@
+
+</body>
+</html>

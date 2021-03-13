@@ -1,0 +1,70 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+
+    <!-- Fav  Icon Link -->
+    <link rel="shortcut icon" type="image/png" href="~/Content/Assets/images/fav.png">
+
+    <link rel="stylesheet" href="~/Content/assets/css/green.css" id="style_theme">
+
+    <script src="~/Content/assets/js/modernizr.min.js"></script>
+
+    <title>@ViewBag.Title - ProClinic-Bootstrap4 Hospital </title>
+    
+    <style>
+        #formContainer {
+            /*           background-color: #3CB371;*/
+            display: flex;
+            /*            align-content: center;*/
+            align-items: center;
+            /*            justify-content: center;*/
+            height: 600px;
+        }
+
+        .container-fluid {
+            background-color: #3CB371;
+            height: 60px;
+        }
+
+        #form {
+            border: 1px solid #3CB371;
+            position: relative;
+            top: -10px;
+        }
+
+        .textbox {
+            font-size: 20px;
+            color: black;
+            font-weight: bolder;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+    </style>
+
+    @Styles.Render("~/Content/template/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+@Html.Partial("_PageLoading")
+<div>
+    @RenderBody()
+</div>
+@Scripts.Render("~/bundles/js")
+@RenderSection("scripts", required: false)
+</body>
+</html>

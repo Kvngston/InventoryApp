@@ -1,0 +1,141 @@
+﻿@using inventoryAppWebUi.Models
+@model inventoryAppWebUi.Models.LoginViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+
+    <!-- Fav  Icon Link -->
+    <link rel="shortcut icon" type="image/png" href="~/Content/Assets/images/fav.png">
+
+    <link rel="stylesheet" href="~/Content/assets/css/green.css" id="style_theme">
+
+    <script src="~/Content/assets/js/modernizr.min.js"></script>
+
+    <title>@ViewBag.Title - ProClinic-Bootstrap4 Hospital </title>
+    <style>
+        #formContainer {
+            /*           background-color: #3CB371;*/
+            display: flex;
+            /*            align-content: center;*/
+            align-items: center;
+            /*            justify-content: center;*/
+            height: 600px;
+        }
+        .container-fluid {
+            background-color: #3CB371;
+            height: 60px;
+        }
+        #form {
+            border: 1px solid #3CB371;
+        }
+
+        .textbox {
+            font-size: 20px;
+            color: black;
+            font-weight: bolder;
+        }
+    </style>
+
+    @Styles.Render("~/Content/template/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+
+<body class="auth-bg">
+    <!-- Pre Loader -->
+    <div class="loading">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+    </div>
+    <!--/Pre Loader -->
+    <div class="wrapper">
+        <!-- Page Content  -->
+        <div id="content">
+            <div class="container-fluid">
+                <span>
+                    <img src="~/Content/Assets/images/logo.png" class="logo" alt="logo" style="height: 50px; padding-top: 4px">
+                </span>
+                <div class="" id="formContainer">
+                    <div class="col-sm-6 auth-box" id="formrr">
+                        <div class="proclinic-box-shadow" id="form">
+
+                            <h3 class="widget-title">Login</h3>
+
+                            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "widget-form", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control textbox", name = "user", placeholder = "Email" })
+                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control textbox", type = "password", name = "user", placeholder = "Password" })
+                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <!-- /.form-group -->
+                                <!-- Check Box -->
+                                <div class="form-check row">
+                                    <div class="col-sm-12 text-left">
+                                        <div class="custom-control custom-checkbox">
+
+                                            <div class="checkbox">
+                                                @Html.CheckBoxFor(m => m.RememberMe, new { @class = "custom-control-input" })
+                                                @Html.LabelFor(m => m.RememberMe, new { @class = "custom-control-label" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Check Box -->
+                                <!-- Login Button -->
+                                <div class="button-btn-block">
+                                    <input type="submit" value="Login" class="btn btn-primary btn-lg btn-block" />
+
+                                    @* <button type="button" class="btn btn-primary btn-lg btn-block">Login</button>*@
+                                </div>
+                                <!-- /Login Button -->
+                                <!-- Links -->
+                                <div class="auth-footer-text">
+                                    <small>
+                                        New User? Sign Up
+                                        @Html.ActionLink("Here", "SignUp")
+
+                                        @*<a href="sign-up.html">Sign Up</a> Here*@
+                                    </small>
+                                </div>
+                                <!-- /Links -->
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Content  -->
+            @Scripts.Render("~/bundles/js")
+            @Scripts.Render("~/bundles/jqueryval")
+        
+
+    </div>
+</body>
+
+</html>

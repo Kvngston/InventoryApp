@@ -1,94 +1,89 @@
 ﻿@model inventoryAppWebUi.Models.ReportViewModel
 
-@{ 
+@{
 
 }
-
+<div class="content-page">
     <div class="container-fluid">
-        <div class="row text-left">
-            <!-- Widget Item -->
-            <div class="col-md-12">
-                <div class="widget-area-2 proclinic-box-shadow">
-                    <h3 class="widget-title">Orders</h3>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th class="text-left">First Name</th>
-                                    <th class="text-left">Last Name</th>
-                                    <th class="text-left">Date Created</th>
-                                    <th class="text-left">Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var orders in Model.Orders)
-                                {
-                                    <tr>
-                                        <td>@orders.FirstName</td>
-                                        <td>@orders.LastName</td>
-                                        <td>@orders.CreatedAt.ToShortDateString()</td>
-                                        <td>@orders.Price</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
+                    <div>
+                        <h4 class="mb-3">Report</h4>
+                        <p class="mb-0">
+                            Sales Report, download
+                        </p>
                     </div>
                 </div>
-            </div>
-            <!-- /Widget Item -->
-            @* Another Table *@
-            <div class="col-md-12">
-                <div class="widget-area-2 proclinic-box-shadow">
-                    <h3 class="widget-title">Drugs</h3>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
-                            <thead>
+                <div class="table-responsive">
+                    <h3 class="mb-3">Orders</h3>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-left">First Name</th>
+                                <th class="text-left">Last Name</th>
+                                <th class="text-left">Date Created</th>
+                                <th class="text-left">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var orders in Model.Orders)
+                            {
                                 <tr>
-                                    <th class="text-left">Drug Name</th>
-                                    <th class="text-left">Price</th>
-                                    <th class="text-left">Quantity</th>
-                                    <th class="text-left">Expiry Date</th>
-                                    <th class="text-left">Drug status</th>
+                                    <td>@orders.FirstName</td>
+                                    <td>@orders.LastName</td>
+                                    <td>@orders.CreatedAt.ToShortDateString()</td>
+                                    <td>@orders.Price</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var report in Model.ReportDrugs)
-                                {
-                                    <tr>
-                                        <td>@report.DrugName</td>
-                                        <td>@report.Price</td>
-                                        <td>@report.Quantity</td>
-                                        <td>@report.ExpiryDate.ToShortDateString()</td>
-                                        <td>@report.CurrentDrugStatus</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-            <div class="col-md-12">
-                <div class="col-md-12">
-                    <h2 class="widget-title" style="margin-top: 10px;">Total Revenue: </h2> <h3>@Model.TotalRevenueForReport</h3>
+
+                <h3 class="mb-3">Drugs</h3>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-left">Drug Name</th>
+                                <th class="text-left">Price</th>
+                                <th class="text-left">Quantity</th>
+                                <th class="text-left">Expiry Date</th>
+                                <th class="text-left">Drug status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var report in Model.ReportDrugs)
+                            {
+                                <tr>
+                                    <td>@report.DrugName</td>
+                                    <td>@report.Price</td>
+                                    <td>@report.Quantity</td>
+                                    <td>@report.ExpiryDate.ToShortDateString()</td>
+                                    <td>@report.CurrentDrugStatus</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-            <!--Export links-->
-            <nav aria-label="Page navigation example">
+                <h2 class="mb-3" style="margin-top: 10px;">Total Revenue: </h2> <h3>@Model.TotalRevenueForReport</h3>
                 <ul class="pagination export-pagination">
                     <li class="page-item">
-                        <a class="page-link" href="#"><span class="ti-printer"></span> print</a>
+                        <a class="page-link" href="#"><span class=" ri-download-cloud-2-fill"></span> print</a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="#"><span class="ti-file"></span> PDF</a>
+                        <span class=" ri-download-cloud-2-fill"></span> Download
+                        Report
                     </li>
                 </ul>
-            </nav>
-            <!-- /Export links-->
-            <button type="button" class="btn btn-success mb-3">
-                <span class="ti-cloud-down"></span> Download
-                Report
-            </button>
+                <button type="button" class="btn btn-success mb-3">
+                    
+                </button>
+            </div>
         </div>
-        <div>
-        </div>
+
     </div>
+    <!-- Page end  -->
+</div>
+@Html.Partial("_FooterPartial")
+

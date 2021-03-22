@@ -6,7 +6,6 @@
     //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Available Roles For Application</h2>
 
 @*@Html.ActionLink("Create Role", "Create", "Role", null,
                         new { @class = "btn btn-primary" })*@
@@ -17,27 +16,52 @@
     }
 </style>
 
-<div class="table-responsive">
 
-    <table id="tbrole" class="table table-hover table-bordered">
-        <thead>
-            <tr class="success">
-                <td class="c">
-                    Role Name
-                </td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td class="c">
-                        @item
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-@Html.ActionLink("Create New Role", "Create", "Role", null,
+<div class="content-page">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
+                    <div>
+
+                        <h4 class="mb-3">Available Roles For Application</h4>
+                        <p class="mb-0">
+                            Available Roles
+                        </p>
+                    </div>
+                    <a id="createRole" data-target="#edit-note" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Create Role</a>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="table-responsive rounded mb-3">
+                    <table id="tabl_id" class="display table display table mb-0 tbl-server-info">
+                        <thead>
+                            <tr class="success">
+                                <td class="c">
+                                    Role Name
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="c">
+                                        @item
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            @Html.ActionLink("Create New Role", "Create", "Role", null,
                         new { @class = "btn btn-primary" })
+
+        </div>
+        <!-- Page end  -->
+    </div>
+
+</div>

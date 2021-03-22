@@ -1,24 +1,18 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NUnit.Framework;
+﻿using System.Web.Mvc;
 using inventoryAppDomain.Services;
-using Moq;
 using inventoryAppWebUi.Controllers;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity.EntityFramework;
-using inventoryAppDomain.Repository;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
-namespace InventoryAppWebUi.Test
+namespace InventoryAppWebUi.Test.Tests
 {
     /// <summary>
-    /// Summary description for RoleControllerTest
+    /// Summary description for PaymentControllerTest
     /// </summary>
-    //[TestClass]
-    public class RoleControllerTest
+    [TestClass]
+    public class PaymentServiceTest
     {
-        public RoleControllerTest()
+        public PaymentServiceTest()
         {
             //
             // TODO: Add constructor logic here
@@ -65,36 +59,16 @@ namespace InventoryAppWebUi.Test
         //
         #endregion
 
-        [Test]
-        public void IndexTest()
+        [TestMethod]
+        public void TestMethod1()
         {
-            Mock<IRoleService> _mockRoles = new Mock<IRoleService>();
-
-
-            var controller = new RoleController(_mockRoles.Object);
-
-            var result = controller.Index() as ViewResult;
-
-            Assert.That(result.ViewName, Is.EqualTo(""));
-        }
-
-        [Test]
-        public void CreateTest()
-        {
-            var roleName = "Admin";
-            //var newRole = new IdentityRole
-            //{
-            //    Id = "abcdef",
-            //    Name = roleName,
-                
-            //};
-
-            Mock<IRoleService> _mockRoles = new Mock<IRoleService>();
-            var controller = new RoleController(_mockRoles.Object);
-
-            controller.Create(roleName);
+            var OrderId = 12;
+            Mock<IPaymentService> _mockPayment = new Mock<IPaymentService>();
          
-            var result = controller.Index();
+
+            var controller = new PaymentController(_mockPayment.Object);
+
+            var result = controller.Index(OrderId) as ViewResult;
 
             Assert.IsNotNull(result);
         }

@@ -1,22 +1,19 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Web.Mvc;
+using inventoryAppDomain.Entities.Enums;
 using inventoryAppDomain.Services;
-using Moq;
 using inventoryAppWebUi.Controllers;
-using System.Web.Mvc;
+using Moq;
 using NUnit.Framework;
 
-namespace InventoryAppWebUi.Test
+namespace InventoryAppWebUi.Test.Tests
 {
     /// <summary>
-    /// Summary description for HomeControllerTest
+    /// Summary description for ReportControllerTest
     /// </summary>
     //[TestClass]
-    public class HomeControllerTest
+    public class ReportServiceTest
     {
-        public HomeControllerTest()
+        public ReportServiceTest()
         {
             //
             // TODO: Add constructor logic here
@@ -66,33 +63,17 @@ namespace InventoryAppWebUi.Test
         [Test]
         public void IndexTest()
         {
-            Mock<IDrugCartService> _drugCartService = new Mock<IDrugCartService>();
-            Mock<IDrugService> _drugService = new Mock<IDrugService>();
-            Mock<ISupplierService> _suppService = new Mock<ISupplierService>();
-            Mock<IOrderService> _orderService = new Mock<IOrderService>();
+            //Arrange
+            var newTimeFrame = new TimeFrame();
 
-            var _acontroller = new HomeController(_suppService.Object, _drugService.Object, _drugCartService.Object, _orderService.Object);
+            Mock<IReportService> _mockReport = new Mock<IReportService>();
 
-            var result = _acontroller.Index() as ViewResult;
+            var controller = new ReportController(_mockReport.Object);
+            //Act
+            var result = controller.Index(newTimeFrame) as ViewResult;
 
-            Assert.IsNotNull(result.ViewName);
+            //Assert
+            Assert.IsNotNull(result);
         }
-
-        [Test]
-        public void AboutTest()
-        {
-            Mock<IDrugCartService> _drugCartService = new Mock<IDrugCartService>();
-            Mock<IDrugService> _drugService = new Mock<IDrugService>();
-            Mock<ISupplierService> _suppService = new Mock<ISupplierService>();
-            Mock<IOrderService> _orderService = new Mock<IOrderService>();
-
-            var _acontroller = new HomeController(_suppService.Object, _drugService.Object, _drugCartService.Object, _orderService.Object);
-
-            var result = _acontroller.About() as ViewResult;
-
-            Assert.AreEqual(result.ViewName, "");
-        }
-
-
     }
 }

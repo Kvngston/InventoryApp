@@ -595,6 +595,7 @@
     <Content Include="Views\Drug\_CategoryPartial.cshtml" />
     <Content Include="Views\Drug\_EditCategoryPartial.cshtml" />
     <Content Include="Views\Shared\_RoleModalPartial.cshtml" />
+    <Content Include="Views\Role\_RolePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -21,14 +21,25 @@ namespace inventoryAppWebUi.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            return PartialView("_RolePartial");
         }
 
         [HttpPost]
         public ActionResult Create(string roleName)
         {
-            var role = _roleService.Create(roleName);
-            return RedirectToAction("Index");
+            if (!ModelState.IsValid)
+            {
+                TempData["failed"] = "failed";
+                
+            }
+            else
+            {
+                var role = _roleService.Create(roleName);
+                TempData["roleAdded"] = "added";
+                
+
+            }
+            return Json(new { response = "success" }, JsonRequestBehavior.AllowGet);
         }
     }
 }

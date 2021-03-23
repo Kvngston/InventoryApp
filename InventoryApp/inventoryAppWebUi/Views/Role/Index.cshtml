@@ -29,7 +29,7 @@
                             Available Roles
                         </p>
                     </div>
-                    <a id="createRole" data-target="#edit-note" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Create Role</a>
+                    
                 </div>
             </div>
 
@@ -37,31 +37,38 @@
                 <div class="table-responsive rounded mb-3">
                     <table id="tabl_id" class="display table display table mb-0 tbl-server-info">
                         <thead>
-                            <tr class="success">
-                                <td class="c">
-                                    Role Name
-                                </td>
-                            </tr>
+                        <tr class="success">
+                            <td class="c">
+                                Role Name
+                            </td>
+                        </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td class="c">
-                                        @item
-                                    </td>
-                                </tr>
-                            }
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="c">
+                                    @item
+                                </td>
+                            </tr>
+                        }
                         </tbody>
                     </table>
                 </div>
             </div>
 
             @Html.ActionLink("Create New Role", "Create", "Role", null,
-                        new { @class = "btn btn-primary" })
+                new { @class = "btn btn-primary" })
 
         </div>
         <!-- Page end  -->
     </div>
 
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#tabl_id').DataTable();
+
+    });
+</script>

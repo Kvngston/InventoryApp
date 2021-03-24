@@ -118,6 +118,7 @@
     <Compile Include="SupplierServiceTest.cs" />
     <Compile Include="Tests\NotificationsTest.cs" />
     <Compile Include="Tests\PaymentsTest.cs" />
+    <Compile Include="Tests\ProfileTests.cs" />
     <Compile Include="Tests\ReportsTest.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <div class="content-page">
     <div class="container-fluid">
         <div class="row">
@@ -38,15 +37,15 @@
                                     {
                                         <tr>
                                             <td class="font-weight-bold">@drug.Drug.DrugName</td>
-                                            <td> <button class="badge-success increase" onclick="increase(@drug.DrugId)"> + </button>  @drug.Amount <button class="badge-warning decrease" onclick="decrease(@drug.Id)"> - </button></td>
+                                            <td style="font-weight: bolder"> <button class="fas fa-plus increase text-success" style="cursor: pointer; font-size: 20px"onclick="increase(@drug.DrugId)"> </button>  @drug.Amount <button class="fas fa-minus decrease text-warning" style="cursor: pointer; font-size: 20px" onclick="decrease(@drug.Id)"> </button> </td>
                                             <td class="text-left">@drug.Drug.Price</td>
                                             <td>
 
                                                 <a class="badge bg-warning mr-2"
-                                                   href="@Url.Action("RemoveFromShoppingCart", "DrugCart", new { Id = drug.Id })"><i data-toggle="tooltip" data-placement="top" data-original-title="Remove from cart" class="ri-delete-bin-line mr-0"></i></a>
+                                                   href="@Url.Action("RemoveFromShoppingCart", "DrugCart", new { Id = drug.Id })"><i data-toggle="tooltip" data-placement="top" data-original-title="Remove from cart" class="ri-delete-bin-line mr-0" style="font-size: 20px"></i></a>
 
                                                 @*@Html.ActionLink("Remove From Cart", "RemoveFromShoppingCart", "DrugCart", new { drug.Id },
-                                                     new { @class = "btn btn-outline-primary" })*@
+        new { @class = "btn btn-outline-primary" })*@
                                             </td>
 
                                         </tr>

@@ -6,6 +6,11 @@
     <script type="text/javascript" src="~/Content/datatable/datatables.min.js"></script>
 </head>
 
+@if ((string)TempData["categoryAdded"] == "added")
+{
+    @Html.Partial("_SwaSuccessPartial")
+
+}
 <div class="content-page">
     <div class="container-fluid">
         <div class="row">
@@ -17,7 +22,9 @@
                             Drug categories are listed here
                         </p>
                     </div>
-                    @Html.ActionLink("Add Category", "AddDrugCategory", "Drug", new { @class = "btn btn-outline-primary" })
+                    <a id="addDrugCategoryModal" onclick="AddDrugCategory()" data-target="#edit-note" class="badge bg-success mr-2"
+                       href="#"><i data-toggle="tooltip" data-placement="top" data-original-title="Add" class="ri-add-line mr-0"></i></a>
+                   
 
                     @*<a data-toggle="modal" data-target="#edit-note" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Add Drug</a>*@
                 </div>
@@ -37,7 +44,6 @@
 
                                     <th>Category Name</th>
                                     <th></th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,16 +52,17 @@
 
                                     <tr>
                                         <td>@category.CategoryName</td>
-                                        <td>
-                                            @Html.ActionLink("Remove", "RemoveDrugCategory", "Drug", new { Id = category.Id }, new { @class = "btn btn-outline-danger" })
-                                    </td>
 
-                                    <td>
+                                        <td>
                                         <div class="d-flex align-items-center list-action">
-                                            <a class="badge bg-success mr-2" data-toggle="modal" data-target="#edit-note" data-placement="top" title="" data-original-title="Edit"
+                                            @*<a class="badge badge-info mr-2"
+                                               href="@Url.Action("RemoveDrugCategory", "Drug", new { Id = category.Id })"><i data-toggle="tooltip" data-placement="top" data-original-title="View" class="ri-delete-bin-line mr-0"></i></a>*@
+                                            <a onclick="EditDrugCategory(@category.Id)" class="badge bg-success mr-2" data-toggle="modal" data-target="#edit-note" data-placement="top" title="" data-original-title="Edit"
                                                href=""><i data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="ri-pencil-line mr-0"></i></a>
-                                            <a class="badge bg-warning mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"
-                                               href="#"><i class="ri-delete-bin-line mr-0"></i></a>
+                                            @*<a class="badge bg-warning mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"
+                                               href="#"><i class="ri-delete-bin-line mr-0"></i></a>*@
+                                            <a class="badge bg-danger badge-info mr-2"
+                                               href="@Url.Action("RemoveDrugCategory", "Drug", new { Id = category.Id })"><i data-toggle="tooltip" data-placement="top" data-original-title="View" class="ri-delete-bin-line mr-0"></i></a>
                                         </div>
                                     </td>
 
@@ -70,13 +77,69 @@
         </div>
     </div>
 </div>
-@Html.Partial("_SupplierModalPartial")
+@Html.Partial("_DrugCategoryModalPartial")
 @Html.Partial("_FooterPartial")
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('#tablee').DataTable();
+
     });
 
-       // Html.ActionLink("Remove", "RemoveDrugCategory", "Drug", new{Id = category.Id}, new { class = "btn btn-outline-danger" })
+    async function AddDrugCategory() {
+        var url = "/Drug/AddDrugCategory/";
+        var data = await fetch(url);
+        data = await data.text();
 
+        var modalPartial = document.getElementById("contentpage");
+        modalPartial.innerHTML = data;
+
+        $.validator.unobtrusive.parse("#form");
+        $("#edit-note").modal('show');
+    }
+
+    async function EditDrugCategory(id) {
+        var url = "/Drug/UpdateDrugCategory/" + id;
+        var data = await fetch(url);
+        data = await data.text();
+
+        var modalPartial = document.getElementById("contentpage");
+        modalPartial.innerHTML = data;
+
+        $.validator.unobtrusive.parse("#form");
+        $("#edit-note").modal('show');
+
+    }
+
+    function OnSuccess(data) {
+
+        alert("Successkk");
+    }
+
+    function OnSuccess(data) {
+        // window.location.reload();
+        // $("#addDrugCategoryModal").modal('hide');
+        // $("#edit-note").modal('hide');
+
+        if (data.response == "success") {
+            $("#edit-note").modal('hide');
+            //$("#addSupplierModal").modal('hide');
+            window.location.reload();
+
+        }
+
+        var modalPartial = document.getElementById("contentpage");
+        modalPartial.innerHTML = data;
+        $.validator.unobtrusive.parse("#form");
+        $("#edit-note").modal('show');
+
+
+    }
+
+    function OnCategoryAdded(data) {
+        // $("#edit-note").modal('hide');
+       window.location.reload();
+        //alert(data.response);
+
+
+    }
 </script>

@@ -32,8 +32,11 @@ namespace inventoryAppWebUi.Models
         public List<DrugCategory> DrugCategory { get; set; }
         [Required]
         public int DrugCategoryId { get; set; }
-        //[Required]
-        //public int DrugCategoryId { get; set; }
-        //public DrugCategory DrugCategory { get; set; }
+    }
+
+    public class CategoryViewModel
+    {
+        public int Id { get; set; }
+        public string CategoryName { get; set; }
     }
 }

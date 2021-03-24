@@ -10,6 +10,7 @@ using inventoryAppDomain.Entities;
 using inventoryAppDomain.IdentityEntities;
 using inventoryAppWebUi.Models;
 using inventoryAppDomain.Entities.Enums;
+using Microsoft.Ajax.Utilities;
 
 namespace inventoryAppWebUi.Controllers
 {
@@ -88,7 +89,9 @@ namespace inventoryAppWebUi.Controllers
             {
                 drug.DrugCategory = _drugService.AllCategories();
                 TempData["failed"] = "failed";
-                return View("AddDrugForm", drug);
+                return PartialView("_DrugPartial", drug);
+
+                // return Json(new { response = "failed"}, JsonRequestBehavior.AllowGet);
             }
 
 
@@ -148,8 +151,9 @@ namespace inventoryAppWebUi.Controllers
                         }
 
 
+                        var newDrug = Mapper.Map<DrugViewModel, Drug>(drug);
+                        _drugService.AddDrug(newDrug);
 
-                        _drugService.AddDrug(Mapper.Map<DrugViewModel, Drug>(drug));
                     }
                     else
                     {
@@ -158,17 +162,20 @@ namespace inventoryAppWebUi.Controllers
                         // check expiry date for drugs
                         var getDrugInDb = _drugService.EditDrug(drug.Id);
                         _drugService.UpdateDrug(Mapper.Map(drug, getDrugInDb));
+                        /// return Json(new { response = "success" }, JsonRequestBehavior.AllowGet);
+
                     }
                     TempData["added"] = "added";
 
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw new HttpException("Something went wrong");
+                Console.WriteLine(ex.Message);
+                return Json(new { response = ex.Message }, JsonRequestBehavior.AllowGet);
+
             }
-            //return RedirectToAction("AddDrugForm");
             return Json(new { response = "success" }, JsonRequestBehavior.AllowGet);
 
         }
@@ -177,21 +184,36 @@ namespace inventoryAppWebUi.Controllers
         [HttpGet]
         public ActionResult AddDrugCategory()
         {
-            return View();
+            return PartialView("_CategoryPartial");
         }
 
         //Post
         [HttpPost]
-        public ActionResult SaveDrugCategory(DrugCategory category)
+        public ActionResult SaveDrugCategory(DrugCategoryViewModel category)
         {
             if (ModelState.IsValid)
             {
-                _drugService.AddDrugCategory(category);
-                TempData["categoryAdded"] = "added";
-                return View("AddDrugCategory");
+                
+                if (string.IsNullOrWhiteSpace(category.CategoryName))
+                {
+                    ModelState.AddModelError("Category Name", "Please input category");
+                    //return Json(new { response = "failure", cat = category }, JsonRequestBehavior.AllowGet);
+
+                    return PartialView("_CategoryPartial", category);
+
+                }
+                else
+                {
+                    var cate = Mapper.Map<DrugCategory>(category);
+                    _drugService.AddDrugCategory(cate);
+
+                    TempData["categoryAdded"] = "added";
+                    return Json(new { response = "success" }, JsonRequestBehavior.AllowGet);
+                }
+
             }
             TempData["failedToAddCategory"] = "failed";
-            return View("AddDrugCategory", category);
+            return PartialView("_CategoryPartial", category);
         }
 
         public ActionResult RemoveDrug(int id)
@@ -210,6 +232,27 @@ namespace inventoryAppWebUi.Controllers
         {
             _drugService.RemoveDrugCategory(id);
             return RedirectToAction("ListDrugCategories");
+        }
+
+        [HttpGet]
+        public ActionResult UpdateDrugCategory(int id)
+        {
+            var categoryInDb = Mapper.Map<EditCategoryViewModel>(_drugService.EditDrugCategory(id));
+
+            if (categoryInDb == null) return HttpNotFound("No category found");
+
+            return PartialView("_EditCategoryPartial", categoryInDb);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateDrugCategory(EditCategoryViewModel category)
+        {
+
+            _drugService.UpdateDrugCategory(Mapper.Map<DrugCategory>(category));
+            //_drugService.EditDrugCategory(category.Id);
+            // return View("ListDrugCategories");
+            return Json(new { response = "success" }, JsonRequestBehavior.AllowGet);
+
         }
     }
 }

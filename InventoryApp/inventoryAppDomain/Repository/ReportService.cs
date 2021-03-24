@@ -15,19 +15,23 @@ namespace inventoryAppDomain.Repository
 {
     public class ReportService : IReportService
     {
-        private ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _dbContext;
         private readonly IOrderService _orderService;
+        private readonly IDrugCartService _drugCartService;
+        private readonly IDrugService _drugService;
 
-        public ReportService(IOrderService orderService)
+        public ReportService(IOrderService orderService, IDrugCartService drugCartService, IDrugService drugService)
         {
             _orderService = orderService;
+            _drugCartService = drugCartService;
+            _drugService = drugService;
             _dbContext = HttpContext.Current.GetOwinContext().Get<ApplicationDbContext>();
         }
 
-        public string GenerateSalesTable(List<DrugCartItem> cartItems)
+        private static string GenerateSalesTable(List<DrugCartItem> cartItems)
         {
             var sb = new StringBuilder();
-            var table = @"
+            const string table = @"
                                 <table class= "" table table-hover table-bordered text-left "">
                                 <thead>
                                     <tr class= ""table-success "">
@@ -39,7 +43,7 @@ namespace inventoryAppDomain.Repository
             sb.Append(table);
             foreach (var item in cartItems)
             {
-                string row = $@"<tbody>
+                var row = $@"<tbody>
                                 <tr class=""info"" style="" cursor: pointer"">
                                 <td class=""font-weight-bold"">{item.Drug.DrugName}</td>
                                 <td class=""font-weight-bold"">{item.Amount}</td>
@@ -53,6 +57,16 @@ namespace inventoryAppDomain.Repository
             return sb.ToString();
         }
 
+        public Report GetReportByFunc(Func<Report, bool> func)
+        {
+            return _dbContext.Reports.FirstOrDefault(func);
+        }
+
+        public bool GetReportBoolByFunc(Func<Report, bool> func)
+        {
+            return _dbContext.Reports.Any(func);
+        }
+
         public Report CreateReport(TimeFrame timeFrame)
         {
             Report report;
@@ -61,28 +75,28 @@ namespace inventoryAppDomain.Repository
                 case TimeFrame.DAILY:
                 {
                     Func<Report, bool> dailyFunc = report1 => report1.CreatedAt.Date == DateTime.Now.Date && report1.TimeFrame == timeFrame;
-                    report = _dbContext.Reports.FirstOrDefault(dailyFunc) ?? new Report();
-
-                    report.Orders = _orderService.GetOrdersForTheDay();
+                    report = GetReportByFunc(dailyFunc) ?? new Report();
+                    var orders = _orderService.GetOrdersForTheDay();
+                    report.Orders = orders;
                     report.TimeFrame = timeFrame;
-                    report.TotalRevenueForReport = _orderService.GetOrdersForTheDay().Select(order => order.Price).Sum();
+                    report.TotalRevenueForReport = orders.Select(order => order.Price).Sum();
 
                     var drugItem = new List<DrugCartItem>();
                     var drugs = new List<Drug>();
-                    var orders = _orderService.GetOrdersForTheDay();
+                    
                     foreach (var order in orders)
                     {
                         foreach (var drugCartItem in order.OrderItems)
                         {
-                            drugItem.Add(_dbContext.DrugCartItems.Include(item => item.Drug).Include(item => item.DrugCart).FirstOrDefault(item => item.Id == drugCartItem.Id));
-                            drugs.Add(_dbContext.Drugs.FirstOrDefault(drug => drug.Id == drugCartItem.DrugId));
+                            drugItem.Add(_drugCartService.GetDrugCartItemById(drugCartItem.Id));
+                            drugs.Add(_drugService.GetDrugById(drugCartItem.DrugId));
                         }
                     }
 
                     report.DrugSales = GenerateSalesTable(drugItem);
                     report.ReportDrugs = drugs;
 
-                    if (_dbContext.Reports.Any(dailyFunc))
+                    if (GetReportBoolByFunc(dailyFunc))
                     {
                         _dbContext.Entry(report).State = EntityState.Modified;
                     }
@@ -104,29 +118,29 @@ namespace inventoryAppDomain.Repository
                         report1.CreatedAt <= lastDayOfWeek && report1.TimeFrame == timeFrame);
 
                     
-                    report = _dbContext.Reports.FirstOrDefault(weeklyFunc) ?? new Report();
+                    report = GetReportByFunc(weeklyFunc) ?? new Report();
 
-                    report.Orders = _orderService.GetOrdersForTheWeek();
+                    var orders = _orderService.GetOrdersForTheWeek();
+                    report.Orders = orders;
                     report.TimeFrame = timeFrame;
-                    report.TotalRevenueForReport =
-                        _orderService.GetOrdersForTheWeek().Select(order => order.Price).Sum();
+                    report.TotalRevenueForReport = orders.Select(order => order.Price).Sum();
 
                     var drugItem = new List<DrugCartItem>();
                     var drugs = new List<Drug>();
-                    var orders = _orderService.GetOrdersForTheWeek();
+                    
                     foreach (var order in orders)
                     {
                         foreach (var drugCartItem in order.OrderItems)
                         {
-                            drugItem.Add(_dbContext.DrugCartItems.Include(item => item.Drug).Include(item => item.DrugCart).FirstOrDefault(item => item.Id == drugCartItem.Id));
-                            drugs.Add(_dbContext.Drugs.FirstOrDefault(drug => drug.Id == drugCartItem.DrugId));
+                            drugItem.Add(_drugCartService.GetDrugCartItemById(drugCartItem.Id));
+                            drugs.Add(_drugService.GetDrugById(drugCartItem.DrugId));
                         }
                     }
 
                     report.ReportDrugs = drugs;
                     report.DrugSales = GenerateSalesTable(drugItem);
 
-                    if (_dbContext.Reports.Any(weeklyFunc))
+                    if (GetReportBoolByFunc(weeklyFunc))
                     {
                         _dbContext.Entry(report).State = EntityState.Modified;
                     }
@@ -144,32 +158,32 @@ namespace inventoryAppDomain.Repository
                         report1.CreatedAt.Month.Equals(DateTime.Now.Month) &&
                         report1.CreatedAt.Year.Equals(DateTime.Now.Year) && report1.TimeFrame == timeFrame;
                     
-                    report = _dbContext.Reports.FirstOrDefault(monthlyFunc);
+                    report = GetReportByFunc(monthlyFunc);
                     if (report == null)
                     {
                         report = new Report();
                     }
 
+                    var orders = _orderService.GetOrdersForTheMonth();
                     report.Orders = _orderService.GetOrdersForTheMonth();
                     report.TimeFrame = timeFrame;
-                    report.TotalRevenueForReport =
-                        _orderService.GetOrdersForTheMonth().Select(order => order.Price).Sum();
+                    report.TotalRevenueForReport = orders.Select(order => order.Price).Sum();
 
                     var drugItem = new List<DrugCartItem>();
                     var drugs = new List<Drug>();
-                    var orders = _orderService.GetOrdersForTheMonth();
+                    
                     foreach (var order in orders)
                     {
                         foreach (var drugCartItem in order.OrderItems)
                         {
-                            drugItem.Add(_dbContext.DrugCartItems.Include(item => item.Drug).Include(item => item.DrugCart).FirstOrDefault(item => item.Id == drugCartItem.Id));
-                            drugs.Add(_dbContext.Drugs.FirstOrDefault(drug => drug.Id == drugCartItem.DrugId));
+                            drugItem.Add(_drugCartService.GetDrugCartItemById(drugCartItem.Id));
+                            drugs.Add(_drugService.GetDrugById(drugCartItem.DrugId));
                         }
                     }
 
                     report.DrugSales = GenerateSalesTable(drugItem);
                     report.ReportDrugs = drugs;
-                    if (_dbContext.Reports.Any(monthlyFunc))
+                    if (GetReportBoolByFunc(monthlyFunc))
                     {
                         _dbContext.Entry(report).State = EntityState.Modified;
                     }

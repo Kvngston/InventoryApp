@@ -31,7 +31,6 @@ namespace inventoryAppDomain.Entities
 
         [Required]
         public int DrugCategoryId { get; set; }
-        [Required]
         public DrugCategory DrugCategory { get; set; }
         
     }

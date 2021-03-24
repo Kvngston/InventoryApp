@@ -90,7 +90,9 @@ namespace inventoryAppWebUi.Controllers
             {
                 drug.DrugCategory = _drugService.AllCategories();
                 TempData["failed"] = "failed";
-                return View("AddDrugForm", drug);
+                return PartialView("_DrugPartial", drug);
+
+                // return Json(new { response = "failed"}, JsonRequestBehavior.AllowGet);
             }
 
 
@@ -150,8 +152,9 @@ namespace inventoryAppWebUi.Controllers
                         }
 
 
+                        var newDrug = Mapper.Map<DrugViewModel, Drug>(drug);
+                        _drugService.AddDrug(newDrug);
 
-                        _drugService.AddDrug(Mapper.Map<DrugViewModel, Drug>(drug));
                     }
                     else
                     {
@@ -160,17 +163,20 @@ namespace inventoryAppWebUi.Controllers
                         // check expiry date for drugs
                         var getDrugInDb = _drugService.EditDrug(drug.Id);
                         _drugService.UpdateDrug(Mapper.Map(drug, getDrugInDb));
+                        /// return Json(new { response = "success" }, JsonRequestBehavior.AllowGet);
+
                     }
                     TempData["added"] = "added";
 
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw new HttpException("Something went wrong");
+                Console.WriteLine(ex.Message);
+                return Json(new { response = ex.Message }, JsonRequestBehavior.AllowGet);
+
             }
-            //return RedirectToAction("AddDrugForm");
             return Json(new { response = "success" }, JsonRequestBehavior.AllowGet);
 
         }

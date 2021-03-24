@@ -36,10 +36,10 @@
             <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
                 <a href="@Url.Action("Index", "Home")" class="header-logo">
                     <img src="~/Content/assets/images/logo.png" class="img-fluid rounded-normal light-logo" alt="logo">
-                    <h5 class="logo-title light-logo ml-3">POSDashh</h5>
+                    <h5 class="logo-title light-logo ml-3">POSDash</h5>
                 </a>
                 <div class="iq-menu-bt-sidebar ml-0">
-                    <i class="las la-bars wrapper-menu"></i>
+                    <i class="fas fa-bars wrapper-menu"></i>
                 </div>
             </div>
 
@@ -73,17 +73,17 @@
                             <ul id="product" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                                 <li class="">
                                     <a href="@Url.Action("AllDrugs", "Drug")">
-                                        <i class="las la-minus"></i><span>All Drugs</span>
+                                        <i class="fas fa-minus"></i><span>All Drugs</span>
                                     </a>
                                 </li>
                                 <li class="">
                                     <a href="@Url.Action("FilteredDrugsList", "Drug")">
-                                        <i class="las la-minus"></i><span>Available Drugs</span>
+                                        <i class="fas fa-minus"></i><span>Available Drugs</span>
                                     </a>
                                 </li>
                                 <li class="">
                                     <a href="@Url.Action("AddDrugForm", "Drug")">
-                                        <i class="las la-minus"></i><span>Add Drug</span>
+                                        <i class="fas fa-minus"></i><span>Add Drug</span>
                                     </a>
                                 </li>
                             </ul>
@@ -103,7 +103,7 @@
                             <ul id="category" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                                 <li class="">
                                     <a href="@Url.Action("ListDrugCategories", "Drug")">
-                                        <i class="las la-minus"></i><span>All Categories</span>
+                                        <i class="fas fa-minus"></i><span>All Categories</span>
                                     </a>
                                 </li>
                             </ul>
@@ -123,17 +123,17 @@
                             <ul id="sale" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                                 <li class="">
                                     <a href="@Url.Action("Index", "Report", new { TimeFrame = "DAILY" }, null)">
-                                        <i class="las la-minus"></i><span>Daily</span>
+                                        <i class="fas fa-minus"></i><span>Daily</span>
                                     </a>
                                 </li>
                                 <li class="">
                                     <a href="@Url.Action("Index", "Report", new { TimeFrame = "WEEKLY" }, null)">
-                                        <i class="las la-minus"></i><span>Weekly</span>
+                                        <i class="fas fa-minus"></i><span>Weekly</span>
                                     </a>
                                 </li>
                                 <li class="">
                                     <a href="@Url.Action("Index", "Report", new { TimeFrame = "MONTHLY" }, null)">
-                                        <i class="las la-minus"></i><span>Monthly</span>
+                                        <i class="fas fa-minus"></i><span>Monthly</span>
                                     </a>
                                 </li>
                             </ul>
@@ -153,12 +153,12 @@
                             <ul id="purchase" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                                 <li class="">
                                     <a href="page-list-purchase.html">
-                                        <i class="las la-minus"></i><span>List Purchases</span>
+                                        <i class="fas fa-minus"></i><span>List Purchases</span>
                                     </a>
                                 </li>
                                 <li class="">
                                     <a href="@Url.Action("Index", "DrugCart")">
-                                        <i class="las la-minus"></i><span>Requested Drugs</span>
+                                        <i class="fas fa-minus"></i><span>Requested Drugs</span>
                                     </a>
                                 </li>
                             </ul>
@@ -180,12 +180,12 @@
                             <ul id="return" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                                 <li class="">
                                     <a href="page-list-returns.html">
-                                        <i class="las la-minus"></i><span>List Returns</span>
+                                        <i class="fas fa-minus"></i><span>List Returns</span>
                                     </a>
                                 </li>
                                 <li class="">
                                     <a href="page-add-return.html">
-                                        <i class="las la-minus"></i><span>Add Return</span>
+                                        <i class="fas fa-minus"></i><span>Add Return</span>
                                     </a>
                                 </li>
                             </ul>
@@ -207,12 +207,12 @@
                             <ul id="people" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                                 <li class="">
                                     <a href="@Url.Action("AllSuppliers", "Supplier")">
-                                        <i class="las la-minus"></i><span>All Suppliers</span>
+                                        <i class="fas fa-minus"></i><span>All Suppliers</span>
                                     </a>
                                 </li>
                                 <li class="">
                                     <a href="@Url.Action("AllSuppliers", "Supplier", new { btn = "addSupplier" })" onclick="redirecupplier()">
-                                        <i class="las la-minus"></i><span>Add Supplier</span>
+                                        <i class="fas fa-minus"></i><span>Add Supplier</span>
                                     </a>
                                 </li>
 
@@ -267,17 +267,17 @@
                                     <ul id="user" class="iq-submenu collapse" data-parent="#otherpage">
                                         <li class="">
                                             <a href="@Url.Action("ManageUsers", "Account")">
-                                                <i class="las la-minus"></i><span>Manage Users</span>
+                                                <i class="fas fa-minus"></i><span>Manage Users</span>
                                             </a>
                                         </li>
                                         <li class="">
                                             <a href="@Url.Action("Index", "Role")">
-                                                <i class="las la-minus"></i><span>Manage Roles</span>
+                                                <i class="fas fa-minus"></i><span>Manage Roles</span>
                                             </a>
                                         </li>
                                         <li class="">
                                             <a href="http://iqonic.design/themes/posdash/html/app/user-list.html">
-                                                <i class="las la-minus"></i><span>User List</span>
+                                                <i class="fas fa-minus"></i><span>User List</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -301,17 +301,17 @@
                                     <ul id="auth" class="iq-submenu collapse" data-parent="#otherpage">
                                         <li class="">
                                             <a href="@Url.Action("Login", "Account")">
-                                                <i class="las la-minus"></i><span>Login</span>
+                                                <i class="fas fa-minus"></i><span>Login</span>
                                             </a>
                                         </li>
                                         <li class="">
                                             <a href="@Url.Action("SignUp", "Account")">
-                                                <i class="las la-minus"></i><span>Register</span>
+                                                <i class="fas fa-minus"></i><span>Register</span>
                                             </a>
                                         </li>
                                         <li class="">
                                             <a href="auth-recoverpw.html">
-                                                <i class="las la-minus"></i><span>Recover Password</span>
+                                                <i class="fas fa-minus"></i><span>Recover Password</span>
                                             </a>
                                         </li>
 
@@ -351,10 +351,10 @@
                         </a>
                     </div>
                     <div class="iq-search-bar device-search">
-                        <form action="#" class="searchbox">
+                        @*<form action="#" class="searchbox">
                             <a class="search-link" href="#"><i class="ri-search-line"></i></a>
                             <input type="text" class="text search-input" placeholder="Search here...">
-                        </form>
+                        </form>*@
                     </div>
                     <div class="d-flex align-items-center">
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -366,10 +366,10 @@
                             <ul class="navbar-nav ml-auto navbar-list align-items-center">
 
                                 <li>
-                                    <a href="#" class="btn border add-btn shadow-none mx-2 d-none d-md-block"
-                                       data-toggle="modal" data-target="#new-order">
-                                        <i class="las la-plus mr-2"></i>New
-                                        Order
+                                    <a href="@Url.Action("FilteredDrugsList", "Drug")" class="btn border add-btn shadow-none mx-2 d-none d-md-block"
+                                       >
+                                        <i class="fas fa-plus mr-2"></i>New
+                                        Orders
                                     </a>
                                 </li>
                                 <li class="nav-item nav-icon search-content">
@@ -382,7 +382,7 @@
                                             <div class="form-group mb-0 position-relative">
                                                 <input type="text" class="text search-input font-size-12"
                                                        placeholder="type here to search...">
-                                                <a href="#" class="search-link"><i class="las la-search"></i></a>
+                                                <a href="#" class="search-link"><i class="fas fa-search"></i></a>
                                             </div>
                                         </form>
                                     </div>

@@ -351,10 +351,10 @@
                         </a>
                     </div>
                     <div class="iq-search-bar device-search">
-                        <form action="#" class="searchbox">
+                        @*<form action="#" class="searchbox">
                             <a class="search-link" href="#"><i class="ri-search-line"></i></a>
                             <input type="text" class="text search-input" placeholder="Search here...">
-                        </form>
+                        </form>*@
                     </div>
                     <div class="d-flex align-items-center">
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -366,10 +366,10 @@
                             <ul class="navbar-nav ml-auto navbar-list align-items-center">
 
                                 <li>
-                                    <a href="#" class="btn border add-btn shadow-none mx-2 d-none d-md-block"
-                                       data-toggle="modal" data-target="#new-order">
+                                    <a href="@Url.Action("FilteredDrugsList", "Drug")" class="btn border add-btn shadow-none mx-2 d-none d-md-block"
+                                       >
                                         <i class="las la-plus mr-2"></i>New
-                                        Order
+                                        Orders
                                     </a>
                                 </li>
                                 <li class="nav-item nav-icon search-content">

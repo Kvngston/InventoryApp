@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+//using Microsoft.VisualStudio.TestTools.UnitTesting;
 using inventoryAppDomain.Services;
 using Moq;
 using inventoryAppWebUi.Controllers;
 using System.Web.Mvc;
+using NUnit.Framework;
+using NUnit.Compatibility;
 using inventoryAppWebUi.Models;
+using inventoryAppDomain.Entities;
+using inventoryAppDomain.IdentityEntities;
+using inventoryAppDomain.Entities.Enums;
 
 namespace InventoryAppWebUi.Test
 {
     /// <summary>
     /// Summary description for UnitTest2
     /// </summary>
-    [TestClass]
+    //[TestClass]
     public class OrderControllerTest
     {
         public OrderControllerTest()
@@ -63,7 +68,7 @@ namespace InventoryAppWebUi.Test
         //
         #endregion
 
-        [TestMethod]
+        [Test]
         public void CheckoutCompleteTest()
         {
             Mock<IDrugCartService> _mockDrugCart = new Mock<IDrugCartService>();
@@ -75,25 +80,52 @@ namespace InventoryAppWebUi.Test
 
             Assert.IsNotNull(result);
         }
-        [TestMethod]
+        [Test]
         public void CheckoutTest()
         {
-            var orderVM = new OrderViewModel
+            //var orderVM = new OrderViewModel
+            //{
+            //    Email = "abc@abc.com",
+            //    FirstName = "dab",
+            //    LastName = "bad",
+            //    PhoneNumber = "0908123"
+            //};
+            var singleDrug = new Drug
             {
-                Email = "abc@abc.com",
-                FirstName = "dab",
-                LastName = "bad",
-                PhoneNumber = "0908123"
+
+                Id = 88,
+                DrugName = "antraxe",
+                Price = 4000,
+                Quantity = 35,
+                CreatedAt = DateTime.Today,
+                ExpiryDate = DateTime.Today.AddDays(9),
+                CurrentDrugStatus = DrugStatus.NOT_EXPIRED
+            };
+            var userId = Guid.NewGuid().ToString();
+            var newUser = new ApplicationUser
+            {
+                Id = userId, Email = "bac@bac.com", UserName = "bac@bac.com", PhoneNumber = "0908123"
+            };
+            var newdrugCartItems = new List<DrugCartItem>
+            {
+                new DrugCartItem
+                {
+                    Id = 80, Amount = 4000, DrugId = 45, Drug = singleDrug, DrugCartId = 191
+                }
+
+
+            };
+            var newOrder = new Order
+            {
+                OrderId = 123, Email = "abc@abc.com", FirstName = "abc", LastName = "bbc", Price = 4000, PhoneNumber = "09034", CreatedAt = DateTime.Now, OrderItems = newdrugCartItems
             };
 
             Mock<IDrugCartService> _mockDrugCart = new Mock<IDrugCartService>();
             Mock<IOrderService> _mockOrder = new Mock<IOrderService>();
 
-            var controller = new OrderController(_mockOrder.Object, _mockDrugCart.Object);
+            _mockOrder.Setup(z => z.CreateOrder(newOrder, newUser.Id));
 
-            var result = controller.Checkout(orderVM) as ViewResult;
-
-            Assert.AreNotEqual("Invoice", result.ViewName);
+            Assert.AreEqual(newOrder.OrderItems, newdrugCartItems);
         }
     }
 }

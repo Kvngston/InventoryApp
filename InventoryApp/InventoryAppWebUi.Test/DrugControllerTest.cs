@@ -42,6 +42,11 @@ namespace InventoryAppWebUi.Test
                 testContextInstance = value;
             }
         }
+        [SetUp]
+        public void Setup()
+        {
+
+        }
 
         #region Additional test attributes
         //
@@ -103,6 +108,29 @@ namespace InventoryAppWebUi.Test
 
             Assert.AreNotEqual("AllDrugs", result.ViewName);
         }
+        [Test]
+        public void AddDrugCategoryTest()
+        {
+
+            Mock<IDrugService> _mockDrug = new Mock<IDrugService>();
+            Mock<ISupplierService> _mockSupp = new Mock<ISupplierService>();
+            var _controller = new DrugController(_mockDrug.Object, _mockSupp.Object);
+
+            var result = _controller.AllDrugs() as ViewResult;
+
+            Assert.AreNotEqual("AllDrugs", result.ViewName);
+        }
+        public void AvailableDrugsFilterTest()
+        {
+
+            Mock<IDrugService> _mockDrug = new Mock<IDrugService>();
+            Mock<ISupplierService> _mockSupp = new Mock<ISupplierService>();
+            var _controller = new DrugController(_mockDrug.Object, _mockSupp.Object);
+
+            var result = _controller.AllDrugs() as ViewResult;
+
+            Assert.AreNotEqual("AllDrugs", result.ViewName);
+        }
 
         [Test]
         public void EditDrugTest()
@@ -120,12 +148,15 @@ namespace InventoryAppWebUi.Test
 
 
             Mock<IDrugService> _mockDrug = new Mock<IDrugService>();
+            Mock<IDrugCartService> _mockDrugCart = new Mock<IDrugCartService>();
             Mock<ISupplierService> _mockSupp = new Mock<ISupplierService>();
             var _controller = new DrugController(_mockDrug.Object, _mockSupp.Object);
+            var _acontroller = new DrugCartController(_mockDrugCart.Object);
 
-            var result = _controller.UpdateDrug(newDrug);
+            var result = _controller.UpdateDrug(newDrug.Id) as ViewResult;
+            var target = _acontroller.GetDrug(newDrug.Id) as ViewResult;
 
-            Assert.AreEqual(newDrug, result);
+            Assert.That(result, Is.EqualTo(target));
         }
 
     }

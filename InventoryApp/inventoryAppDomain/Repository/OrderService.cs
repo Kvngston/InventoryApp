@@ -27,7 +27,7 @@ namespace inventoryAppDomain.Repository
         {
             var cart = _drugCartService.GetCart(userId,CartStatus.ACTIVE);
             order.OrderItems = cart.DrugCartItems;
-            order.Price = _drugCartService.GetDrugCartTotal(userId);
+            order.Price = _drugCartService.GetDrugCartSumTotal(userId);
             
             cart.DrugCartItems.ForEach(item =>
             {

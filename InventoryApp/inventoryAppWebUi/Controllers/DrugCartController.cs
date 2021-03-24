@@ -26,9 +26,14 @@ namespace inventoryAppWebUi.Controllers
             {
                 CartItems = _drugCartService.GetDrugCartItems(userId, CartStatus.ACTIVE),
                 DrugCartItemsTotal = drugCartCountTotal,
-                DrugCartTotal = _drugCartService.GetDrugCartTotal(userId),
+                DrugCartTotal = _drugCartService.GetDrugCartSumTotal(userId),
             };
             return View(drugCartViewModel);
+        }
+        public ActionResult GetDrug(int id)
+        {
+            var drug = _drugCartService.GetDrugById(id);
+            return View(drug);
         }
 
         public ActionResult AddToShoppingCart(int id)

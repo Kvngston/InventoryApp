@@ -10,6 +10,7 @@ using NUnit.Framework;
 using NUnit.Compatibility;
 using inventoryAppDomain.Entities;
 using inventoryAppWebUi.Models;
+using inventoryAppDomain.Entities.Enums;
 
 namespace InventoryAppWebUi.Test
 {
@@ -41,33 +42,11 @@ namespace InventoryAppWebUi.Test
             }
         }
 
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
 
         [Test]
         public void AllSuppliersTest()
         {
             Mock<ISupplierService> _mockSupplier = new Mock<ISupplierService>();
-
 
             var controller = new SupplierController(_mockSupplier.Object);
 
@@ -77,7 +56,71 @@ namespace InventoryAppWebUi.Test
         }
 
         [Test]
-        public void SaveTest()
+        public void SupplierDetailsTest()
+        {
+            var suppId = 998;
+            var newSupp = new Supplier
+            {
+                Id = suppId,
+                Email = "Abc@abc.com",
+                SupplierName = "Obi",
+                GrossAmountOfDrugsSupplied = 213,
+                TagNumber = "abcdef",
+                Website = "Https://www.abc.com"  
+            };
+
+            Mock<ISupplierService> _mockSupplier = new Mock<ISupplierService>();
+            _mockSupplier.Setup(v => v.AddSupplier(newSupp));
+            var controller = new SupplierController(_mockSupplier.Object);
+
+            //controller.Save(newSupp);
+            var target = controller.SupplierAndDrugDetails(suppId);
+
+            Assert.AreNotEqual(newSupp, target);
+        }
+
+        [Test]
+        public void AddNewSupplierTest()
+        {
+            var suppId = 998;
+            var newSuppList = new List<Supplier>
+            {
+                new Supplier
+            {
+                Id = 45,
+                Email = "bac@bnc.com",
+                SupplierName = "sla",
+                GrossAmountOfDrugsSupplied = 213,
+                TagNumber = "ghdijklmen",
+                Website = "Https://www.abc.com"
+
+            }
+        }; 
+                
+            var newSupp = new Supplier
+            {
+                Id = suppId,
+                Email = "Abc@abc.com",
+                SupplierName = "Obi",
+                //GrossAmountOfDrugsSupplied = 213,
+                TagNumber = "abcdef",
+                Website = "Https://www.abc.com"
+
+            };
+
+            Mock<ISupplierService> _mockSupplier = new Mock<ISupplierService>();
+           
+            var controller = new SupplierController(_mockSupplier.Object);
+
+            _mockSupplier.Setup(v => v.AddSupplier(newSupp));
+            var target = _mockSupplier.Setup(x => x.GetAllSuppliers()).Returns(newSuppList);
+
+           var result = controller.AddSupplier();
+
+            Assert.That(newSuppList.Contains(newSupp));
+        }
+        [Test]
+        public void ProcessSupplierTest()
         {
             var suppId = 998;
             var newSupp = new Supplier
@@ -88,11 +131,60 @@ namespace InventoryAppWebUi.Test
                 //GrossAmountOfDrugsSupplied = 213,
                 TagNumber = "abcdef",
                 Website = "Https://www.abc.com"
-                
+
             };
 
             Mock<ISupplierService> _mockSupplier = new Mock<ISupplierService>();
-            _mockSupplier.Setup(v => v.AddSupplier(newSupp));
+            _mockSupplier.Setup(v => v.ProcessSupplier(suppId, SupplierStatus.Active));
+            var controller = new SupplierController(_mockSupplier.Object);
+
+            //controller.Save(newSupp);
+            var target = controller.ProcessSupplier(suppId);
+
+            Assert.AreNotEqual(newSupp, target);
+        }
+        [Test]
+        public void UpdateSupplierTest()
+        {
+            var suppId = 998;
+            var newSupp = new Supplier
+            {
+                Id = suppId,
+                Email = "Abc@abc.com",
+                SupplierName = "Obi",
+                //GrossAmountOfDrugsSupplied = 213,
+                TagNumber = "abcdef",
+                Website = "Https://www.abc.com"
+
+            };
+
+            Mock<ISupplierService> _mockSupplier = new Mock<ISupplierService>();
+            _mockSupplier.Setup(v => v.UpdateSupplier(newSupp));
+            var controller = new SupplierController(_mockSupplier.Object);
+
+            //controller.Save(newSupp);
+            var target = controller.EditSupplier(suppId);
+
+            Assert.AreNotEqual(newSupp, target);
+        }
+ 
+        [Test]
+        public void DrugsBySupplierTest()
+        {
+            var suppId = 998;
+            var newSupp = new Supplier
+            {
+                Id = suppId,
+                Email = "Abc@abc.com",
+                SupplierName = "Obi",
+                //GrossAmountOfDrugsSupplied = 213,
+                TagNumber = "abcdef",
+                Website = "Https://www.abc.com"
+
+            };
+
+            Mock<ISupplierService> _mockSupplier = new Mock<ISupplierService>();
+            _mockSupplier.Setup(v => v.GetAllDrugsBySupplier(newSupp.TagNumber));
             var controller = new SupplierController(_mockSupplier.Object);
 
             //controller.Save(newSupp);

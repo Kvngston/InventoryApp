@@ -116,6 +116,11 @@ namespace inventoryAppDomain.Repository
             return drugsRunningOutOfStock;
         }
 
+        public Drug GetDrugById(int id)
+        {
+            return _dbContext.Drugs.FirstOrDefault(drug => drug.Id == id);
+        }
+
         public List<DrugCategory> AllCategories() => _dbContext.DrugCategories.ToList();
 
 

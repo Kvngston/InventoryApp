@@ -145,11 +145,8 @@ namespace inventoryAppWebUi.Controllers
                     return RedirectToAction("ChangeRole", new { id = viewModel.UserId});
                 }
             }
-            else
-            {
-                ModelState.AddModelError("", @"Model has Error");
-                return RedirectToAction("ChangeRole", new { id = viewModel.UserId});
-            }
+            ModelState.AddModelError("", @"Model has Error");
+            return RedirectToAction("ChangeRole", new { id = viewModel.UserId});
         }
 
         //

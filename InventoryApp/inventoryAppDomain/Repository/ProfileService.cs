@@ -105,7 +105,7 @@ namespace inventoryAppDomain.Repository
             await UserManager.DeleteAsync(user);
         }
 
-        private async Task<ApplicationUser> ValidateUser(string userId)
+        public async Task<ApplicationUser> ValidateUser(string userId)
         {
             var user = await UserManager.FindByIdAsync(userId);
             if (user == null)

@@ -123,7 +123,7 @@ namespace InventoryAppWebUi.Test
             //Mock<ISupplierService> _mockSupp = new Mock<ISupplierService>();
             //var _controller = new DrugController(_mockDrug.Object, _mockSupp.Object);
 
-            //var result = _controller.UpdateDrug(newDrug);
+            // var result = _controller.UpdateDrug(newDrug.Id);
 
             //Assert.AreEqual(newDrug, result);
         }

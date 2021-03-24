@@ -13,55 +13,21 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using inventoryAppDomain.Entities.Enums;
 using inventoryAppDomain.Repository;
 using System.Web;
-
+using System.Threading.Tasks;
 
 namespace InventoryAppWebUi.Test
 {
-    /// <summary>
-    /// Summary description for DrugCartControllerTest
-    /// </summary>
-    //[TestClass]
+   [TestFixture]
     public class DrugCartControllerTest
     {
-        private Mock<ApplicationDbContext> _ctx;
-        private Mock<ApplicationUserManager> _manager;
-        private IEnumerable<Drug> Drugs;
-        private IEnumerable<DrugCartItem> CartItems;
-        private IEnumerable<DrugCategory> Categories;
-        private IEnumerable<DrugCart> DrugCarts;
-        private DrugCartService _mockDrugCart;
+
+        private readonly Mock<IDrugCartService> _mockDrugCart;
+        private readonly DrugCartController _cartController;
 
         public DrugCartControllerTest()
         {
-         //_ctx = HttpContext.Current.GetOwinContext().Get<ApplicationDbContext>();
-         //   _manager = HttpContext.Current.GetOwinContext().Get<ApplicationUserManager>();
-
-        }
-        [SetUp]
-        public void Setup()
-        {
-            
-
-         
-               
-         }
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            _mockDrugCart = new Mock<IDrugCartService>();
+            _cartController = new DrugCartController(_mockDrugCart.Object);
         }
 
         [Test]
@@ -121,8 +87,6 @@ namespace InventoryAppWebUi.Test
                 {
                     Id = 80, Amount = 4000, DrugId = 45, Drug = newDrug.Find(v => v.Id == 45), DrugCartId = 191
                 }
-
-
             };
 
             var newCart = new DrugCart
@@ -133,34 +97,17 @@ namespace InventoryAppWebUi.Test
                 ApplicationUserId = userId,
                 DrugCartItems = newdrugCartItems
             };
-            //_ctx = new Mock<ApplicationDbContext>();
-            Mock<IDrugCartService> _mockDrug = new Mock<IDrugCartService>();
-            _mockDrug.Setup(b => b.GetDrugById(88)).Returns(singleDrug);
-            var controller = new DrugCartController(_mockDrug.Object);
-            //_ctx.Setup(z => z.DrugCarts.Add(newCart)).Returns(newCart);
-            
-            var result = controller.GetDrug(88) as ViewResult;
+            _mockDrugCart.Setup(b => b.GetDrugById(88)).Returns(singleDrug);
+               
+            var result = _cartController.GetDrug(88) as ViewResult;
 
             Assert.AreEqual(result.Model, singleDrug);
         }
-        [Test]
-        public void IndexTest()
-        {
-            var userId = Guid.NewGuid();
-
-            Mock<IDrugCartService> _mockDrug = new Mock<IDrugCartService>();
-            _mockDrug.Setup(z => z.ClearCart(userId.ToString()));
-            var controller = new DrugCartController(_mockDrug.Object);
-
-            var result = controller.Index() as ViewResult;
-
-            Assert.AreEqual("Index", result.ViewName);
-        }
+     
 
         [Test]
         public void AddToShoppingCartTest()
         {
-            var drugCartId = 909;
             var newUser = new ApplicationUser
             {
                 Id = "utsr",
@@ -170,7 +117,6 @@ namespace InventoryAppWebUi.Test
             };
             var singleDrug = new Drug
             {
-
                 Id = 88,
                 DrugName = "antraxe",
                 Price = 8000,
@@ -180,20 +126,17 @@ namespace InventoryAppWebUi.Test
                 CurrentDrugStatus = DrugStatus.NOT_EXPIRED
             };
 
-            Mock<IDrugCartService> _mockDrug = new Mock<IDrugCartService>();
-            _mockDrug.Setup(z => z.AddToCart(singleDrug, newUser.Id));
-            var _controller = new DrugCartController(_mockDrug.Object);
 
-            var result = _controller.AddToShoppingCart(singleDrug.Id);
+            _mockDrugCart.Setup(z => z.AddToCart(singleDrug, newUser.Id));
 
-            Assert.IsNotNull(result);
+            var result = _cartController.AddToShoppingCart(singleDrug.Id);
+
+            Assert.That(result, Is.Not.Null);
         }
 
         [Test]
         public void ClearCartTest()
-        {
-            _ctx = new Mock<ApplicationDbContext>();
-
+        {   
             var newUser = new ApplicationUser
             {
                 Id = "utsr",
@@ -203,7 +146,6 @@ namespace InventoryAppWebUi.Test
             };
             var singleDrug = new Drug
             {
-
                 Id = 88,
                 DrugName = "antraxe",
                 Price = 8000,
@@ -218,8 +160,6 @@ namespace InventoryAppWebUi.Test
                 {
                     Id = 80, Amount = 4000, DrugId = 45, Drug = singleDrug, DrugCartId = 191
                 }
-
-
             };
 
             var newCart = new DrugCart
@@ -231,19 +171,17 @@ namespace InventoryAppWebUi.Test
                 DrugCartItems = newdrugCartItems
             };
 
-            Mock<IDrugCartService> _mockDrug = new Mock<IDrugCartService>();
-            _mockDrug.Setup(z => z.ClearCart(newCart.Id.ToString()));
-            //var _drugCartService = new DrugCartService(_ctx.Object);
-            //_drugCartService.ClearCart(newUser.Id);
-            var _controller = new DrugCartController(_mockDrug.Object);
-            var result = _controller.RemoveAllCart();
-            Assert.IsNull(newdrugCartItems);
+            _mockDrugCart.Setup(z => z.ClearCart(newCart.Id.ToString()));
+
+            var result = _cartController.RemoveAllCart();
+
+            Assert.That(newdrugCartItems, Is.Null);
         }
 
         [Test]
         public void DrugCartTotalCountTest()
         {
-            _ctx = new Mock<ApplicationDbContext>();
+            
             var newUser = new ApplicationUser
             {
                 Id = "utsr",
@@ -253,7 +191,6 @@ namespace InventoryAppWebUi.Test
             };
             var singleDrug = new Drug
             {
-
                 Id = 88,
                 DrugName = "antraxe",
                 Price = 8000,
@@ -268,8 +205,6 @@ namespace InventoryAppWebUi.Test
                 {
                     Id = 80, Amount = 4000, DrugId = 45, Drug = singleDrug, DrugCartId = 191
                 }
-
-
             };
 
             var newCart = new DrugCart
@@ -280,17 +215,14 @@ namespace InventoryAppWebUi.Test
                 ApplicationUserId = newUser.Id,
                 DrugCartItems = newdrugCartItems
             };
-            Mock<IDrugCartService> _mockDrug = new Mock<IDrugCartService>();
-              
-            var result = _mockDrug.Setup(x => x.GetDrugCartTotalCount(newUser.Id));
 
-            Assert.NotNull(result);
+            _mockDrugCart.Setup(x => x.GetDrugCartTotalCount(newUser.Id));
+
         }
 
         [Test]
         public void DrugCartSumTotalTest()
         {
-            var drugCartId = 909;
             var newUser = new ApplicationUser
             {
                 Id = "utsr",
@@ -315,8 +247,6 @@ namespace InventoryAppWebUi.Test
                 {
                     Id = 80, Amount = 4000, DrugId = 45, Drug = singleDrug, DrugCartId = 191
                 }
-
-
             };
 
             var newCart = new DrugCart
@@ -327,14 +257,50 @@ namespace InventoryAppWebUi.Test
                 ApplicationUserId = newUser.Id,
                 DrugCartItems = newdrugCartItems
             };
-
-            Mock<IDrugCartService> _mockDrug = new Mock<IDrugCartService>();
-           var result = _mockDrug.Setup(z => z.GetDrugCartTotalCount(newUser.Id));
-            //_mockDrug.Verify(v => v.GetDrugCartTotalCount(newUser.Id));
-            Assert.IsNotNull(result);
+            _mockDrugCart.Setup(z => z.GetDrugCartTotalCount(newUser.Id));
         }
+        [Test]
+        public void RemoveFromShoppingCartTest()
+        {
+            var newUser = new ApplicationUser
+            {
+                Id = "utsr",
+                Email = "efg@efg.com",
+                UserName = "efg@efg.com",
+                PhoneNumber = "0908777"
+            };
+            var singleDrug = new Drug
+            {
 
+                Id = 88,
+                DrugName = "antraxe",
+                Price = 8000,
+                Quantity = 35,
+                CreatedAt = DateTime.Today,
+                ExpiryDate = DateTime.Today.AddDays(9),
+                CurrentDrugStatus = DrugStatus.NOT_EXPIRED
+            };
+            var newdrugCartItems = new List<DrugCartItem>
+            {
+                new DrugCartItem
+                {
+                    Id = 80, Amount = 4000, DrugId = 45, Drug = singleDrug, DrugCartId = 191
+                }
+            };
 
+            var newCart = new DrugCart
+            {
+                Id = 191,
+                CartStatus = CartStatus.ACTIVE,
+                ApplicationUser = newUser,
+                ApplicationUserId = newUser.Id,
+                DrugCartItems = newdrugCartItems
+            };
+            _mockDrugCart.Setup(b => b.RemoveFromCart(singleDrug, newUser.Id));
 
+            var result = _cartController.RemoveFromShoppingCart(80) as ViewResult;
+
+            Assert.That(result, Is.EqualTo(null));
+        }
     }
 }

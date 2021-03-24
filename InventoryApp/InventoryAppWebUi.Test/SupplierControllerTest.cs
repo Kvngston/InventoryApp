@@ -14,34 +14,17 @@ using inventoryAppDomain.Entities.Enums;
 
 namespace InventoryAppWebUi.Test
 {
-    /// <summary>
-    /// Summary description for SupplierControllerTest
-    /// </summary>
-    //[TestClass]
+    [TestFixture]
     public class SupplierControllerTest
     {
+        private readonly Mock<ISupplierService> _mockSupplier;
+        private readonly SupplierController _controller;
+
         public SupplierControllerTest()
         {
-            //
-            // TODO: Add constructor logic here
-            //
+            _mockSupplier = new Mock<ISupplierService>();
+            _controller = new SupplierController(_mockSupplier.Object);
         }
-
-        private TestContext testContextInstance;
-
-      
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         [Test]
         public void AllSuppliersTest()
@@ -68,13 +51,9 @@ namespace InventoryAppWebUi.Test
                 TagNumber = "abcdef",
                 Website = "Https://www.abc.com"  
             };
-
-            Mock<ISupplierService> _mockSupplier = new Mock<ISupplierService>();
             _mockSupplier.Setup(v => v.AddSupplier(newSupp));
-            var controller = new SupplierController(_mockSupplier.Object);
-
-            //controller.Save(newSupp);
-            var target = controller.SupplierAndDrugDetails(suppId);
+       
+            var target = _controller.SupplierAndDrugDetails(suppId);
 
             Assert.AreNotEqual(newSupp, target);
         }
@@ -95,27 +74,33 @@ namespace InventoryAppWebUi.Test
                 Website = "Https://www.abc.com"
 
             }
-        }; 
-                
+        };
             var newSupp = new Supplier
             {
                 Id = suppId,
                 Email = "Abc@abc.com",
                 SupplierName = "Obi",
-                //GrossAmountOfDrugsSupplied = 213,
+                GrossAmountOfDrugsSupplied = 213,
                 TagNumber = "abcdef",
-                Website = "Https://www.abc.com"
+                Website = "Https://www.abc.com",
+                Status = SupplierStatus.Active,
+            };
+
+            var newSuppVM = new SupplierViewModel
+            {
+                Id = suppId,
+                Email = "Abc@abc.com",
+                SupplierName = "Obi",
+                TagNumber = "abcdef",
+                Website = "Https://www.abc.com",
+                Status = SupplierStatus.Active
 
             };
 
-            Mock<ISupplierService> _mockSupplier = new Mock<ISupplierService>();
-           
-            var controller = new SupplierController(_mockSupplier.Object);
-
             _mockSupplier.Setup(v => v.AddSupplier(newSupp));
-            var target = _mockSupplier.Setup(x => x.GetAllSuppliers()).Returns(newSuppList);
+            _mockSupplier.Setup(x => x.GetAllSuppliers()).Returns(newSuppList);
 
-           var result = controller.AddSupplier();
+           var result = _controller.Save(newSuppVM);
 
             Assert.That(newSuppList.Contains(newSupp));
         }
@@ -134,14 +119,11 @@ namespace InventoryAppWebUi.Test
 
             };
 
-            Mock<ISupplierService> _mockSupplier = new Mock<ISupplierService>();
             _mockSupplier.Setup(v => v.ProcessSupplier(suppId, SupplierStatus.Active));
-            var controller = new SupplierController(_mockSupplier.Object);
 
-            //controller.Save(newSupp);
-            var target = controller.ProcessSupplier(suppId);
+            var target = _controller.ProcessSupplier(suppId);
 
-            Assert.AreNotEqual(newSupp, target);
+            Assert.That(target, Is.Not.EqualTo(null));
         }
         [Test]
         public void UpdateSupplierTest()
@@ -158,12 +140,9 @@ namespace InventoryAppWebUi.Test
 
             };
 
-            Mock<ISupplierService> _mockSupplier = new Mock<ISupplierService>();
             _mockSupplier.Setup(v => v.UpdateSupplier(newSupp));
-            var controller = new SupplierController(_mockSupplier.Object);
-
-            //controller.Save(newSupp);
-            var target = controller.EditSupplier(suppId);
+     
+            var target = _controller.EditSupplier(suppId);
 
             Assert.AreNotEqual(newSupp, target);
         }
@@ -183,12 +162,8 @@ namespace InventoryAppWebUi.Test
 
             };
 
-            Mock<ISupplierService> _mockSupplier = new Mock<ISupplierService>();
             _mockSupplier.Setup(v => v.GetAllDrugsBySupplier(newSupp.TagNumber));
-            var controller = new SupplierController(_mockSupplier.Object);
-
-            //controller.Save(newSupp);
-            var target = controller.SupplierAndDrugDetails(suppId);
+            var target = _controller.SupplierAndDrugDetails(suppId);
 
             Assert.AreNotEqual(newSupp, target);
         }

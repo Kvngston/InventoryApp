@@ -65,7 +65,6 @@ namespace inventoryAppWebUi.Controllers
             var drugCategory = new DrugViewModel()
             {
                 DrugCategory = _drugService.AllCategories()
-
             };
             
             return PartialView("_DrugPartial", drugCategory);

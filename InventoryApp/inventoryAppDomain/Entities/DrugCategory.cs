@@ -10,6 +10,7 @@ namespace inventoryAppDomain.Entities
     public class DrugCategory
     {
         public int Id { get; set; }
+
         [Required]
         public string CategoryName { get; set; }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -157,6 +158,17 @@ namespace inventoryAppDomain.Repository
         public void RemoveDrugCategory(int id)
         {
             _dbContext.DrugCategories.Remove(_dbContext.DrugCategories.Single(c => c.Id == id));
+            _dbContext.SaveChanges();
+        }
+
+        public DrugCategory EditDrugCategory(int id) => _dbContext.DrugCategories.SingleOrDefault(d => d.Id == id);
+
+        public void UpdateDrugCategory(DrugCategory category)
+        {
+           // var update = _dbContext.DrugCategories.SingleOrDefault(c => c.Id == category.Id);
+            var update = _dbContext.DrugCategories.Add(category);
+            _dbContext.Entry(update).State = EntityState.Modified;
+
             _dbContext.SaveChanges();
         }
 

@@ -90,6 +90,19 @@ namespace inventoryAppWebUi.Controllers
             }
         }
 
+        public ActionResult GetNotificationsCount()
+        {
+            try
+            {
+                return Json(_notificationService.GetNotificationsCount(NotificationStatus.UN_READ),
+                    JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new {status = "401", message = e.Message}, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult ShowAllNotifications()
         {
             return View();

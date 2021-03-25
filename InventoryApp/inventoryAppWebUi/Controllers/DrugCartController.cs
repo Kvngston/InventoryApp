@@ -79,25 +79,5 @@ namespace inventoryAppWebUi.Controllers
             _drugCartService.ClearCart(userId);
             return RedirectToAction("Index");
         }
-
-        //public ActionResult IncreaseQuantity(int id)
-        //{
-        //    var userId = User.Identity.GetUserId();
-        //    var selectedDrug = DrugCartService.GetDrugById(id);
-
-        //    if (selectedDrug == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    else
-        //    {
-        //       ViewBag.CanIncreaseQuantity = DrugCartService.IncreaseQuantity(selectedDrug, userId);
-
-        //    }
-
-        //    // DrugCartService.AddToCart(selectedDrug, userId, selectedDrug.Quantity++);
-        //    return RedirectToAction("FilteredDrugsList", "Drug");
-
-        //}
     }
 }

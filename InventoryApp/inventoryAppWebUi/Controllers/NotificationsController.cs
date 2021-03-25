@@ -90,5 +90,10 @@ namespace inventoryAppWebUi.Controllers
             }
         }
 
+        public ActionResult ShowAllNotifications()
+        {
+            return View();
+        }
+
     }
 }

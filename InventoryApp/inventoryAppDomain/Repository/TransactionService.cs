@@ -74,5 +74,10 @@ namespace inventoryAppDomain.Repository
             var transactions = await GetAllTransactions();
             return transactions.Where(transaction => transaction.TransactionStatus == transactionStatus).ToList();
         }
+
+        public async Task<Transaction> GetLastTransaction()
+        {
+            return (await GetAllTransactions()).Last();
+        }
     }
 }

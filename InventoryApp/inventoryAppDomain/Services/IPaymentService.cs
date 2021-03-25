@@ -10,5 +10,7 @@ namespace inventoryAppDomain.Services
         Task<InitTransactionResponseBody> InitiatePayment(int orderId);
 
         Task<bool> VerifyPayment(string paymentReference);
+
+        Task<string> GetLastPayment();
     }
 }

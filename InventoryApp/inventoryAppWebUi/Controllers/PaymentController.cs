@@ -16,12 +16,6 @@ namespace inventoryAppWebUi.Controllers
         {
             _paymentService = paymentService;
         }
-        // GET
-        public ActionResult Index(int orderId)
-        {
-            return View(new TransactionViewModel{OrderId = orderId});
-        }
-
         public async Task<ActionResult> ProcessPayment(int orderId)
         {
             try
@@ -41,14 +35,7 @@ namespace inventoryAppWebUi.Controllers
             try
             {
                 var response = await _paymentService.VerifyPayment(paymentReference);
-                if (response)
-                {
-                    ViewBag.PaymentResponse = true;
-                }
-                else
-                {
-                    ViewBag.PaymentResponse = false;
-                }
+                ViewBag.PaymentResponse = response;
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception e)

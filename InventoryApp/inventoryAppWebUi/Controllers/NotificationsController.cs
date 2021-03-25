@@ -80,13 +80,13 @@ namespace inventoryAppWebUi.Controllers
             try
             {
                 var notifications = _notificationService.GetAllNotifications();
-                return Json(new {status = "200", message = "Success", data = notifications},
-                    JsonRequestBehavior.AllowGet);
+                return View(notifications);
+
             }
             catch (Exception e)
             {
                 Response.StatusCode = StatusCodes.Status400BadRequest;
-                return Json(e.Message, JsonRequestBehavior.AllowGet);
+                return View(Response.StatusCode);
             }
         }
 

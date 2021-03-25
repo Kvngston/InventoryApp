@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>POS | Inventory System</title>
-
+    @RenderSection("metatags", required:false)
     <link rel="shortcut icon" href="http://iqonic.design/themes/posdash/html/assets/images/favicon.ico" />
 
     <link href="~/Content/sweetalert/sweet-alert.css">
@@ -519,7 +519,7 @@
                                                         </a>*@
                                                 </div>
                                                 
-                                                <a class="right-ic btn btn-primary btn-block position-relative p-2" href="@Url.Action("ShowAllNotifications", "Notifications")"
+                                                <a class="right-ic btn btn-primary btn-block position-relative p-2" href="@Url.Action("GetAllNotifications", "Notifications")"
                                                    role="button">
                                                     View All
                                                 </a>

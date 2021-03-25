@@ -9,124 +9,197 @@ using System.Web.Mvc;
 using inventoryAppDomain.Entities;
 using inventoryAppWebUi.Models;
 using NUnit.Framework;
+using inventoryAppDomain.Entities.Enums;
+using AutoMapper;
+using Newtonsoft.Json;
 
 namespace InventoryAppWebUi.Test
 {
-    /// <summary>
-    /// Summary description for UnitTest3
-    /// </summary>
-    //[TestClass]
+   [TestFixture]
     public class DrugControllerTest
     {
+        private readonly Mock<IDrugService> _mockDrug;
+        private readonly Mock<ISupplierService> _mockSupp;
+        private readonly Mock<IDrugCartService> _mockDrugCart;
+        private readonly DrugController _dcontroller;
+        private readonly DrugCartController _cartController;
+
         public DrugControllerTest()
         {
-            //
-            // TODO: Add constructor logic here
-            //
+            _mockDrug = new Mock<IDrugService>();
+            _mockSupp = new Mock<ISupplierService>();
+            _mockDrugCart = new Mock<IDrugCartService>();
+            _dcontroller = new DrugController(_mockDrug.Object, _mockSupp.Object);
+            _cartController = new DrugCartController(_mockDrugCart.Object);
         }
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
+        [SetUp]
+        public void Setup()
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
+            Mapper.Initialize(configuration => configuration.CreateMap<DrugViewModel, Drug>());
+            Mapper.Initialize(configuration => configuration.CreateMap<DrugCategory, DrugCategoryViewModel>());
 
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
+        }
 
         [Test]
-        public void AvailableDrugsTest()
+        public void FilteredDrugListTest()
         {
+            var searchString = "";
           
-            Mock<IDrugService> _mockDrug = new Mock<IDrugService>();
-            Mock<ISupplierService> _mockSupp = new Mock<ISupplierService>();
-            var _controller = new DrugController(_mockDrug.Object, _mockSupp.Object);
+            _mockDrug.Setup(q => q.GetAvailableDrugFilter(searchString));
 
-            var result = _controller.AvailableDrugs() as ViewResult;
+            var result = _dcontroller.FilteredDrugsList(searchString) as ViewResult;
 
             Assert.IsNotNull(result);
         }
 
         [Test]
-        public void DrugCategoriesTest()
+        public void SaveDrugTest()
         {
-           
-            Mock<IDrugService> _mockDrug = new Mock<IDrugService>();
-            Mock<ISupplierService> _mockSupp = new Mock<ISupplierService>();
-            var _controller = new DrugController(_mockDrug.Object, _mockSupp.Object);
+            var newDrugCategory = new DrugCategory
+            {
+                CategoryName = "Pills",
+                Id = 99
+            };
+            var drugId = 222;
+            var newDrug = new Drug
+            {
+                Id = drugId,
+                Quantity = 45,
+                Price = 55,
+                SupplierTag = "afghi",
+                ExpiryDate = DateTime.Today.AddDays(25),
+                DrugName = "purft",
+                CreatedAt = DateTime.Today,
+                CurrentDrugStatus = DrugStatus.NOT_EXPIRED,
+                DrugCategoryId = 99
+            };
+            var newDrugVM = new DrugViewModel
+            {
+                Id = drugId,
+                Quantity = 45,
+                Price = 55,
+                SupplierTag = "afghi",
+                ExpiryDate = DateTime.Today.AddDays(25),
+                DrugName = "purft"
+            };
 
-            var result = _controller.ListDrugCategories() as ViewResult;
+            _mockDrug.Setup(q => q.AddDrug(newDrug));
 
-            Assert.IsNotNull(result);
+            var result = _dcontroller.SaveDrug(newDrugVM);
+
+            Assert.That(result, Is.Not.Null);
+        }
+        [Test]
+        public void SaveDrugCategoryTest()
+        {
+            var newDrugCategory = new DrugCategory
+            {
+                CategoryName = "Pills",
+                Id = 99
+            };
+            var newDrugCategoryVm = new DrugCategoryViewModel
+            {
+                CategoryName = "Pills"
+                
+            };
+            _mockDrug.Setup(v => v.AddDrugCategory(newDrugCategory));
+
+            if (_dcontroller.SaveDrugCategory(Mapper.Map<DrugCategory, DrugCategoryViewModel>(newDrugCategory)) is JsonResult result)
+            {
+                var response = JsonConvert.DeserializeObject<JsonResponse>(JsonConvert.SerializeObject(result.Data))
+                    ?.response;
+                Assert.False(response != null && response.Equals("success"));
+            }
+
         }
 
         [Test]
-        public void AllDrugsTest()
+        public void RemoveDrugCategoryTest()
         {
-           
-            Mock<IDrugService> _mockDrug = new Mock<IDrugService>();
-            Mock<ISupplierService> _mockSupp = new Mock<ISupplierService>();
-            var _controller = new DrugController(_mockDrug.Object, _mockSupp.Object);
+            var newDrugCategory = new DrugCategory
+            {
+                CategoryName = "Pills",
+                Id = 99
+            };
 
-            var result = _controller.AllDrugs() as ViewResult;
+            _mockDrug.Setup(z => z.RemoveDrugCategory(newDrugCategory.Id));
 
-            Assert.AreNotEqual("AllDrugs", result.ViewName);
+            var result = _dcontroller.RemoveDrugCategory(newDrugCategory.Id) as ViewResult;
+
+            Assert.That(result, Is.EqualTo(null));
+        }
+
+        [Test]
+        public void RemoveDrugTest()
+        {
+            var drugId = 222;
+            var newDrug = new Drug
+            {
+                Id = drugId,
+                Quantity = 45,
+                Price = 55,
+                SupplierTag = "afghi",
+                ExpiryDate = DateTime.Today.AddDays(25),
+                DrugName = "purft",
+                CreatedAt = DateTime.Today,
+                CurrentDrugStatus = DrugStatus.NOT_EXPIRED,
+                DrugCategoryId = 99
+            };
+
+            _mockDrug.Setup(z => z.RemoveDrug(newDrug.Id));
+
+            var result = _cartController.GetDrug(drugId) as ViewResult;
+
+            Assert.That(result != null);
+        }
+
+        [Test]
+        public void AddDrugTest()
+        {
+            var result = _dcontroller.AllDrugs() as ViewResult;
+
+            Assert.AreNotEqual("AllDrugs", result.Model);
         }
 
         [Test]
         public void EditDrugTest()
         {
-            //int DrugId = 98;
-            //var newDrug = new DrugViewModel
-            //{
-            //    Id = DrugId,
-            //    Quantity = 45,
-            //    Price = 7000,
-            //    SupplierTag = "abcs",
-            //    DrugName = "abcvn"
-                
-            //};
+            var drugId = 222;
+            var newDrugVm = new DrugViewModel
+            {
+                Id = drugId,
+                Quantity = 45,
+                Price = 7000,
+                SupplierTag = "abcs",
+                DrugName = "abcvn"     
+            };
 
+            var newDrug = new Drug
+            {
+                Id = drugId,
+                Quantity = 45,
+                Price = 55,
+                SupplierTag = "afghi",
+                ExpiryDate = DateTime.Today.AddDays(25),
+                DrugName = "purft",
+                CreatedAt = DateTime.Today,
+                CurrentDrugStatus = DrugStatus.NOT_EXPIRED,
+                DrugCategoryId = 99
+            };
 
-            //Mock<IDrugService> _mockDrug = new Mock<IDrugService>();
-            //Mock<ISupplierService> _mockSupp = new Mock<ISupplierService>();
-            //var _controller = new DrugController(_mockDrug.Object, _mockSupp.Object);
+            var _acontroller = new DrugCartController(_mockDrugCart.Object);
 
-            // var result = _controller.UpdateDrug(newDrug.Id);
+            _mockDrug.Setup(n => n.EditDrug(drugId)).Returns(newDrug);
 
-            //Assert.AreEqual(newDrug, result);
+            var result = _dcontroller.UpdateDrug(drugId);
+          
+            Assert.That(newDrug, Is.EqualTo(result));
         }
 
+        private class JsonResponse
+        {
+            public string status { get; set; }
+            public string response { get; set; }
+        }
     }
 }

@@ -3,6 +3,7 @@ using inventoryAppWebUi.Models;
 using System.Web.Mvc;
 using inventoryAppDomain.Entities.Enums;
 using Microsoft.AspNet.Identity;
+using System;
 
 namespace inventoryAppWebUi.Controllers
 {
@@ -26,9 +27,14 @@ namespace inventoryAppWebUi.Controllers
             {
                 CartItems = _drugCartService.GetDrugCartItems(userId, CartStatus.ACTIVE),
                 DrugCartItemsTotal = drugCartCountTotal,
-                DrugCartTotal = _drugCartService.GetDrugCartTotal(userId),
+                DrugCartTotal = _drugCartService.GetDrugCartSumTotal(userId),
             };
             return View(drugCartViewModel);
+        }
+        public ActionResult GetDrug(int id)
+        {
+            var drug = _drugCartService.GetDrugById(id);
+            return View(drug);
         }
 
         public ActionResult AddToShoppingCart(int id)
@@ -47,16 +53,24 @@ namespace inventoryAppWebUi.Controllers
 
         public ActionResult RemoveFromShoppingCart(int id)
         {
-            var userId = User.Identity.GetUserId();
-            var cartItem = _drugCartService.GetDrugCartItemById(id);
-            var selectedItem = _drugCartService.GetDrugById(cartItem.Drug.Id);
-
-            if (selectedItem != null)
+            try
             {
-                _drugCartService.RemoveFromCart(selectedItem, userId);
-            }
+                var userId = User.Identity.GetUserId();
+                var cartItem = _drugCartService.GetDrugCartItemById(id);
+                var selectedItem = _drugCartService.GetDrugById(cartItem.Drug.Id);
 
-            return RedirectToAction("Index");
+                if (selectedItem != null)
+                {
+                    _drugCartService.RemoveFromCart(selectedItem, userId);
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch(Exception e)
+            {
+                ViewBag.Error = e.Message;
+                return RedirectToAction("Index", "DrugCart");
+            }
         }
 
         public ActionResult RemoveAllCart()

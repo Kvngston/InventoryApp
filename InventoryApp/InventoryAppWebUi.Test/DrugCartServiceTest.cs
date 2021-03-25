@@ -8,93 +8,299 @@ using inventoryAppWebUi.Controllers;
 using System.Web.Mvc;
 using NUnit.Framework;
 using inventoryAppDomain.Entities;
+using inventoryAppDomain.IdentityEntities;
+using Microsoft.AspNet.Identity.EntityFramework;
+using inventoryAppDomain.Entities.Enums;
+using inventoryAppDomain.Repository;
+using System.Web;
+using System.Threading.Tasks;
 
 namespace InventoryAppWebUi.Test
 {
-    /// <summary>
-    /// Summary description for DrugCartControllerTest
-    /// </summary>
-    //[TestClass]
+   [TestFixture]
     public class DrugCartControllerTest
     {
+
+        private readonly Mock<IDrugCartService> _mockDrugCart;
+        private readonly DrugCartController _cartController;
+
         public DrugCartControllerTest()
         {
-            //
-            // TODO: Add constructor logic here
-            //
+            _mockDrugCart = new Mock<IDrugCartService>();
+            _cartController = new DrugCartController(_mockDrugCart.Object);
         }
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
 
         [Test]
-        public void IndexTest()
+        public void CreateCartTest()
         {
-            var userId = Guid.NewGuid();
+            var userId = Guid.NewGuid().ToString();
 
-            Mock<IDrugCartService> _mockDrug = new Mock<IDrugCartService>();
-            _mockDrug.Setup(z => z.ClearCart(userId.ToString()));
-            var controller = new DrugCartController(_mockDrug.Object);
+            var user = new List<ApplicationUser>
+            {
+                    new ApplicationUser
+                    {
+                        Id = userId, Email = "abc@abc.com", UserName = "abc@abc.com", PhoneNumber = "0908777"
+                    },
+                    new ApplicationUser
+                    {
+                        Id = "utsr", Email = "efg@efg.com", UserName = "efg@efg.com", PhoneNumber = "0908777"
+                    }
+            };
 
-            var result = controller.Index() as ViewResult;
+            var roles = new List<IdentityRole>
+                                {
+                                            new IdentityRole
+                                            {
+                                                Id = "zxy", Name = "Audit"
+                                            },
+                                            new IdentityRole
+                                            {
+                                                Id = "wvu", Name = "Pharmacist"
+                                           }
+                                 };
+            var newDrug = new List<Drug>
+                            {
+                                new Drug
+                                {
+                                    Id = 45, DrugName = "drax", Price = 4000, Quantity = 55, CreatedAt = DateTime.Today, ExpiryDate = DateTime.Today.AddDays(9),  CurrentDrugStatus = DrugStatus.NOT_EXPIRED
+                                },
+                                new Drug
+                                {
 
-            Assert.AreNotEqual("Index", result.ViewName);
+                                    Id = 77, DrugName = "antrax", Price = 7000, Quantity = 35, CreatedAt = DateTime.Today, ExpiryDate = DateTime.Today.AddDays(9),  CurrentDrugStatus = DrugStatus.NOT_EXPIRED
+                                }
+                            };
+            var singleDrug = new Drug
+            {
+
+                Id = 88,
+                DrugName = "antraxe",
+                Price = 8000,
+                Quantity = 35,
+                CreatedAt = DateTime.Today,
+                ExpiryDate = DateTime.Today.AddDays(9),
+                CurrentDrugStatus = DrugStatus.NOT_EXPIRED
+            };
+            var newdrugCartItems = new List<DrugCartItem>
+            {
+                new DrugCartItem
+                {
+                    Id = 80, Amount = 4000, DrugId = 45, Drug = newDrug.Find(v => v.Id == 45), DrugCartId = 191
+                }
+            };
+
+            var newCart = new DrugCart
+            {
+                Id = 191,
+                CartStatus = CartStatus.ACTIVE,
+                ApplicationUser = user.Find(z => z.Id == userId),
+                ApplicationUserId = userId,
+                DrugCartItems = newdrugCartItems
+            };
+            _mockDrugCart.Setup(b => b.GetDrugById(88)).Returns(singleDrug);
+               
+            var result = _cartController.GetDrug(88) as ViewResult;
+
+            Assert.AreEqual(result.Model, singleDrug);
         }
+     
 
         [Test]
         public void AddToShoppingCartTest()
         {
-            var drugCartId = 909;
-            //var newDrugCart = new DrugCart
-            //{
-            //    Id = drugCartId,
-              
-            //    ApplicationUserId = "4be7ca48-dc53-4d18-84fa-44c73507e4a5"
+            var newUser = new ApplicationUser
+            {
+                Id = "utsr",
+                Email = "efg@efg.com",
+                UserName = "efg@efg.com",
+                PhoneNumber = "0908777"
+            };
+            var singleDrug = new Drug
+            {
+                Id = 88,
+                DrugName = "antraxe",
+                Price = 8000,
+                Quantity = 35,
+                CreatedAt = DateTime.Today,
+                ExpiryDate = DateTime.Today.AddDays(9),
+                CurrentDrugStatus = DrugStatus.NOT_EXPIRED
+            };
 
-            //};
-            Mock<IDrugCartService> _mockDrug = new Mock<IDrugCartService>();
-            //_mockDrug.Setup(z => z.RefreshCart(userId.ToString()));
-            var controller = new DrugCartController(_mockDrug.Object);
-            var result = controller.AddToShoppingCart(drugCartId) as ViewResult;
+            _mockDrugCart.Setup(x => x.GetDrugById(singleDrug.Id)).Returns(singleDrug);
+            _mockDrugCart.Setup(z => z.AddToCart(singleDrug, newUser.Id));
 
-            Assert.AreNotEqual("FilteredDrugsList", result.ViewName);
+            var result = _cartController.AddToShoppingCart(singleDrug.Id) is RedirectResult;
+
+            Assert.That(result, Is.Not.Null);
+        }
+
+        [Test]
+        public void ClearCartTest()
+        {   
+            var newUser = new ApplicationUser
+            {
+                Id = "utsr",
+                Email = "efg@efg.com",
+                UserName = "efg@efg.com",
+                PhoneNumber = "0908777"
+            };
+            var singleDrug = new Drug
+            {
+                Id = 88,
+                DrugName = "antraxe",
+                Price = 8000,
+                Quantity = 35,
+                CreatedAt = DateTime.Today,
+                ExpiryDate = DateTime.Today.AddDays(9),
+                CurrentDrugStatus = DrugStatus.NOT_EXPIRED
+            };
+            var newdrugCartItems = new List<DrugCartItem>
+            {
+                new DrugCartItem
+                {
+                    Id = 80, Amount = 4000, DrugId = 45, Drug = singleDrug, DrugCartId = 191
+                }
+            };
+
+            var newCart = new DrugCart
+            {
+                Id = 191,
+                CartStatus = CartStatus.ACTIVE,
+                ApplicationUser = newUser,
+                ApplicationUserId = newUser.Id,
+                DrugCartItems = newdrugCartItems
+            };
+
+            _mockDrugCart.Setup(z => z.ClearCart(newCart.Id.ToString()));
+
+            var result = _cartController.RemoveAllCart();
+
+            Assert.That(newdrugCartItems, Is.Null);
+        }
+
+        [Test]
+        public void DrugCartTotalCountTest()
+        {
+            
+            var newUser = new ApplicationUser
+            {
+                Id = "utsr",
+                Email = "efg@efg.com",
+                UserName = "efg@efg.com",
+                PhoneNumber = "0908777"
+            };
+            var singleDrug = new Drug
+            {
+                Id = 88,
+                DrugName = "antraxe",
+                Price = 8000,
+                Quantity = 35,
+                CreatedAt = DateTime.Today,
+                ExpiryDate = DateTime.Today.AddDays(9),
+                CurrentDrugStatus = DrugStatus.NOT_EXPIRED
+            };
+            var newdrugCartItems = new List<DrugCartItem>
+            {
+                new DrugCartItem
+                {
+                    Id = 80, Amount = 4000, DrugId = 45, Drug = singleDrug, DrugCartId = 191
+                }
+            };
+
+            var newCart = new DrugCart
+            {
+                Id = 191,
+                CartStatus = CartStatus.ACTIVE,
+                ApplicationUser = newUser,
+                ApplicationUserId = newUser.Id,
+                DrugCartItems = newdrugCartItems
+            };
+
+            _mockDrugCart.Setup(x => x.GetDrugCartTotalCount(newUser.Id));
+
+        }
+
+        [Test]
+        public void DrugCartSumTotalTest()
+        {
+            var newUser = new ApplicationUser
+            {
+                Id = "utsr",
+                Email = "efg@efg.com",
+                UserName = "efg@efg.com",
+                PhoneNumber = "0908777"
+            };
+            var singleDrug = new Drug
+            {
+
+                Id = 88,
+                DrugName = "antraxe",
+                Price = 8000,
+                Quantity = 35,
+                CreatedAt = DateTime.Today,
+                ExpiryDate = DateTime.Today.AddDays(9),
+                CurrentDrugStatus = DrugStatus.NOT_EXPIRED
+            };
+            var newdrugCartItems = new List<DrugCartItem>
+            {
+                new DrugCartItem
+                {
+                    Id = 80, Amount = 4000, DrugId = 45, Drug = singleDrug, DrugCartId = 191
+                }
+            };
+
+            var newCart = new DrugCart
+            {
+                Id = 191,
+                CartStatus = CartStatus.ACTIVE,
+                ApplicationUser = newUser,
+                ApplicationUserId = newUser.Id,
+                DrugCartItems = newdrugCartItems
+            };
+            _mockDrugCart.Setup(z => z.GetDrugCartTotalCount(newUser.Id));
+        }
+        [Test]
+        public void RemoveFromShoppingCartTest()
+        {
+            var newUser = new ApplicationUser
+            {
+                Id = "utsr",
+                Email = "efg@efg.com",
+                UserName = "efg@efg.com",
+                PhoneNumber = "0908777"
+            };
+            var singleDrug = new Drug
+            {
+
+                Id = 88,
+                DrugName = "antraxe",
+                Price = 8000,
+                Quantity = 35,
+                CreatedAt = DateTime.Today,
+                ExpiryDate = DateTime.Today.AddDays(9),
+                CurrentDrugStatus = DrugStatus.NOT_EXPIRED
+            };
+            var newdrugCartItems = new List<DrugCartItem>
+            {
+                new DrugCartItem
+                {
+                    Id = 80, Amount = 4000, DrugId = 45, Drug = singleDrug, DrugCartId = 191
+                }
+            };
+
+            var newCart = new DrugCart
+            {
+                Id = 191,
+                CartStatus = CartStatus.ACTIVE,
+                ApplicationUser = newUser,
+                ApplicationUserId = newUser.Id,
+                DrugCartItems = newdrugCartItems
+            };
+            _mockDrugCart.Setup(b => b.RemoveFromCart(singleDrug, newUser.Id));
+
+            var result = _cartController.RemoveFromShoppingCart(80) as ViewResult;
+
+            Assert.That(result, Is.EqualTo(null));
         }
     }
 }

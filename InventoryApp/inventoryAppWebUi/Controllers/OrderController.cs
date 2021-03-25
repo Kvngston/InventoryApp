@@ -36,7 +36,6 @@ namespace inventoryAppWebUi.Controllers
             var userId = User.Identity.GetUserId();
             var items = _drugCartService.GetDrugCartItems(userId,CartStatus.ACTIVE);
 
-
             if (!items.Any())
             {
                 ModelState.AddModelError("", @"Your cart is empty");

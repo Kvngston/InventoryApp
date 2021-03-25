@@ -7,7 +7,7 @@ using System;
 
 namespace inventoryAppWebUi.Controllers
 {
-    
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ISupplierService _supplierService;

@@ -17,7 +17,7 @@ namespace inventoryAppDomain.Services
         List<DrugCartItem> GetDrugCartItems(string userId, CartStatus cartStatus);
         int RemoveFromCart(Drug drug, string userId);
         //Task<(int ItemCount, decimal TotalAmmount)> GetCartCountAndTotalAmmountAsync();
-        decimal GetDrugCartTotal(string userId);
+        decimal GetDrugCartSumTotal(string userId);
         int GetDrugCartTotalCount(string userId);
         Drug GetDrugById(int id);
         DrugCartItem GetDrugCartItemById(int id);

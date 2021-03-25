@@ -23,6 +23,10 @@ namespace inventoryAppDomain.Repository
             userManager = HttpContext.Current.GetOwinContext().Get<ApplicationUserManager>();
         }
 
+        public DrugCartService(ApplicationDbContext @object)
+        {
+        }
+
         public DrugCart CreateCart(string userId)
         {
             var user = userManager.Users.FirstOrDefault(applicationUser => applicationUser.Id == userId);
@@ -132,7 +136,7 @@ namespace inventoryAppDomain.Repository
             _dbContext.Entry(cart).State = EntityState.Modified;
             _dbContext.SaveChanges();
         }
-        public decimal GetDrugCartTotal(string userId)
+        public decimal GetDrugCartSumTotal(string userId)
         {
             var cart = GetCart(userId,CartStatus.ACTIVE);
             if (cart.DrugCartItems.Count == 0)

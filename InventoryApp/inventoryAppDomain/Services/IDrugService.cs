@@ -12,7 +12,8 @@ namespace inventoryAppDomain.Services
         List<Drug> GetAllExpiringDrugs(TimeFrame timeFrame);
         List<Drug> GetAllExpiredDrugs();
         List<Drug> GetDrugsOutOfStock();
-        
+
+        Drug GetDrugById(int id);
 
 
         List<DrugCategory> AllCategories();

@@ -12,6 +12,8 @@ namespace inventoryAppDomain.Services
         void EditProfile(ApplicationUser user, Pharmacist pharmacist = null, StoreManager storeManager = null);
         List<ApplicationUser> GetAllUsers();
 
+        Task<ApplicationUser> ValidateUser(string userId);
+
         Task<ApplicationUser> ChangeUserRole(MockViewModel updateUserRoleViewModel);
 
         // void ChangeProfile(ApplicationUser user, Pharmacist pharmacist = null, StoreManager storeManager = null);

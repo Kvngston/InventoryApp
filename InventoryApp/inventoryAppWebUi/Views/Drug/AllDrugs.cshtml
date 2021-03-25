@@ -1,9 +1,17 @@
 ﻿@model List<inventoryAppDomain.Entities.Drug>
 
 <head>
-    @Scripts.Render("~/bundles/js")
+    @*@Scripts.Render("~/bundles/js")*@
     <link rel="stylesheet" type="text/css" href="~/Content/datatable/datatables.min.css" />
     <script type="text/javascript" src="~/Content/datatable/datatables.min.js"></script>
+
+    <style>
+        #addDrugModal:hover {
+            background-color: #32bdea;
+            color: #fff !important;
+            transition: 1s;
+        }
+    </style>
 </head>
 
 @if ((string)TempData["added"] == "added")
@@ -23,8 +31,8 @@
                         </p>
                     </div>
 
-                    @*<a id="addDrugModal" onclick="AddDrug()" data-target="#edit-note" class="btn btn-success add-list"><i class="fas fa-plus mr-3"></i>Add Drug</a>*@
-                    <a id="addDrugModal" onclick="AddDrug()" data-target="#edit-note" class="text-primary"><i style="font-size: 35px; cursor: pointer" class="ri-add-line mr-3" data-toggle="tooltip" data-placement="top" data-original-title ="Add Drug"></i></a>
+                    <a id="addDrugModal" onclick="AddDrug()" data-target="#edit-note" class="border border-primary add-list px-3 py-1 text-primary rounded"><i class="fas fa-plus mr-3"></i>Add Drug</a>
+                    
 
                     @*<a data-toggle="modal" data-target="#edit-note" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Add Drug</a>*@
                 </div>

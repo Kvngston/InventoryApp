@@ -20,16 +20,17 @@ namespace inventoryAppWebUi
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
+                "~/Scripts/jquery-3.4.1.min.js",
                 "~/Content/assets/js/backend-bundle.min.js",
-                "~/Content/assets/js/table-treeview.js",
                 "~/Content/assets/js/customizer.js",
                 "~/Content/assets/js/chart-custom.js",
-                "~/Scripts/jquery-3.4.1.min.js",
+                "~/Content/datatable/datatables.min.js",
                 "~/Content/assets/js/app.js"));
 
 
             bundles.Add(new StyleBundle("~/Content/template/css").Include(
                       "~/Content/assets/css/backend-plugin.min.css",
+                      "~/Content/datatable/datatables.min.css",
                       "~/Content/assets/css/backende209.css?v=1.0.0",
                       "~/Content/assets/vendor/%40fortawesome/fontawesome-free/css/all.min.css",
                       "~/Content/assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css",
@@ -37,6 +38,11 @@ namespace inventoryAppWebUi
 
             bundles.Add(new ScriptBundle("~/bundles/ajaxUnobtrusive").Include(
                         "~/Scripts/jquery.unobtrusive-ajax.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/dataTables").Include(
+                        "~/Scripts/jquery-3.4.1.min.js",
+                        "~/Content/datatable/datatables.min.js",
+                        "~/Content/datatable/datatables.min.css"));
 
         }
     }

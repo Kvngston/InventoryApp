@@ -1,18 +1,19 @@
 ﻿@model List<inventoryAppDomain.Entities.Drug>
 
-<head>
-    @*@Scripts.Render("~/bundles/js")*@
-    <link rel="stylesheet" type="text/css" href="~/Content/datatable/datatables.min.css" />
-    <script type="text/javascript" src="~/Content/datatable/datatables.min.js"></script>
+    <head>
+        @*@Scripts.Render("~/bundles/dataTableds")*@
 
-    <style>
-        #addDrugModal:hover {
-            background-color: #32bdea;
-            color: #fff !important;
-            transition: 1s;
-        }
-    </style>
-</head>
+        <link rel="stylesheet" type="text/css" href="~/Content/datatable/datatables.min.css" />
+        <script type="text/javascript" src="~/Content/datatable/datatables.min.js"></script>
+
+        <style>
+            #addDrugModal:hover {
+                background-color: #32bdea;
+                color: #fff !important;
+                transition: 1s;
+            }
+        </style>
+    </head>
 
 @if ((string)TempData["added"] == "added")
 {

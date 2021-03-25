@@ -8,17 +8,16 @@
 <div class="content-page">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
-                    <div>
-                        <h4 class="mb-3">Selected Drugs</h4>
-                    </div>
-                </div>
-            </div>
-
-
             @if (Model.DrugCartItemsTotal > 0)
             {
+                <div class="col-lg-12">
+                    <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
+                        <div>
+                            <h4 class="mb-3">Selected Drugs</h4>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-lg-12">
                     <div class="table-responsive rounded mb-3">
                         <table id="tabl_id" class="display table display table mb-0 tbl-server-info">
@@ -86,7 +85,10 @@
             }
             else
             {
-                <p>Sorry! No available drugs have been selected.</p>
+                <div style="width: 100%" class="text-center">
+                    <i style="font-size: 150px;" class="fas fa-shopping-basket text-warning"></i>
+                    <p>Sorry! No available drugs have been selected.</p>
+                </div>
             }
         </div>
         <!-- Page end  -->

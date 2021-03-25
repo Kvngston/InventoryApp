@@ -44,7 +44,7 @@
                                 the customer experience, ensuring customer retention.
                             </p>
                         </div>
-                        <a class="badge bg-success mr-2" style="width: 30px; height: 30px" href="@Url.Action("index", "DrugCart")" ><i data-toggle="tooltip" data-placement="top" data-original-title="View Cart" class="ri-shopping-cart-2-line mr-0"></i></a>
+                        <a class="text-success mr-2" href="@Url.Action("index", "DrugCart")" ><i style="font-size: 35px;" data-toggle="tooltip" data-placement="top" data-original-title="View Cart" class="ri-shopping-cart-2-line mr-0"></i></a>
 
                         @*@Html.ActionLink(" ", "Index", "DrugCart", null,
                            new { @class = "btn btn-success" })*@
@@ -73,8 +73,9 @@
                                         <td>@drug.Price</td>
                                         <td>@drug.DrugCategory.CategoryName</td>
                                         <td>
-                                            @Html.ActionLink("Add to cart", "AddToShoppingCart", "DrugCart", new { drug.Id },
-                                                 new { @class = "btn btn-outline-primary" })
+                                            <a href="@Url.Action("AddToShoppingCart", "DrugCart", new { drug.Id })"><i style="font-size: 35px;" data-toggle="tooltip" data-placement="top" data-original-title="Add to cart" class="ri-shopping-basket-2-line mr-0 text-warning"></i> </a>
+                                            @*Html.ActionLink("Add to cart", "AddToShoppingCart", "DrugCart", new { drug.Id },
+                                                 new { @class = "btn btn-outline-primary" })*@
                                         </td>
 
                                     </tr>

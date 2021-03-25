@@ -639,6 +639,7 @@
     <Content Include="Views\Role\_RolePartial.cshtml" />
     <Content Include="Views\Shared\_NotificationModalPartial.cshtml" />
     <Content Include="Views\Notifications\ShowAllNotifications.cshtml" />
+    <Content Include="Views\Notifications\GetAllNotifications.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

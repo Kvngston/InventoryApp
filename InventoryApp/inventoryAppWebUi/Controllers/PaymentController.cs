@@ -35,7 +35,7 @@ namespace inventoryAppWebUi.Controllers
             try
             {
                 var response = await _paymentService.VerifyPayment(paymentReference);
-                ViewBag.PaymentResponse = response;
+                TempData["dispensed"] = "dispensed";
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception e)

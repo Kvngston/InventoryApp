@@ -11,7 +11,7 @@ using inventoryAppWebUi.Models;
 using NUnit.Framework;
 using inventoryAppDomain.Entities.Enums;
 using AutoMapper;
-using Newtonsoft.Json;
+using static Newtonsoft.Json.JsonConvert;
 
 namespace InventoryAppWebUi.Test
 {
@@ -35,9 +35,8 @@ namespace InventoryAppWebUi.Test
         [SetUp]
         public void Setup()
         {
-            Mapper.Initialize(configuration => configuration.CreateMap<DrugViewModel, Drug>());
-            Mapper.Initialize(configuration => configuration.CreateMap<DrugCategory, DrugCategoryViewModel>());
-
+            Mapper.Initialize(configuration => configuration.CreateMap<Drug, DrugViewModel>());
+            Mapper.Initialize(configuration => configuration.CreateMap<DrugCategoryViewModel, DrugCategory>());
         }
 
         [Test]
@@ -104,11 +103,11 @@ namespace InventoryAppWebUi.Test
             };
             _mockDrug.Setup(v => v.AddDrugCategory(newDrugCategory));
 
-            if (_dcontroller.SaveDrugCategory(Mapper.Map<DrugCategory, DrugCategoryViewModel>(newDrugCategory)) is JsonResult result)
+            if (_dcontroller.SaveDrugCategory(newDrugCategoryVm) is JsonResult result)
             {
-                var response = JsonConvert.DeserializeObject<JsonResponse>(JsonConvert.SerializeObject(result.Data))
+                var response = DeserializeObject<JsonResponse>(SerializeObject(result.Data))
                     ?.response;
-                Assert.False(response != null && response.Equals("success"));
+                Assert.True(response != null && response.Equals("success"));
             }
 
         }
@@ -169,9 +168,11 @@ namespace InventoryAppWebUi.Test
             {
                 Id = drugId,
                 Quantity = 45,
-                Price = 7000,
-                SupplierTag = "abcs",
-                DrugName = "abcvn"     
+                Price = 55,
+                SupplierTag = "afghi",
+                DrugName = "purft",
+                DrugCategoryId = 99,
+                ExpiryDate = DateTime.Today.AddDays(25),
             };
 
             var newDrug = new Drug
@@ -187,13 +188,13 @@ namespace InventoryAppWebUi.Test
                 DrugCategoryId = 99
             };
 
-            var _acontroller = new DrugCartController(_mockDrugCart.Object);
-
             _mockDrug.Setup(n => n.EditDrug(drugId)).Returns(newDrug);
 
-            var result = _dcontroller.UpdateDrug(drugId);
-          
-            Assert.That(newDrug, Is.EqualTo(result));
+            var result = _dcontroller.UpdateDrug(drugId) as PartialViewResult;
+
+            if (result != null)
+                Assert.That(newDrugVm.Id,
+                    Is.EqualTo(DeserializeObject<DrugViewModel>(SerializeObject(result.Model)).Id));
         }
 
         private class JsonResponse

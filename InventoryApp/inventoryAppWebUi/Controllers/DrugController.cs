@@ -74,7 +74,7 @@ namespace inventoryAppWebUi.Controllers
         public ActionResult UpdateDrug(int id)
         {
 
-            var drugInDb = Mapper.Map<DrugViewModel>(_drugService.EditDrug(id));
+            var drugInDb = Mapper.Map<Drug,DrugViewModel>(_drugService.EditDrug(id));
 
             if (drugInDb == null) return HttpNotFound("No drug found");
 
@@ -204,7 +204,7 @@ namespace inventoryAppWebUi.Controllers
                 }
                 else
                 {
-                    var cate = Mapper.Map<DrugCategory>(category);
+                    var cate = Mapper.Map<DrugCategoryViewModel, DrugCategory>(category);
                     _drugService.AddDrugCategory(cate);
 
                     TempData["categoryAdded"] = "added";

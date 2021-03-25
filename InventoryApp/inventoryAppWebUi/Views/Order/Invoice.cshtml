@@ -1,4 +1,5 @@
-﻿@model inventoryAppWebUi.Models.OrderViewModel
+﻿@using System.Web.UI.WebControls
+@model inventoryAppWebUi.Models.OrderViewModel
 @{
     ViewBag.Title = "Invoice";
     ViewBag.CurrentPage = "Order Checkout";
@@ -17,42 +18,84 @@
                                 <div class="col-lg-7 align-self-center">
                                     <div class="p-3">
                                         <h3 class="ml-3">Checkout</h3>
-                                        @using (Html.BeginForm("Checkout", "Order", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                        @if (ViewBag.PayWithCash != null)
                                         {
-                                    <div class="">
-                                        @Html.AntiForgeryToken()
-                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                        <div class="form-group">
-                                            <div class="col-sm-12">
-                                                @Html.TextBoxFor(s => s.FirstName, new { @class = "form-control textbox", PlaceHolder = "First Name" })
-                                                @Html.ValidationMessageFor(s => s.FirstName, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-12">
-                                                @Html.TextBoxFor(s => s.LastName, new { @class = "form-control textbox", PlaceHolder = "Last Name" })
-                                                @Html.ValidationMessageFor(s => s.LastName, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-12">
-                                                @Html.TextBoxFor(s => s.Email, new { @class = "form-control textbox", PlaceHolder = "Email" })
-                                                @Html.ValidationMessageFor(s => s.Email, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-12">
-                                                @Html.TextBoxFor(s => s.PhoneNumber, new { @class = "form-control textbox", PlaceHolder = "Phone" })
-                                                @Html.ValidationMessageFor(s => s.PhoneNumber, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-12">
-                                                <input type="submit" value="Complete Order" class="btn btn-primary col-sm-12" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                         }
+                                            using (Html.BeginForm("CheckoutWithCash", "Order", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+                                            {
+                                                <div class="">
+                                                    @Html.AntiForgeryToken()
+                                                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.TextBoxFor(s => s.FirstName, new {@class = "form-control textbox", PlaceHolder = "First Name"})
+                                                            @Html.ValidationMessageFor(s => s.FirstName, "", new {@class = "text-danger"})
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.TextBoxFor(s => s.LastName, new {@class = "form-control textbox", PlaceHolder = "Last Name"})
+                                                            @Html.ValidationMessageFor(s => s.LastName, "", new {@class = "text-danger"})
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.TextBoxFor(s => s.Email, new {@class = "form-control textbox", PlaceHolder = "Email"})
+                                                            @Html.ValidationMessageFor(s => s.Email, "", new {@class = "text-danger"})
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.TextBoxFor(s => s.PhoneNumber, new {@class = "form-control textbox", PlaceHolder = "Phone"})
+                                                            @Html.ValidationMessageFor(s => s.PhoneNumber, "", new {@class = "text-danger"})
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            <input type="submit" value="Complete Order" class="btn btn-primary col-sm-12"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            using (Html.BeginForm("Checkout", "Order", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+                                            {
+                                                <div class="">
+                                                    @Html.AntiForgeryToken()
+                                                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.TextBoxFor(s => s.FirstName, new {@class = "form-control textbox", PlaceHolder = "First Name"})
+                                                            @Html.ValidationMessageFor(s => s.FirstName, "", new {@class = "text-danger"})
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.TextBoxFor(s => s.LastName, new {@class = "form-control textbox", PlaceHolder = "Last Name"})
+                                                            @Html.ValidationMessageFor(s => s.LastName, "", new {@class = "text-danger"})
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.TextBoxFor(s => s.Email, new {@class = "form-control textbox", PlaceHolder = "Email"})
+                                                            @Html.ValidationMessageFor(s => s.Email, "", new {@class = "text-danger"})
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.TextBoxFor(s => s.PhoneNumber, new {@class = "form-control textbox", PlaceHolder = "Phone"})
+                                                            @Html.ValidationMessageFor(s => s.PhoneNumber, "", new {@class = "text-danger"})
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            <input type="submit" value="Complete Order" class="btn btn-primary col-sm-12"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
                                     </div>
                                 </div>
                                 <div class="col-lg-5 content-right">
@@ -69,5 +112,3 @@
 </div>
 @Scripts.Render("~/bundles/js")
 @Scripts.Render("~/bundles/jqueryval")
-
-

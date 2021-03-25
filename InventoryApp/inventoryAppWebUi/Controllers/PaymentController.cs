@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using AutoMapper;
-using inventoryAppDomain.Entities.Dtos;
 using inventoryAppDomain.Services;
-using inventoryAppWebUi.Models;
 
 namespace inventoryAppWebUi.Controllers
 {
@@ -30,18 +27,17 @@ namespace inventoryAppWebUi.Controllers
             }
         }
 
-        public ActionResult Verify(string paymentReference)
-        {
-            return RedirectToAction("VerifyPayment", new {paymentReference});
-        }
-        
         public async Task<ActionResult> VerifyPayment(string paymentReference)
         {
             try
             {
                 var response = await _paymentService.VerifyPayment(paymentReference);
-                TempData["dispensed"] = "dispensed";
-                return RedirectToAction("Index", "Home");
+                if (response)
+                {
+                    return RedirectToAction("Index", "Home", new{paymentCompleted="True"});
+                }
+                return RedirectToAction("Index", "Home", new{paymentCompleted="False"});
+
             }
             catch (Exception e)
             {

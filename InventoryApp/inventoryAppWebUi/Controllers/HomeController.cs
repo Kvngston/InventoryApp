@@ -23,7 +23,7 @@ namespace inventoryAppWebUi.Controllers
             _orderService = orderService;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string paymentCompleted = null)
         {
             //check if user already has as cart
             if (Request.IsAuthenticated && User.Identity.IsAuthenticated)
@@ -42,6 +42,21 @@ namespace inventoryAppWebUi.Controllers
                 TotalSales = _orderService.GetTotalSales()
 
             };
+            if (paymentCompleted != null)
+            {
+                Console.WriteLine(paymentCompleted);
+                if (paymentCompleted.Equals("True"))
+                {
+                    TempData["dispensed"] = "dispensed";
+                    ViewBag.Dispensed = "dispensed";
+                }
+                else
+                {
+                    TempData["failure"] = "failure";
+                    ViewBag.Failure = "failure";
+                }
+            }
+            ViewBag.Dispensed = "dispensed";
             return View(totalNumberOfSupplier);
         }
 

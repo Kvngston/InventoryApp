@@ -13,5 +13,7 @@ namespace inventoryAppDomain.Services
         Task<Transaction> GetTransactionById(int id);
         Task<List<Transaction>> GetAllTransactions();
         Task<List<Transaction>> GetTransactionsByStatus(TransactionStatus transactionStatus);
+
+        Task<Transaction> GetLastTransaction();
     }
 }

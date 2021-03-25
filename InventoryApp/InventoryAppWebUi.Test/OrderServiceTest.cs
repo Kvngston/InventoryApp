@@ -12,84 +12,47 @@ using inventoryAppWebUi.Models;
 using inventoryAppDomain.Entities;
 using inventoryAppDomain.IdentityEntities;
 using inventoryAppDomain.Entities.Enums;
+using AutoMapper;
 
 namespace InventoryAppWebUi.Test
 {
-    /// <summary>
-    /// Summary description for UnitTest2
-    /// </summary>
-    //[TestClass]
+ [TestFixture]
     public class OrderControllerTest
     {
+        private readonly Mock<IOrderService> _mockOrder;
+        private readonly Mock<IDrugCartService> _mockdrugCart;
+        private readonly OrderController _controller;
+
         public OrderControllerTest()
         {
-            //
-            // TODO: Add constructor logic here
-            //
+            _mockOrder = new Mock<IOrderService>();
+            _mockdrugCart = new Mock<IDrugCartService>();
+            _controller = new OrderController(_mockOrder.Object, _mockdrugCart.Object);
         }
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
+        [SetUp]
+        public void Setup()
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            Mapper.Initialize(configuration => configuration.CreateMap<OrderViewModel, Order>());
+         
         }
-
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
 
         [Test]
-        public void CheckoutCompleteTest()
+        public void Checkout_Is_Complete_Test()
         {
-            Mock<IDrugCartService> _mockDrugCart = new Mock<IDrugCartService>();
-            Mock<IOrderService> _mockOrder = new Mock<IOrderService>();
+            var result = _controller.CheckoutComplete() as ViewResult;
 
-            var controller = new OrderController(_mockOrder.Object, _mockDrugCart.Object);
-
-            var result = controller.CheckoutComplete() as ViewResult;
-
-            Assert.IsNotNull(result);
+            Assert.That(result.ViewBag.CheckoutCompleteMessage, Is.EqualTo("Drug Dispensed"));
         }
         [Test]
-        public void CheckoutTest()
+        public void Checkout_Success_Test()
         {
-            //var orderVM = new OrderViewModel
-            //{
-            //    Email = "abc@abc.com",
-            //    FirstName = "dab",
-            //    LastName = "bad",
-            //    PhoneNumber = "0908123"
-            //};
+            var orderVM = new OrderViewModel
+            {
+                Email = "abc@abc.com",
+                FirstName = "dab",
+                LastName = "bad",
+                PhoneNumber = "0908123"
+            };
             var singleDrug = new Drug
             {
 
@@ -112,20 +75,68 @@ namespace InventoryAppWebUi.Test
                 {
                     Id = 80, Amount = 4000, DrugId = 45, Drug = singleDrug, DrugCartId = 191
                 }
-
-
             };
             var newOrder = new Order
             {
                 OrderId = 123, Email = "abc@abc.com", FirstName = "abc", LastName = "bbc", Price = 4000, PhoneNumber = "09034", CreatedAt = DateTime.Now, OrderItems = newdrugCartItems
             };
 
-            Mock<IDrugCartService> _mockDrugCart = new Mock<IDrugCartService>();
-            Mock<IOrderService> _mockOrder = new Mock<IOrderService>();
+            _mockOrder.Setup(z => z.CreateOrder(newOrder, newUser.Id)).Returns(newOrder);
+            _mockdrugCart.Setup(v => v.RefreshCart(userId));
+            var result = _controller.Checkout(orderVM) as RedirectResult;
+          
+            Assert.That(result?.Url, Is.Not.Null);
+        }
 
-            _mockOrder.Setup(z => z.CreateOrder(newOrder, newUser.Id));
+        [Test]
+        public void Checkout_Failure_Test()
+        {
+            var orderVM = new OrderViewModel
+            {
+                Email = "abc@abc.com",
+                FirstName = "dab",
+                LastName = "bad",
+                PhoneNumber = "0908123"
+            };
+            var singleDrug = new Drug
+            {
 
-            Assert.AreEqual(newOrder.OrderItems, newdrugCartItems);
+                Id = 88,
+                DrugName = "antraxe",
+                Price = 4000,
+                Quantity = 35,
+                CreatedAt = DateTime.Today,
+                ExpiryDate = DateTime.Today.AddDays(9),
+                CurrentDrugStatus = DrugStatus.NOT_EXPIRED
+            };
+            var userId = Guid.NewGuid().ToString();
+       
+            var newdrugCartItems = new List<DrugCartItem>
+            {
+                new DrugCartItem
+                {
+                    Id = 80, Amount = 4000, DrugId = 45, Drug = singleDrug, DrugCartId = 191
+                }
+            };
+            var newOrder = new Order
+            {
+                OrderId = 123,
+                Email = "abc@abc.com",
+                FirstName = "abc",
+                LastName = "bbc",
+                Price = 4000,
+                PhoneNumber = "09034",
+                CreatedAt = DateTime.Now,
+                OrderItems = newdrugCartItems
+            };
+            
+            _mockdrugCart.Setup(a => a.GetDrugCartItems(userId, CartStatus.ACTIVE)).Returns(newdrugCartItems);
+            _mockOrder.Setup(z => z.CreateOrder(Mapper.Map<OrderViewModel, Order>(orderVM), userId)).Returns(newOrder);
+            _mockdrugCart.Setup(v => v.RefreshCart(userId));
+
+            var result = _controller.Checkout(orderVM) as RedirectResult;
+
+            Assert.That(result?.Url, Is.Null);
         }
     }
 }

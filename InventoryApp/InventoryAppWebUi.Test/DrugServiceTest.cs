@@ -10,6 +10,8 @@ using inventoryAppDomain.Entities;
 using inventoryAppWebUi.Models;
 using NUnit.Framework;
 using inventoryAppDomain.Entities.Enums;
+using AutoMapper;
+using Newtonsoft.Json;
 
 namespace InventoryAppWebUi.Test
 {
@@ -29,6 +31,13 @@ namespace InventoryAppWebUi.Test
             _mockDrugCart = new Mock<IDrugCartService>();
             _dcontroller = new DrugController(_mockDrug.Object, _mockSupp.Object);
             _cartController = new DrugCartController(_mockDrugCart.Object);
+        }
+        [SetUp]
+        public void Setup()
+        {
+            Mapper.Initialize(configuration => configuration.CreateMap<DrugViewModel, Drug>());
+            Mapper.Initialize(configuration => configuration.CreateMap<DrugCategory, DrugCategoryViewModel>());
+
         }
 
         [Test]
@@ -88,11 +97,20 @@ namespace InventoryAppWebUi.Test
                 CategoryName = "Pills",
                 Id = 99
             };
+            var newDrugCategoryVm = new DrugCategoryViewModel
+            {
+                CategoryName = "Pills"
+                
+            };
             _mockDrug.Setup(v => v.AddDrugCategory(newDrugCategory));
 
-            var result = _dcontroller.AddDrugCategory() as ViewResult;
-    
-            Assert.AreNotEqual(newDrugCategory, result.Model);
+            if (_dcontroller.SaveDrugCategory(Mapper.Map<DrugCategory, DrugCategoryViewModel>(newDrugCategory)) is JsonResult result)
+            {
+                var response = JsonConvert.DeserializeObject<JsonResponse>(JsonConvert.SerializeObject(result.Data))
+                    ?.response;
+                Assert.False(response != null && response.Equals("success"));
+            }
+
         }
 
         [Test]
@@ -171,13 +189,17 @@ namespace InventoryAppWebUi.Test
 
             var _acontroller = new DrugCartController(_mockDrugCart.Object);
 
-            _mockDrug.Setup(n => n.EditDrug(newDrugVm.Id)).Returns(newDrug);
+            _mockDrug.Setup(n => n.EditDrug(drugId)).Returns(newDrug);
 
-            var result = _dcontroller.UpdateDrug(newDrug.Id);
-            var target = _acontroller.GetDrug(newDrug.Id) as ViewResult;
+            var result = _dcontroller.UpdateDrug(drugId);
           
-            Assert.That(newDrug, Is.EqualTo(target.Model));
+            Assert.That(newDrug, Is.EqualTo(result));
         }
 
+        private class JsonResponse
+        {
+            public string status { get; set; }
+            public string response { get; set; }
+        }
     }
 }

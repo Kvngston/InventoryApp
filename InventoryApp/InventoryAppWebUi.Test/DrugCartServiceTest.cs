@@ -126,10 +126,10 @@ namespace InventoryAppWebUi.Test
                 CurrentDrugStatus = DrugStatus.NOT_EXPIRED
             };
 
-
+            _mockDrugCart.Setup(x => x.GetDrugById(singleDrug.Id)).Returns(singleDrug);
             _mockDrugCart.Setup(z => z.AddToCart(singleDrug, newUser.Id));
 
-            var result = _cartController.AddToShoppingCart(singleDrug.Id);
+            var result = _cartController.AddToShoppingCart(singleDrug.Id) is RedirectResult;
 
             Assert.That(result, Is.Not.Null);
         }

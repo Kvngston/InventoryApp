@@ -30,6 +30,11 @@ namespace inventoryAppWebUi.Controllers
             }
         }
 
+        public ActionResult Verify(string paymentReference)
+        {
+            return RedirectToAction("VerifyPayment", new {paymentReference});
+        }
+        
         public async Task<ActionResult> VerifyPayment(string paymentReference)
         {
             try

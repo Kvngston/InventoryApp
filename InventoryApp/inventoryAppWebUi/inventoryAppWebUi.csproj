@@ -567,6 +567,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Views\Account\ChangeRole.cshtml" />
     <Content Include="Views\Account\ManageUsers.cshtml" />
+    <Content Include="Views\DrugCart\GetDrug.cshtml" />
     <Content Include="Views\Notifications\Index.cshtml" />
     <Content Include="Views\Payment\Index.cshtml" />
     <Content Include="Views\Pharmacist\Index.cshtml" />

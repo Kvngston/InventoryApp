@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
+using System.Linq;
 //using Microsoft.VisualStudio.TestTools.UnitTesting;
 using inventoryAppDomain.Services;
 using Moq;
@@ -14,13 +15,14 @@ using inventoryAppDomain.Entities.Enums;
 using inventoryAppDomain.Repository;
 using System.Web;
 using System.Threading.Tasks;
+using AutoMapper;
+using inventoryAppWebUi.Models;
 
 namespace InventoryAppWebUi.Test
 {
-   [TestFixture]
+    [TestFixture]
     public class DrugCartControllerTest
     {
-
         private readonly Mock<IDrugCartService> _mockDrugCart;
         private readonly DrugCartController _cartController;
 
@@ -30,49 +32,55 @@ namespace InventoryAppWebUi.Test
             _cartController = new DrugCartController(_mockDrugCart.Object);
         }
 
+        [SetUp]
+        public void Setup()
+        {
+            Mapper.Initialize(configuration => configuration.CreateMap<Drug, DrugViewModel>());
+        }
+
         [Test]
-        public void CreateCartTest()
+        public void GetDrug()
         {
             var userId = Guid.NewGuid().ToString();
 
             var user = new List<ApplicationUser>
             {
-                    new ApplicationUser
-                    {
-                        Id = userId, Email = "abc@abc.com", UserName = "abc@abc.com", PhoneNumber = "0908777"
-                    },
-                    new ApplicationUser
-                    {
-                        Id = "utsr", Email = "efg@efg.com", UserName = "efg@efg.com", PhoneNumber = "0908777"
-                    }
+                new ApplicationUser
+                {
+                    Id = userId, Email = "abc@abc.com", UserName = "abc@abc.com", PhoneNumber = "0908777"
+                },
+                new ApplicationUser
+                {
+                    Id = "utsr", Email = "efg@efg.com", UserName = "efg@efg.com", PhoneNumber = "0908777"
+                }
             };
 
             var roles = new List<IdentityRole>
-                                {
-                                            new IdentityRole
-                                            {
-                                                Id = "zxy", Name = "Audit"
-                                            },
-                                            new IdentityRole
-                                            {
-                                                Id = "wvu", Name = "Pharmacist"
-                                           }
-                                 };
+            {
+                new IdentityRole
+                {
+                    Id = "zxy", Name = "Audit"
+                },
+                new IdentityRole
+                {
+                    Id = "wvu", Name = "Pharmacist"
+                }
+            };
             var newDrug = new List<Drug>
-                            {
-                                new Drug
-                                {
-                                    Id = 45, DrugName = "drax", Price = 4000, Quantity = 55, CreatedAt = DateTime.Today, ExpiryDate = DateTime.Today.AddDays(9),  CurrentDrugStatus = DrugStatus.NOT_EXPIRED
-                                },
-                                new Drug
-                                {
-
-                                    Id = 77, DrugName = "antrax", Price = 7000, Quantity = 35, CreatedAt = DateTime.Today, ExpiryDate = DateTime.Today.AddDays(9),  CurrentDrugStatus = DrugStatus.NOT_EXPIRED
-                                }
-                            };
+            {
+                new Drug
+                {
+                    Id = 45, DrugName = "drax", Price = 4000, Quantity = 55, CreatedAt = DateTime.Today,
+                    ExpiryDate = DateTime.Today.AddDays(9), CurrentDrugStatus = DrugStatus.NOT_EXPIRED
+                },
+                new Drug
+                {
+                    Id = 77, DrugName = "antrax", Price = 7000, Quantity = 35, CreatedAt = DateTime.Today,
+                    ExpiryDate = DateTime.Today.AddDays(9), CurrentDrugStatus = DrugStatus.NOT_EXPIRED
+                }
+            };
             var singleDrug = new Drug
             {
-
                 Id = 88,
                 DrugName = "antraxe",
                 Price = 8000,
@@ -98,12 +106,12 @@ namespace InventoryAppWebUi.Test
                 DrugCartItems = newdrugCartItems
             };
             _mockDrugCart.Setup(b => b.GetDrugById(88)).Returns(singleDrug);
-               
+
             var result = _cartController.GetDrug(88) as ViewResult;
 
             Assert.AreEqual(result.Model, singleDrug);
         }
-     
+
 
         [Test]
         public void AddToShoppingCartTest()
@@ -126,17 +134,32 @@ namespace InventoryAppWebUi.Test
                 CurrentDrugStatus = DrugStatus.NOT_EXPIRED
             };
 
+            var cartItem = new DrugCartItem
+            {
+                Id = 80, Amount = 4000, DrugId = 45, Drug = singleDrug, DrugCartId = 191
+            };
+
+            var cart = new DrugCart()
+            {
+                Id = 1,
+                ApplicationUser = newUser,
+                CartStatus = CartStatus.ACTIVE,
+                ApplicationUserId = newUser.Id,
+                DrugCartItems = new List<DrugCartItem>(),
+            };
+
             _mockDrugCart.Setup(x => x.GetDrugById(singleDrug.Id)).Returns(singleDrug);
-            _mockDrugCart.Setup(z => z.AddToCart(singleDrug, newUser.Id));
+            _mockDrugCart.Setup(z => z.AddToCart(singleDrug, newUser.Id))
+                .Callback(() => { cart.DrugCartItems.Add(cartItem); });
 
-            var result = _cartController.AddToShoppingCart(singleDrug.Id) is RedirectResult;
+            var result = _cartController.AddToShoppingCart(singleDrug.Id) as RedirectToRouteResult;
 
-            Assert.That(result, Is.Not.Null);
+            Assert.That(result != null && result.RouteName.Equals("FilteredDrugsList"));
         }
 
         [Test]
         public void ClearCartTest()
-        {   
+        {
             var newUser = new ApplicationUser
             {
                 Id = "utsr",
@@ -171,17 +194,18 @@ namespace InventoryAppWebUi.Test
                 DrugCartItems = newdrugCartItems
             };
 
-            _mockDrugCart.Setup(z => z.ClearCart(newCart.Id.ToString()));
 
-            var result = _cartController.RemoveAllCart();
+            _mockDrugCart.Setup(z => z.ClearCart(newCart.Id.ToString()))
+                .Callback(() => newCart.DrugCartItems = new List<DrugCartItem>());
 
-            Assert.That(newdrugCartItems, Is.Null);
+            _cartController.RemoveAllCart();
+
+            Assert.That(!newCart.DrugCartItems.Any());
         }
 
         [Test]
         public void DrugCartTotalCountTest()
         {
-            
             var newUser = new ApplicationUser
             {
                 Id = "utsr",
@@ -217,7 +241,6 @@ namespace InventoryAppWebUi.Test
             };
 
             _mockDrugCart.Setup(x => x.GetDrugCartTotalCount(newUser.Id));
-
         }
 
         [Test]
@@ -232,7 +255,6 @@ namespace InventoryAppWebUi.Test
             };
             var singleDrug = new Drug
             {
-
                 Id = 88,
                 DrugName = "antraxe",
                 Price = 8000,
@@ -259,6 +281,7 @@ namespace InventoryAppWebUi.Test
             };
             _mockDrugCart.Setup(z => z.GetDrugCartTotalCount(newUser.Id));
         }
+
         [Test]
         public void RemoveFromShoppingCartTest()
         {
@@ -271,7 +294,6 @@ namespace InventoryAppWebUi.Test
             };
             var singleDrug = new Drug
             {
-
                 Id = 88,
                 DrugName = "antraxe",
                 Price = 8000,

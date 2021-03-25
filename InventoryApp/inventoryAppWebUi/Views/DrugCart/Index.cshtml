@@ -19,69 +19,75 @@
 
             @if (Model.DrugCartItemsTotal > 0)
             {
-
                 <div class="col-lg-12">
                     <div class="table-responsive rounded mb-3">
                         <table id="tabl_id" class="display table display table mb-0 tbl-server-info">
                             <thead>
-                                <tr>
-                                    <th>Drug Name</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
-                                    <th></th>
-                                </tr>
+                            <tr>
+                                <th>Drug Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th></th>
+                            </tr>
                             </thead>
 
-                                <tbody>
-                                    @foreach (var drug in Model.CartItems)
-                                    {
-                                        <tr>
-                                            <td class="font-weight-bold">@drug.Drug.DrugName</td>
-                                            <td style="font-weight: bolder"> <button class="fas fa-plus increase text-success" style="cursor: pointer; font-size: 20px"onclick="increase(@drug.DrugId)"> </button>  @drug.Amount <button class="fas fa-minus decrease text-warning" style="cursor: pointer; font-size: 20px" onclick="decrease(@drug.Id)"> </button> </td>
-                                            <td class="text-left">@drug.Drug.Price</td>
-                                            <td>
+                            <tbody>
+                            @foreach (var drug in Model.CartItems)
+                            {
+                                <tr>
+                                    <td class="font-weight-bold">@drug.Drug.DrugName</td>
+                                    <td style="font-weight: bolder">
+                                        <button class="fas fa-plus increase text-success" style="cursor: pointer; font-size: 20px"onclick="increase(@drug.DrugId)"> </button> @drug.Amount <button class="fas fa-minus decrease text-warning" style="cursor: pointer; font-size: 20px" onclick="decrease(@drug.Id)"> </button>
+                                    </td>
+                                    <td class="text-left">@drug.Drug.Price</td>
+                                    <td>
 
-                                                <a class="badge bg-warning mr-2"
-                                                   href="@Url.Action("RemoveFromShoppingCart", "DrugCart", new { Id = drug.Id })"><i data-toggle="tooltip" data-placement="top" data-original-title="Remove from cart" class="ri-delete-bin-line mr-0" style="font-size: 20px"></i></a>
+                                        <a class="badge bg-warning mr-2"
+                                           href="@Url.Action("RemoveFromShoppingCart", "DrugCart", new {Id = drug.Id})">
+                                            <i data-toggle="tooltip" data-placement="top" data-original-title="Remove from cart" class="ri-delete-bin-line mr-0" style="font-size: 20px"></i>
+                                        </a>
 
-                                                @*@Html.ActionLink("Remove From Cart", "RemoveFromShoppingCart", "DrugCart", new { drug.Id },
+                                        @*@Html.ActionLink("Remove From Cart", "RemoveFromShoppingCart", "DrugCart", new { drug.Id },
         new { @class = "btn btn-outline-primary" })*@
-                                            </td>
+                                    </td>
 
-                                        </tr>
-                                     }
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td class="text-right">Total:</td>
-                                        <td class="text-left">
-                                            @Model.DrugCartItemsTotal.ToString()
-                                        </td>
-                                        <td class="text-left" colspan="2">
-                                            @Model.DrugCartTotal.ToString("c")
-                                        </td>
-                                    </tr>
+                                </tr>
+                            }
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td class="text-right">Total:</td>
+                                <td class="text-left">
+                                    @Model.DrugCartItemsTotal.ToString()
+                                </td>
+                                <td class="text-left" colspan="2">
+                                    @Model.DrugCartTotal.ToString("c")
+                                </td>
+                            </tr>
 
-                                </tfoot>
-                            </table>
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    @Html.ActionLink("Clear Cart", "RemoveAllCart", "DrugCart", null,
-                                   new { @class = "btn btn-warning" })
-                                </div>
-                                <div class="col-sm-2">
-                                    @Html.ActionLink("Checkout", "Invoice", "Order", null,
-                                                                           new { @class = "btn btn-success" })
-                                    
-                                </div>
+                            </tfoot>
+                        </table>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                @Html.ActionLink("Clear Cart", "RemoveAllCart", "DrugCart", null,
+                                    new {@class = "btn btn-warning"})
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.ActionLink("Pay With Card", "Invoice", "Order", null,
+                                    new {@class = "btn btn-success"})
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.ActionLink("Pay With Cash", "Invoice", "Order", new {payWithCash=true},
+                                    new {@class = "btn btn-success"})
                             </div>
                         </div>
                     </div>
-                }
-                else
-                {
-                    <p>Sorry! No available drugs have been selected.</p>
-                }
+                </div>
+            }
+            else
+            {
+                <p>Sorry! No available drugs have been selected.</p>
+            }
         </div>
         <!-- Page end  -->
     </div>
@@ -89,27 +95,6 @@
 </div>
 
 @Html.Partial("_FooterPartial")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <script>

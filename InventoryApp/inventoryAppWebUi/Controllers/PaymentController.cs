@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using AutoMapper;
-using inventoryAppDomain.Entities.Dtos;
 using inventoryAppDomain.Services;
-using inventoryAppWebUi.Models;
 
 namespace inventoryAppWebUi.Controllers
 {
@@ -35,8 +32,12 @@ namespace inventoryAppWebUi.Controllers
             try
             {
                 var response = await _paymentService.VerifyPayment(paymentReference);
-                ViewBag.PaymentResponse = response;
-                return RedirectToAction("Index", "Home");
+                if (response)
+                {
+                    return RedirectToAction("Index", "Home", new{paymentCompleted="True"});
+                }
+                return RedirectToAction("Index", "Home", new{paymentCompleted="False"});
+
             }
             catch (Exception e)
             {

@@ -132,5 +132,10 @@ namespace inventoryAppDomain.Repository
             if (responseBody.paymentStatus.Equals("PAID")) return true;
             return false;
         }
+
+        public async Task<string> GetLastPayment()
+        {
+            return (await _transactionService.GetLastTransaction()).GeneratedReferenceNumber;
+        }
     }
 }

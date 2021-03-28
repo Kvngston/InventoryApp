@@ -143,8 +143,22 @@ namespace inventoryAppDomain.Repository
             _dbContext.Drugs.Remove(_dbContext.Drugs.Single(d => d.Id == id));
             _dbContext.SaveChanges();
         }
-        public Drug EditDrug(int id) => _dbContext.Drugs.SingleOrDefault(d => d.Id == id);
-      
+        //public Drug EditDrug(int id) => _dbContext.Drugs.SingleOrDefault(d => d.Id == id);
+
+        public Drug EditDrug(int id)
+        {
+            var drug = FindDrug(id);
+            if (drug == null)
+                return drug;
+            else
+            {
+                return _dbContext.Drugs.SingleOrDefault(d => d.Id == id);
+            }
+        }
+
+        public Drug FindDrug(int id) => _dbContext.Drugs.SingleOrDefault(d => d.Id == id);
+
+
         public int DateComparison(DateTime FirstDate, DateTime SecondDate) => 
             DateTime.Compare(FirstDate, SecondDate);
 

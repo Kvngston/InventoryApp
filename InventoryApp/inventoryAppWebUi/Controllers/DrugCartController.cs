@@ -21,7 +21,6 @@ namespace inventoryAppWebUi.Controllers
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
-            
             var drugCartCountTotal = _drugCartService.GetDrugCartTotalCount(userId);
             var drugCartViewModel = new DrugCartViewModel
             {

@@ -30,14 +30,28 @@ namespace inventoryAppWebUi.Controllers
 
         public ActionResult GetRecentFive()
         {
-            var notifications = _notificationService.GetRecentFive();
-            return Json(notifications, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var notifications = _notificationService.GetRecentFive();
+                return Json(notifications, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message, JsonRequestBehavior.AllowGet);
+            }
         }
         
         public ActionResult GetNotificationById(int id)
         {
-            var notification = _notificationService.GetNotificationById(id);
-            return Json(notification, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var notification = _notificationService.GetNotificationById(id);
+                return Json(notification, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [HttpPost]

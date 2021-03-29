@@ -23,7 +23,7 @@ namespace inventoryAppWebUi.Controllers
             _orderService = orderService;
         }
 
-        public ActionResult Index(string paymentCompleted = null)
+        public ActionResult Index(string paymentCompleted)
         {
             //check if user already has as cart
             if (Request.IsAuthenticated && User.Identity.IsAuthenticated)

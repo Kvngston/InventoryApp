@@ -24,7 +24,7 @@ namespace inventoryAppWebUi.Controllers
             _orderService = orderService;
         }
         
-        public ActionResult Invoice(string payWithCash = null)
+        public ActionResult Invoice(string payWithCash)
         {
             if (payWithCash != null)
             {

@@ -1,16 +1,10 @@
-﻿using AutoMapper;
-using inventoryAppDomain.Services;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using System;
 using System.Web.Mvc;
+using AutoMapper;
 using inventoryAppDomain.Entities;
-using inventoryAppDomain.IdentityEntities;
-using inventoryAppWebUi.Models;
 using inventoryAppDomain.Entities.Enums;
-using Microsoft.Ajax.Utilities;
+using inventoryAppDomain.Services;
+using inventoryAppWebUi.Models;
 
 namespace inventoryAppWebUi.Controllers
 {
@@ -63,7 +57,7 @@ namespace inventoryAppWebUi.Controllers
 
         public ActionResult AddDrugForm()
         {
-            var drugCategory = new DrugViewModel()
+            var drugCategory = new DrugViewModel
             {
                 DrugCategory = _drugService.AllCategories()
             };
@@ -94,7 +88,6 @@ namespace inventoryAppWebUi.Controllers
                 // return Json(new { response = "failed"}, JsonRequestBehavior.AllowGet);
             }
 
-
             try
             {
                 var supplierInDb = _supplierService.GetSupplierWithTag(drug.SupplierTag);
@@ -107,67 +100,64 @@ namespace inventoryAppWebUi.Controllers
                     TempData["failed"] = "failed";
                     return PartialView("_DrugPartial", drug);
                 }
-                else
+
+                //Add a new drug
+                if (drug.Id == 0)
                 {
-                    //Add a new drug
-                    if (drug.Id == 0)
+                    var expiryDate = _drugService.DateComparison(DateTime.Today, drug.ExpiryDate);
+
+                    //DRUG HAS EXPIRED 
+                    if (expiryDate >= 0)
                     {
-                        var expiryDate = _drugService.DateComparison(DateTime.Today, drug.ExpiryDate);
-
-                        //DRUG HAS EXPIRED 
-                        if (expiryDate >= 0)
-                        {
-                            ModelState.AddModelError("ExpiryDate", "Must be later than today");
-                            drug.DrugCategory = _drugService.AllCategories();
-                            TempData["failed"] = "failed";
-                            return PartialView("_DrugPartial", drug);
-                        }
-
-                        //SUPPLIER IS INACTIVE
-                        if (supplierInDb.Status == SupplierStatus.InActive)
-                        {
-                            ModelState.AddModelError("SupplierTag", "Supplier has been deactivated");
-                            drug.DrugCategory = _drugService.AllCategories();
-                            TempData["failed"] = "failed";
-                            return PartialView("_DrugPartial", drug);
-                        }
-
-                        // DRUG IS NOT GREATER THAN 0
-                        if (drug.Quantity <= 0)
-                        {
-                            ModelState.AddModelError("Quantity", "Quantity should be greater than zero");
-                            drug.DrugCategory = _drugService.AllCategories();
-                            TempData["failed"] = "failed";
-                            return PartialView("_DrugPartial", drug);
-                        }
-
-                        // DRUG PRICE IS LESS THAN 0
-                        if (drug.Price <= 0)
-                        {
-                            ModelState.AddModelError("Price", "Price should be greater than zero");
-                            drug.DrugCategory = _drugService.AllCategories();
-                            TempData["failed"] = "failed";
-                            return PartialView("_DrugPartial", drug);
-                        }
-
-
-                        var newDrug = Mapper.Map<DrugViewModel, Drug>(drug);
-                        _drugService.AddDrug(newDrug);
-
+                        ModelState.AddModelError("ExpiryDate", "Must be later than today");
+                        drug.DrugCategory = _drugService.AllCategories();
+                        TempData["failed"] = "failed";
+                        return PartialView("_DrugPartial", drug);
                     }
-                    else
+
+                    //SUPPLIER IS INACTIVE
+                    if (supplierInDb.Status == SupplierStatus.InActive)
                     {
-                        // update existing drug
-                        //NOTE
-                        // check expiry date for drugs
-                        var getDrugInDb = _drugService.EditDrug(drug.Id);
-                        _drugService.UpdateDrug(Mapper.Map(drug, getDrugInDb));
-                        /// return Json(new { response = "success" }, JsonRequestBehavior.AllowGet);
-
+                        ModelState.AddModelError("SupplierTag", "Supplier has been deactivated");
+                        drug.DrugCategory = _drugService.AllCategories();
+                        TempData["failed"] = "failed";
+                        return PartialView("_DrugPartial", drug);
                     }
-                    TempData["added"] = "added";
+
+                    // DRUG IS NOT GREATER THAN 0
+                    if (drug.Quantity <= 0)
+                    {
+                        ModelState.AddModelError("Quantity", "Quantity should be greater than zero");
+                        drug.DrugCategory = _drugService.AllCategories();
+                        TempData["failed"] = "failed";
+                        return PartialView("_DrugPartial", drug);
+                    }
+
+                    // DRUG PRICE IS LESS THAN 0
+                    if (drug.Price <= 0)
+                    {
+                        ModelState.AddModelError("Price", "Price should be greater than zero");
+                        drug.DrugCategory = _drugService.AllCategories();
+                        TempData["failed"] = "failed";
+                        return PartialView("_DrugPartial", drug);
+                    }
+
+
+                    var newDrug = Mapper.Map<DrugViewModel, Drug>(drug);
+                    _drugService.AddDrug(newDrug);
 
                 }
+                else
+                {
+                    // update existing drug
+                    //NOTE
+                    // check expiry date for drugs
+                    var getDrugInDb = _drugService.EditDrug(drug.Id);
+                    _drugService.UpdateDrug(Mapper.Map(drug, getDrugInDb));
+                    // return Json(new { response = "success" }, JsonRequestBehavior.AllowGet);
+
+                }
+                TempData["added"] = "added";
             }
             catch (Exception ex)
             {
@@ -193,23 +183,21 @@ namespace inventoryAppWebUi.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+
                 if (string.IsNullOrWhiteSpace(category.CategoryName))
                 {
-                    ModelState.AddModelError("Category Name", "Please input category");
+                    ModelState.AddModelError("Category Name", @"Please input category");
                     //return Json(new { response = "failure", cat = category }, JsonRequestBehavior.AllowGet);
 
                     return PartialView("_CategoryPartial", category);
 
                 }
-                else
-                {
-                    var cate = Mapper.Map<DrugCategoryViewModel, DrugCategory>(category);
-                    _drugService.AddDrugCategory(cate);
 
-                    TempData["categoryAdded"] = "added";
-                    return Json(new { response = "success" }, JsonRequestBehavior.AllowGet);
-                }
+                var cate = Mapper.Map<DrugCategoryViewModel, DrugCategory>(category);
+                _drugService.AddDrugCategory(cate);
+
+                TempData["categoryAdded"] = "added";
+                return Json(new { response = "success" }, JsonRequestBehavior.AllowGet);
 
             }
             TempData["failedToAddCategory"] = "failed";

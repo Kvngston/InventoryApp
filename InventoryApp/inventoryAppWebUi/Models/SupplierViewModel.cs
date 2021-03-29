@@ -30,4 +30,8 @@ namespace inventoryAppWebUi.Models
         [Required]
         public string TagNumber { get; set; }
     }
+    public class SupplierErrorsMessages
+    {
+        public const string supplierNotFound = "Supplier not found!";
+    }
 }

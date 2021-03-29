@@ -138,11 +138,10 @@ namespace inventoryAppWebUi.Controllers
 
         public ActionResult GetDrugsBySupplier(string supplierTag)
         {
-            //HERE
             var drugsBySupplier = Mapper.Map<IEnumerable<DrugViewModel>>(_supplierService.GetAllDrugsBySupplier(supplierTag));
 
             if (drugsBySupplier == null)
-                return HttpNotFound("Not Found");
+                return HttpNotFound("Not Drugs found by supplier");
 
             return View(drugsBySupplier);
         }

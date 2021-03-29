@@ -66,21 +66,21 @@
                         foreach (var notification in json)
                         {
                             @*<a href="#" onclick="getNotification(@notification.Id)" id="particularNotification" class="iq-sub-card">
-                                <div class="media align-items-center cust-card py-3 border-bottom">
-                                    <div class="media-body ml-3">
-                                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="media align-items-center cust-card py-3 border-bottom">
+                                <div class="media-body ml-3">
+                                    <div class="d-flex align-items-center justify-content-between">
 
-                                            <h6 class="mb-0">@notification.Title</h6>
-                                        </div>
-                                        <small class="mb-0">@notification.NotificationDetails</small>
+                                        <h6 class="mb-0">@notification.Title</h6>
                                     </div>
+                                    <small class="mb-0">@notification.NotificationDetails</small>
                                 </div>
-                            </a>*@
-
+                            </div>
+                        </a>*@
+                            <button class="btn btn-success">Read all</button>
                             <div class="col-12">
                                 <div class="border border-info rounded" role="status" aria-live="assertive" aria-atomic="true">
                                     <div class="toast-header border-bottom">
-                                        <img src="..." class="rounded mr-2" alt="...">
+                                        <img src="~/Content/assets/images/page-img/outofstock.jpg" class="rounded mr-2" alt="...">
                                         <strong class="mr-auto">@notification.Title</strong>
                                         <small>11 mins ago</small>
                                         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
@@ -94,7 +94,6 @@
 
                             </div>
                         }
-                        <button class="btn btn-success">Read all</button>
 
 
 

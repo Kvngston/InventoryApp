@@ -119,6 +119,8 @@ namespace inventoryAppDomain.Repository
 
         public Drug GetDrugById(int id)
         {
+            if (id == null)
+                return null;
             return _dbContext.Drugs.FirstOrDefault(drug => drug.Id == id);
         }
 
@@ -138,26 +140,29 @@ namespace inventoryAppDomain.Repository
             _dbContext.SaveChanges();
         }
 
-        public void RemoveDrug(int id)
+        public bool RemoveDrug(int id)
         {
-            _dbContext.Drugs.Remove(_dbContext.Drugs.Single(d => d.Id == id));
-            _dbContext.SaveChanges();
+            var drug = GetDrugById(id);
+            if (drug == null)
+                return false;
+            else
+            {
+                _dbContext.Drugs.Remove(_dbContext.Drugs.Single(d => d.Id == id));
+                _dbContext.SaveChanges();
+                return true;
+            }
+            
         }
         //public Drug EditDrug(int id) => _dbContext.Drugs.SingleOrDefault(d => d.Id == id);
 
         public Drug EditDrug(int id)
         {
-            var drug = FindDrug(id);
+            var drug = GetDrugById(id);
             if (drug == null)
-                return drug;
-            else
-            {
-                return _dbContext.Drugs.SingleOrDefault(d => d.Id == id);
-            }
+                return null;
+
+            return _dbContext.Drugs.SingleOrDefault(d => d.Id == id);
         }
-
-        public Drug FindDrug(int id) => _dbContext.Drugs.SingleOrDefault(d => d.Id == id);
-
 
         public int DateComparison(DateTime FirstDate, DateTime SecondDate) => 
             DateTime.Compare(FirstDate, SecondDate);

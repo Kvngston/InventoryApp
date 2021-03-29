@@ -218,9 +218,25 @@ namespace inventoryAppWebUi.Controllers
 
         public ActionResult RemoveDrug(int id)
         {
-            _drugService.RemoveDrug(id);
+            try
+            {
+                var drugInDb = _drugService.GetDrugById(id);
 
+                // if the drug is not found
+                if (drugInDb == null)
+                {
+                    ModelState.AddModelError("Drug Name", "Something went wrong");
+                }
+                _drugService.RemoveDrug(id);
+
+            }
+            catch
+            {
+                return HttpNotFound("Drug does not exist");
+
+            }
             return RedirectToAction("AllDrugs");
+
         }
 
         public ActionResult ListDrugCategories()

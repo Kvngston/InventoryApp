@@ -63,8 +63,6 @@ namespace inventoryAppWebUi.Controllers
                         _supplierService.AddSupplier(Mapper.Map<SupplierViewModel, Supplier>(supplier));
                         TempData["supplierAdded"] = "added";
                     }
-
-
                 }
                 else
                 {
@@ -80,7 +78,6 @@ namespace inventoryAppWebUi.Controllers
             }
             catch (Exception ex)
             {
-
                 Console.WriteLine(ex.Message);
             }
             // return RedirectToAction("AllSuppliers");
@@ -94,7 +91,6 @@ namespace inventoryAppWebUi.Controllers
             if (supplier == null)
                 return HttpNotFound(SupplierErrorsMessages.supplierNotFound);
             
-
             if(supplier.Status == SupplierStatus.Active)
                 supplier.Status = SupplierStatus.InActive;
             else
@@ -126,7 +122,10 @@ namespace inventoryAppWebUi.Controllers
                 return HttpNotFound(SupplierErrorsMessages.supplierNotFound);
 
             var drugsBySupplier = Mapper.Map<IEnumerable<DrugViewModel>>(_supplierService.GetAllDrugsBySupplier(supplier.TagNumber));
-            
+
+            if (drugsBySupplier == null)
+                return HttpNotFound("Not Drugs found by supplier!");
+
             var supplierAndDrugs = new SupplierAndDrugsViewModel
             {
                 SupplierViewModel = supplier,
@@ -141,7 +140,7 @@ namespace inventoryAppWebUi.Controllers
             var drugsBySupplier = Mapper.Map<IEnumerable<DrugViewModel>>(_supplierService.GetAllDrugsBySupplier(supplierTag));
 
             if (drugsBySupplier == null)
-                return HttpNotFound("Not Drugs found by supplier");
+                return HttpNotFound("Not Drugs found by supplier!");
 
             return View(drugsBySupplier);
         }

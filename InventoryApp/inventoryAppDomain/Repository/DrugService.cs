@@ -176,7 +176,9 @@ namespace inventoryAppDomain.Repository
 
         public bool RemoveDrugCategory(int id)
         {
-            if (id == null)
+            var removeCategory = _dbContext.DrugCategories.SingleOrDefault(category => category.Id == id);
+
+            if (removeCategory == null)
                 return false;
 
             _dbContext.DrugCategories.Remove(_dbContext.DrugCategories.Single(c => c.Id == id));

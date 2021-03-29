@@ -234,6 +234,10 @@ namespace inventoryAppWebUi.Controllers
 
         public ActionResult RemoveDrugCategory(int id)
         {
+            var removeCategory = _drugService.RemoveDrugCategory(id);
+            if (!removeCategory)
+                return HttpNotFound("Category does not exist");
+
             _drugService.RemoveDrugCategory(id);
             return RedirectToAction("ListDrugCategories");
         }

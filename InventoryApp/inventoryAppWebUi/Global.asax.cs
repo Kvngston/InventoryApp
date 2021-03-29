@@ -43,10 +43,17 @@ namespace inventoryAppWebUi
 
             NotificationReminderJob notificationReminder = new NotificationReminderJob();
 
-            RecurringJob.AddOrUpdate(() => notificationReminder.RunReminder(TimeFrame.WEEKLY), Cron.Daily);
-            RecurringJob.AddOrUpdate(() => notificationReminder.RunReminder(TimeFrame.MONTHLY), Cron.Daily);
-            RecurringJob.AddOrUpdate(() => notificationReminder.OutOfStockReminders(), Cron.Hourly);
-            RecurringJob.AddOrUpdate(() => notificationReminder.ExpireDrugs(), Cron.Daily);
+            try
+            {
+                RecurringJob.AddOrUpdate(() => notificationReminder.RunReminder(TimeFrame.WEEKLY), Cron.Daily);
+                RecurringJob.AddOrUpdate(() => notificationReminder.RunReminder(TimeFrame.MONTHLY), Cron.Daily);
+                RecurringJob.AddOrUpdate(() => notificationReminder.OutOfStockReminders(), Cron.Hourly);
+                RecurringJob.AddOrUpdate(() => notificationReminder.ExpireDrugs(), Cron.Daily);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

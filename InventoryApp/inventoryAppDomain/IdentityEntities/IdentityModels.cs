@@ -48,7 +48,5 @@ namespace inventoryAppDomain.IdentityEntities
         {
             return new ApplicationDbContext();
         }
-
-        //public System.Data.Entity.DbSet<inventoryAppWebUi.Models.DrugViewModel> DrugViewModels { get; set; }
     }
 }

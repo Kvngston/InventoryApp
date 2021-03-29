@@ -119,7 +119,7 @@ namespace inventoryAppWebUi.Controllers
             var viewModel = new UpdateUserRoleViewModel
             {
                 Roles = _roleService.GetAllRoles(), 
-                Email = $"{user.Email}",
+                Email = user.Email,
                 UserId = id
             };
             return View(viewModel);

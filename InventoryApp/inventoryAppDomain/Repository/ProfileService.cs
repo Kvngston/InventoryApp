@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using inventoryAppDomain.Entities;
 using inventoryAppDomain.IdentityEntities;
 using inventoryAppDomain.Services;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin;
 
 namespace inventoryAppDomain.Repository
 {
     public class ProfileService : IProfileService
     {
         private readonly IRoleService _roleService;
-        private ApplicationUserManager _userManager;
         private readonly ApplicationDbContext _dbContext;
 
         public ProfileService(IRoleService roleService)
@@ -25,16 +21,7 @@ namespace inventoryAppDomain.Repository
             _dbContext = HttpContext.Current.GetOwinContext().Get<ApplicationDbContext>();
         }
 
-        public ProfileService(ApplicationUserManager userManager)
-        {
-            _userManager = userManager;
-        }
-
-        public ApplicationUserManager UserManager
-        {
-            get => HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            private set => _userManager = value;
-        }
+        private ApplicationUserManager UserManager => HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
         public void EditProfile(ApplicationUser user, Pharmacist pharmacist = null, StoreManager storeManager = null)
         {
@@ -81,7 +68,6 @@ namespace inventoryAppDomain.Repository
 
         public async Task RemoveUser(string userId)
         {
-
             var user = await ValidateUser(userId);
             var userRole = await _roleService.GetRoleByUser(user.Id);
 

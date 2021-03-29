@@ -1,16 +1,15 @@
 ﻿using System;
-using System.IO;
 using inventoryAppDomain.Entities.Enums;
 using inventoryAppDomain.Services;
 using IronPdf;
 
 namespace inventoryAppDomain.Jobs
 {
-    public class ReportPdfGenerator
+    public abstract class ReportPdfGenerator
     {
-        public IReportService ReportService { get; }
+        private IReportService ReportService { get; }
 
-        public ReportPdfGenerator(IReportService reportService)
+        protected ReportPdfGenerator(IReportService reportService)
         {
             ReportService = reportService;
         }
@@ -18,11 +17,16 @@ namespace inventoryAppDomain.Jobs
         
         public PdfDocument GenerateReportPdf(TimeFrame timeFrame)
         {
-            var folderPath = Directory.GetCurrentDirectory();
             var report = ReportService.CreateReport(timeFrame);
-            var renderer = new HtmlToPdf();
-            renderer.PrintOptions.CustomCssUrl = new Uri("https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.css").ToString();
-            var pdf = renderer.RenderHtmlAsPdf(report.DrugSales).SaveAs($"C:\\Users\\tochu\\Documents\\C# Projects\\inventoryapp\\InventoryApp\\report.pdf");
+            var renderer = new HtmlToPdf
+            {
+                PrintOptions =
+                {
+                    CustomCssUrl = new Uri("https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.css")
+                        .ToString()
+                }
+            };
+            var pdf = renderer.RenderHtmlAsPdf(report.DrugSales).SaveAs("C:\\Users\\tochu\\Documents\\C# Projects\\inventoryapp\\InventoryApp\\report.pdf");
             pdf.AddHTMLHeaders(new HtmlHeaderFooter
             {
                 CenterText = "PDF REPORT",

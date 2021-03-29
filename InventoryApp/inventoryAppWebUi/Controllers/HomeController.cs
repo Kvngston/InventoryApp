@@ -7,7 +7,7 @@ using System;
 
 namespace inventoryAppWebUi.Controllers
 {
-    
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ISupplierService _supplierService;
@@ -23,7 +23,7 @@ namespace inventoryAppWebUi.Controllers
             _orderService = orderService;
         }
 
-        public ActionResult Index(string paymentCompleted = null)
+        public ActionResult Index(string paymentCompleted)
         {
             //check if user already has as cart
             if (Request.IsAuthenticated && User.Identity.IsAuthenticated)

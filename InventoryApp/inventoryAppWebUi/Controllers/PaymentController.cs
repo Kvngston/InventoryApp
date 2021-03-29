@@ -34,8 +34,10 @@ namespace inventoryAppWebUi.Controllers
                 var response = await _paymentService.VerifyPayment(paymentReference);
                 if (response)
                 {
+                    ViewBag.PaymentResponse = true;
                     return RedirectToAction("Index", "Home", new{paymentCompleted="True"});
                 }
+                ViewBag.PaymentResponse = false;
                 return RedirectToAction("Index", "Home", new{paymentCompleted="False"});
 
             }

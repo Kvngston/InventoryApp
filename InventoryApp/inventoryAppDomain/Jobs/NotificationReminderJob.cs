@@ -14,7 +14,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace inventoryAppDomain.Jobs
 {
-    public class NotificationReminderJob
+    public class NotificationReminderJob: IDisposable
     {
         private static ApplicationDbContext _dbContext;
         
@@ -23,11 +23,6 @@ namespace inventoryAppDomain.Jobs
         {
             _dbContext = new ApplicationDbContext();
         }
-        
-        //Weekly Notification
-        //Monthly Notifications
-        //Purge Notifications When they have expired
-        
 
         public void RunReminder(TimeFrame timeFrame)
         {
@@ -38,8 +33,10 @@ namespace inventoryAppDomain.Jobs
                     var beginningOfWeek = DateTime.Now.FirstDayOfWeek();
                     var endOfWeek = DateTime.Now.LastDayOfWeek();
 
-                    var drugs = _dbContext.Drugs.Where(drug => DateTime.Now.Month == drug.ExpiryDate.Month
-                                                               && DateTime.Now.Year == drug.ExpiryDate.Year)
+                    Func<Drug,bool> func = drug => DateTime.Now.Month == drug.ExpiryDate.Month
+                                       && DateTime.Now.Year == drug.ExpiryDate.Year;
+
+                    var drugs = _dbContext.Drugs.Where(func)
                         .Where(drug => drug.ExpiryDate >= beginningOfWeek && drug.ExpiryDate <= endOfWeek).ToList();
                     drugs.ForEach(drug =>
                     {
@@ -57,8 +54,9 @@ namespace inventoryAppDomain.Jobs
                 }
                 case TimeFrame.MONTHLY:
                 {
-                    var drugs = _dbContext.Drugs.Where(drug => DateTime.Now.Month.Equals(drug.ExpiryDate.Month) 
-                                                               && DateTime.Now.Year.Equals(drug.ExpiryDate.Year)).ToList();
+                    Func<Drug, bool> func = drug => DateTime.Now.Month.Equals(drug.ExpiryDate.Month)
+                                                    && DateTime.Now.Year.Equals(drug.ExpiryDate.Year);
+                    var drugs = _dbContext.Drugs.Where(func).ToList();
                     drugs.ForEach(drug =>
                     {
                         var notification = new Notification()
@@ -106,6 +104,9 @@ namespace inventoryAppDomain.Jobs
 
             _dbContext.SaveChanges();
         }
-        
+        public void Dispose()
+        {
+            _dbContext.Dispose();
+        }
     }
 }

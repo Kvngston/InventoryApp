@@ -22,15 +22,15 @@ namespace inventoryAppDomain.Repository
         private readonly IOrderService _orderService;
         private readonly ITransactionService _transactionService;
         private readonly ApplicationDbContext _dbContext;
-        private string _contractCode = WebConfigurationManager.AppSettings["monnifyContractCode"];
-        private string _loginUrl = "https://sandbox.monnify.com/api/v1/auth/login";
+        private readonly string _contractCode = WebConfigurationManager.AppSettings["monnifyContractCode"];
+        private readonly string _loginUrl = "https://sandbox.monnify.com/api/v1/auth/login";
 
         private string _initTransactionUrl =
             "https://sandbox.monnify.com/api/v1/merchant/transactions/init-transaction";
 
         private string _verifyTransactionUrl = "https://sandbox.monnify.com/api/v2/transactions/";
-        private string _secretKey = WebConfigurationManager.AppSettings["monnifySecretKey"];
-        private string _apiKey = WebConfigurationManager.AppSettings["monnifyApiKey"];
+        private readonly string _secretKey = WebConfigurationManager.AppSettings["monnifySecretKey"];
+        private readonly string _apiKey = WebConfigurationManager.AppSettings["monnifyApiKey"];
 
         public MonnifyPaymentService(IOrderService orderService, ITransactionService transactionService)
         {
@@ -123,9 +123,11 @@ namespace inventoryAppDomain.Repository
             var accessToken = JsonConvert
                 .DeserializeObject<AccessTokenResponseBody>((await Login()).responseBody.ToString())
                 .accessToken;
+            
             var transaction = await _transactionService.GetTransactionByGeneratedRef(paymentReference);
             var encodedUrl = HttpUtility.UrlEncode(transaction.ReferenceNumber);
             var fullPath = $"{_verifyTransactionUrl}{encodedUrl}";
+            
             var response =
                 await GetClientResponse(fullPath, HttpRequestMethod.GET, $"Bearer {accessToken}");
             var responseBody = GetResponseBody<VerificationResponseBody>(response);

@@ -14,7 +14,7 @@ namespace inventoryAppDomain.Repository
 {
     public class NotificationService : INotificationService
     {
-        private ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _dbContext;
 
         public NotificationService()
         {
@@ -68,8 +68,7 @@ namespace inventoryAppDomain.Repository
 
         public List<Notification> GetRecentFive()
         {
-            return GetAllNonReadNotifications()
-                .Skip(Math.Max(0, GetNotificationsCount(NotificationStatus.UN_READ) - 5)).Take(5).ToList();
+            return GetAllNotifications().OrderByDescending(notification => notification.Id).Take(5).ToList();
         }
 
         public int GetNotificationsCount(NotificationStatus notificationStatus)

@@ -433,6 +433,7 @@
     <Content Include="Content\assets\images\page-img\22.jpg" />
     <Content Include="Content\assets\images\page-img\23.jpg" />
     <Content Include="Content\assets\images\page-img\24.jpg" />
+    <Content Include="Content\assets\images\page-img\outofstock.jpg" />
     <Content Include="Content\assets\images\page-img\profile-bg.jpg" />
     <Content Include="Content\assets\images\product\01.png" />
     <Content Include="Content\assets\images\product\02.png" />
@@ -640,6 +641,7 @@
     <Content Include="Views\Shared\_NotificationModalPartial.cshtml" />
     <Content Include="Views\Notifications\ShowAllNotifications.cshtml" />
     <Content Include="Views\Notifications\GetAllNotifications.cshtml" />
+    <Content Include="Views\Shared\EPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

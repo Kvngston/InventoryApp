@@ -90,6 +90,7 @@ namespace inventoryAppWebUi.Controllers
 
             if (supplier == null)
                 return HttpNotFound(SupplierErrorsMessages.supplierNotFound);
+                //return View("EPage", SupplierErrorsMessages.supplierNotFound);
             
             if(supplier.Status == SupplierStatus.Active)
                 supplier.Status = SupplierStatus.InActive;
@@ -110,6 +111,7 @@ namespace inventoryAppWebUi.Controllers
 
             if (supplier == null)
                 return HttpNotFound(SupplierErrorsMessages.supplierNotFound);
+            //    return View("EPage", SupplierErrorsMessages.supplierNotFound);
 
             return PartialView("_SupplierPartial", supplier);
         }

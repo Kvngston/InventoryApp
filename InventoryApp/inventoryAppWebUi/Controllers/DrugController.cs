@@ -153,6 +153,9 @@ namespace inventoryAppWebUi.Controllers
                     //NOTE
                     // check expiry date for drugs
                     var getDrugInDb = _drugService.EditDrug(drug.Id);
+                    if (getDrugInDb == null)
+                        return HttpNotFound("Drug not found!");
+
                     _drugService.UpdateDrug(Mapper.Map(drug, getDrugInDb));
                     // return Json(new { response = "success" }, JsonRequestBehavior.AllowGet);
 

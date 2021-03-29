@@ -56,7 +56,7 @@
 
             @{
                 var webClient = new WebClient();
-                string url = "https://localhost:44324/Notifications/GetRecentFive";
+                string url = "https://localhost:44324/Notifications/GetAllNotifications";
                 try
                 {
                     string jsonString = webClient.DownloadString(new Uri(url));

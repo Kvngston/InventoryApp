@@ -174,18 +174,27 @@ namespace inventoryAppDomain.Repository
             _dbContext.SaveChanges();
         }
 
-        public void RemoveDrugCategory(int id)
+        public bool RemoveDrugCategory(int id)
         {
+            if (id == null)
+                return false;
+
             _dbContext.DrugCategories.Remove(_dbContext.DrugCategories.Single(c => c.Id == id));
             _dbContext.SaveChanges();
+            return true;
         }
 
-        public DrugCategory EditDrugCategory(int id) => _dbContext.DrugCategories.SingleOrDefault(d => d.Id == id);
+        public DrugCategory EditDrugCategory(int id)
+        {
+            if (id == null)
+                return null;
+            return _dbContext.DrugCategories.SingleOrDefault(d => d.Id == id);
+        }
 
         public void UpdateDrugCategory(DrugCategory category)
         {
            // var update = _dbContext.DrugCategories.SingleOrDefault(c => c.Id == category.Id);
-            var update = _dbContext.DrugCategories.Add(category);
+           var update = _dbContext.DrugCategories.Add(category);
             _dbContext.Entry(update).State = EntityState.Modified;
 
             _dbContext.SaveChanges();

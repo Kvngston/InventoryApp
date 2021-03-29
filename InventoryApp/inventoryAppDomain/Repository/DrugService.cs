@@ -119,6 +119,8 @@ namespace inventoryAppDomain.Repository
 
         public Drug GetDrugById(int id)
         {
+            if (id == null)
+                return null;
             return _dbContext.Drugs.FirstOrDefault(drug => drug.Id == id);
         }
 
@@ -138,13 +140,30 @@ namespace inventoryAppDomain.Repository
             _dbContext.SaveChanges();
         }
 
-        public void RemoveDrug(int id)
+        public bool RemoveDrug(int id)
         {
-            _dbContext.Drugs.Remove(_dbContext.Drugs.Single(d => d.Id == id));
-            _dbContext.SaveChanges();
+            var drug = GetDrugById(id);
+            if (drug == null)
+                return false;
+            else
+            {
+                _dbContext.Drugs.Remove(_dbContext.Drugs.Single(d => d.Id == id));
+                _dbContext.SaveChanges();
+                return true;
+            }
+            
         }
-        public Drug EditDrug(int id) => _dbContext.Drugs.SingleOrDefault(d => d.Id == id);
-      
+        //public Drug EditDrug(int id) => _dbContext.Drugs.SingleOrDefault(d => d.Id == id);
+
+        public Drug EditDrug(int id)
+        {
+            var drug = GetDrugById(id);
+            if (drug == null)
+                return null;
+
+            return _dbContext.Drugs.SingleOrDefault(d => d.Id == id);
+        }
+
         public int DateComparison(DateTime FirstDate, DateTime SecondDate) => 
             DateTime.Compare(FirstDate, SecondDate);
 
@@ -155,18 +174,27 @@ namespace inventoryAppDomain.Repository
             _dbContext.SaveChanges();
         }
 
-        public void RemoveDrugCategory(int id)
+        public bool RemoveDrugCategory(int id)
         {
+            if (id == null)
+                return false;
+
             _dbContext.DrugCategories.Remove(_dbContext.DrugCategories.Single(c => c.Id == id));
             _dbContext.SaveChanges();
+            return true;
         }
 
-        public DrugCategory EditDrugCategory(int id) => _dbContext.DrugCategories.SingleOrDefault(d => d.Id == id);
+        public DrugCategory EditDrugCategory(int id)
+        {
+            if (id == null)
+                return null;
+            return _dbContext.DrugCategories.SingleOrDefault(d => d.Id == id);
+        }
 
         public void UpdateDrugCategory(DrugCategory category)
         {
            // var update = _dbContext.DrugCategories.SingleOrDefault(c => c.Id == category.Id);
-            var update = _dbContext.DrugCategories.Add(category);
+           var update = _dbContext.DrugCategories.Add(category);
             _dbContext.Entry(update).State = EntityState.Modified;
 
             _dbContext.SaveChanges();

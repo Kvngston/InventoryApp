@@ -55,7 +55,13 @@ namespace inventoryAppDomain.Repository
         }
 
 
-        public Supplier FindSupplier(int id) => _dbContext.Suppliers.SingleOrDefault(s => s.Id == id);
+        public Supplier FindSupplier(int id) {
+            var supplier =  _dbContext.Suppliers.SingleOrDefault(s => s.Id == id);
+            if (supplier == null)
+                return null;
+
+            return supplier;
+        }
         public IEnumerable<Drug> GetAllDrugsBySupplier(string supplierTagNumber) => _dbContext.Drugs.Where(d => d.SupplierTag == supplierTagNumber).ToList();
 
         private static Random random = new Random();

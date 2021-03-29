@@ -251,14 +251,14 @@ namespace inventoryAppWebUi.Controllers
                 // if the drug is not found
                 if (drugInDb == null)
                 {
-                    ModelState.AddModelError("Drug Name", "Something went wrong");
+                    return HttpNotFound("Drug does not exist");
                 }
                 _drugService.RemoveDrug(id);
 
             }
-            catch
+            catch(Exception ex)
             {
-                return HttpNotFound("Drug does not exist");
+               Console.WriteLine(ex.Message);
 
             }
             return RedirectToAction("AllDrugs");
@@ -272,6 +272,10 @@ namespace inventoryAppWebUi.Controllers
 
         public ActionResult RemoveDrugCategory(int id)
         {
+            var removeCategory = _drugService.RemoveDrugCategory(id);
+            if (!removeCategory)
+                return HttpNotFound("Category does not exist");
+
             _drugService.RemoveDrugCategory(id);
             return RedirectToAction("ListDrugCategories");
         }

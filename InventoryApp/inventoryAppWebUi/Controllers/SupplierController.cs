@@ -4,6 +4,7 @@ using inventoryAppDomain.Entities.Enums;
 using inventoryAppDomain.IdentityEntities;
 using inventoryAppDomain.Services;
 using inventoryAppWebUi.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -45,30 +46,39 @@ namespace inventoryAppWebUi.Controllers
             }
 
             //Add new supplier
-            if (supplier.Id == 0)
+            try
             {
-                var allSuppliers = _supplierService.GetAllSuppliers();
-                var tagAlreadyExists = allSuppliers.Any(s => s.TagNumber == supplier.TagNumber);
-                if (tagAlreadyExists)
+                if (supplier.Id == 0)
                 {
-                    ModelState.AddModelError("Supplier Tag", "Supplier with this tag already exists");
-                    return View("AddSupplier", supplier);
+                    var allSuppliers = _supplierService.GetAllSuppliers();
+                    var tagAlreadyExists = allSuppliers.Any(s => s.TagNumber == supplier.TagNumber);
+                    if (tagAlreadyExists)
+                    {
+                        ModelState.AddModelError("Supplier Tag", "Supplier with this tag already exists");
+                        return View("AddSupplier", supplier);
+                    }
+                    else
+                    {
+                        var newSupplier = Mapper.Map<SupplierViewModel, Supplier>(supplier);
+                        _supplierService.AddSupplier(Mapper.Map<SupplierViewModel, Supplier>(supplier));
+                        TempData["supplierAdded"] = "added";
+                    }
                 }
                 else
                 {
-                    var newSupplier = Mapper.Map<SupplierViewModel, Supplier>(supplier);
-                    _supplierService.AddSupplier(Mapper.Map<SupplierViewModel, Supplier>(supplier));
+                    //Update the existing supplier in DB
+                    var supplierInDb = _supplierService.FindSupplier(supplier.Id);
+
+                    if (supplierInDb == null)
+                        return HttpNotFound(SupplierErrorsMessages.supplierNotFound);
+
+                    _supplierService.UpdateSupplier(Mapper.Map(supplier, supplierInDb));
                     TempData["supplierAdded"] = "added";
                 }
-
-                
             }
-            else
+            catch (Exception ex)
             {
-                //Update the existing supplier in DB
-                var supplierInDb = _supplierService.FindSupplier(supplier.Id);
-               _supplierService.UpdateSupplier(Mapper.Map(supplier, supplierInDb));
-                TempData["supplierAdded"] = "added";
+                Console.WriteLine(ex.Message);
             }
             // return RedirectToAction("AllSuppliers");
             return Json(new { response = "success" }, JsonRequestBehavior.AllowGet);
@@ -77,8 +87,10 @@ namespace inventoryAppWebUi.Controllers
         public ActionResult ProcessSupplier(int id)
         {
             var supplier = _supplierService.FindSupplier(id);
-            
 
+            if (supplier == null)
+                return HttpNotFound(SupplierErrorsMessages.supplierNotFound);
+            
             if(supplier.Status == SupplierStatus.Active)
                 supplier.Status = SupplierStatus.InActive;
             else
@@ -89,7 +101,7 @@ namespace inventoryAppWebUi.Controllers
             if (processSupplier == true)
                 return RedirectToAction("AllSuppliers");
 
-            return HttpNotFound("No Supplier found!");
+            return HttpNotFound(SupplierErrorsMessages.supplierNotFound);
         }
 
         public ActionResult EditSupplier(int id)
@@ -97,7 +109,7 @@ namespace inventoryAppWebUi.Controllers
             var supplier = Mapper.Map<SupplierViewModel>(_supplierService.FindSupplier(id));
 
             if (supplier == null)
-                return HttpNotFound("Supplier not found");
+                return HttpNotFound(SupplierErrorsMessages.supplierNotFound);
 
             return PartialView("_SupplierPartial", supplier);
         }
@@ -107,9 +119,13 @@ namespace inventoryAppWebUi.Controllers
             var supplier = Mapper.Map<SupplierViewModel>(_supplierService.FindSupplier(id));
 
             if (supplier == null)
-                return HttpNotFound("Supplier not found");
+                return HttpNotFound(SupplierErrorsMessages.supplierNotFound);
+
             var drugsBySupplier = Mapper.Map<IEnumerable<DrugViewModel>>(_supplierService.GetAllDrugsBySupplier(supplier.TagNumber));
-            
+
+            if (drugsBySupplier == null)
+                return HttpNotFound("Not Drugs found by supplier!");
+
             var supplierAndDrugs = new SupplierAndDrugsViewModel
             {
                 SupplierViewModel = supplier,
@@ -124,7 +140,7 @@ namespace inventoryAppWebUi.Controllers
             var drugsBySupplier = Mapper.Map<IEnumerable<DrugViewModel>>(_supplierService.GetAllDrugsBySupplier(supplierTag));
 
             if (drugsBySupplier == null)
-                return HttpNotFound("Not Found");
+                return HttpNotFound("Not Drugs found by supplier!");
 
             return View(drugsBySupplier);
         }

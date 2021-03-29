@@ -7,8 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace inventoryAppDomain.Repository
@@ -35,9 +33,9 @@ namespace inventoryAppDomain.Repository
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<Supplier> GetAllSuppliers() => 
+        public IEnumerable<Supplier> GetAllSuppliers() =>
             _dbContext.Suppliers
-            .OrderBy(s =>s.Status)
+            .OrderBy(s => s.Status)
             .ToList();
 
         public bool ProcessSupplier(int id, SupplierStatus condition)
@@ -55,8 +53,21 @@ namespace inventoryAppDomain.Repository
         }
 
 
-        public Supplier FindSupplier(int id) => _dbContext.Suppliers.SingleOrDefault(s => s.Id == id);
-        public IEnumerable<Drug> GetAllDrugsBySupplier(string supplierTagNumber) => _dbContext.Drugs.Where(d => d.SupplierTag == supplierTagNumber).ToList();
+        public Supplier FindSupplier(int id) {
+            var supplier = _dbContext.Suppliers.SingleOrDefault(s => s.Id == id);
+            if (supplier == null)
+                return null;
+
+            return supplier;
+        }
+        public IEnumerable<Drug> GetAllDrugsBySupplier(string supplierTagNumber){
+           var allDrugsBySupplier = _dbContext.Drugs.Where(d => d.SupplierTag == supplierTagNumber).ToList();
+
+            if (allDrugsBySupplier == null)
+                return null;
+
+            return allDrugsBySupplier;
+        }
 
         private static Random random = new Random();
         public string GenerateTagNumber()

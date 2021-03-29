@@ -160,42 +160,7 @@ namespace InventoryAppWebUi.Test
             Assert.AreNotEqual("AllDrugs", result.Model);
         }
 
-        [Test]
-        public void EditDrugTest()
-        {
-            var drugId = 222;
-            var newDrugVm = new DrugViewModel
-            {
-                Id = drugId,
-                Quantity = 45,
-                Price = 55,
-                SupplierTag = "afghi",
-                DrugName = "purft",
-                DrugCategoryId = 99,
-                ExpiryDate = DateTime.Today.AddDays(25),
-            };
-
-            var newDrug = new Drug
-            {
-                Id = drugId,
-                Quantity = 45,
-                Price = 55,
-                SupplierTag = "afghi",
-                ExpiryDate = DateTime.Today.AddDays(25),
-                DrugName = "purft",
-                CreatedAt = DateTime.Today,
-                CurrentDrugStatus = DrugStatus.NOT_EXPIRED,
-                DrugCategoryId = 99
-            };
-
-            _mockDrug.Setup(n => n.EditDrug(drugId)).Returns(newDrug);
-
-            var result = _dcontroller.UpdateDrug(drugId) as PartialViewResult;
-
-            if (result != null)
-                Assert.That(newDrugVm.Id,
-                    Is.EqualTo(DeserializeObject<DrugViewModel>(SerializeObject(result.Model)).Id));
-        }
+     
 
         private class JsonResponse
         {

@@ -69,7 +69,7 @@ namespace inventoryAppDomain.Repository
 
         public List<Notification> GetRecentFive()
         {
-            return GetAllNotifications().OrderByDescending(notification => notification.Id).Take(5).ToList();
+            return GetAllNotifications().Where(notification => notification.NotificationStatus == NotificationStatus.UN_READ).OrderByDescending(notification => notification.Id).Take(5).ToList();
         }
 
         public int GetNotificationsCount(NotificationStatus notificationStatus)

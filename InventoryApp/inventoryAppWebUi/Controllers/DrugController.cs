@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using AutoMapper;
 using inventoryAppDomain.Entities;
@@ -299,6 +300,27 @@ namespace inventoryAppWebUi.Controllers
             // return View("ListDrugCategories");
             return Json(new { response = "success" }, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public ActionResult DrugDetails(int id)
+        {
+            var drug = Mapper.Map<DrugViewModel>(_drugService.GetDrugById(id));
+
+            if (drug == null)
+                return HttpNotFound("Drug not found");
+
+            //var drugsBySupplier = Mapper.Map<IEnumerable<DrugViewModel>>(_supplierService.GetAllDrugsBySupplier(supplier.TagNumber));
+
+            //if (drugsBySupplier == null)
+            //    return HttpNotFound("Not Drugs found by supplier!");
+
+            //var supplierAndDrugs = new SupplierAndDrugsViewModel
+            //{
+            //    SupplierViewModel = supplier,
+            //    DrugViewModel = drugsBySupplier
+            //};
+
+            return View("DrugDetails");
         }
     }
 }

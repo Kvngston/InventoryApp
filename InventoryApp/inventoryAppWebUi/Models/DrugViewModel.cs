@@ -14,7 +14,7 @@ namespace inventoryAppWebUi.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-
+        public int Id { get; set; }
         [Required]
         public string DrugName { get; set; }
         [Required]
@@ -30,11 +30,13 @@ namespace inventoryAppWebUi.Models
         [Required]
         public string SupplierTag { get; set; }
         public List<DrugCategory> DrugCategory { get; set; }
-        
+        [Required]
+        public int DrugCategoryId { get; set; }
     }
 
     public class CategoryViewModel
     {
+        public int Id { get; set; }
         public string CategoryName { get; set; }
     }
 }

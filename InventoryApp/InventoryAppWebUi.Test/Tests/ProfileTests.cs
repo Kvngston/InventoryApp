@@ -17,9 +17,9 @@ namespace InventoryAppWebUi.Test.Tests
     [TestFixture]
     public class ProfileTests
     {
-        private Mock<IRoleService> _mockRoleService = new Mock<IRoleService>();
-        private Mock<IProfileService> _mockProfileService = new Mock<IProfileService>();
-        private Mock<INotificationService> _mockNotificationService = new Mock<INotificationService>();
+        private readonly Mock<IRoleService> _mockRoleService = new Mock<IRoleService>();
+        private readonly Mock<IProfileService> _mockProfileService = new Mock<IProfileService>();
+        private readonly Mock<INotificationService> _mockNotificationService = new Mock<INotificationService>();
 
         [SetUp]
         public void Setup()

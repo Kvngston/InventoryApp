@@ -15,7 +15,7 @@ namespace inventoryAppDomain.Repository
 {
     public class DrugService : IDrugService
     {
-        private ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _dbContext;
         
         public DrugService()
         {
@@ -153,8 +153,7 @@ namespace inventoryAppDomain.Repository
             }
             
         }
-        //public Drug EditDrug(int id) => _dbContext.Drugs.SingleOrDefault(d => d.Id == id);
-
+     
         public Drug EditDrug(int id)
         {
             var drug = GetDrugById(id);
@@ -195,7 +194,7 @@ namespace inventoryAppDomain.Repository
 
         public void UpdateDrugCategory(DrugCategory category)
         {
-           // var update = _dbContext.DrugCategories.SingleOrDefault(c => c.Id == category.Id);
+        
            var update = _dbContext.DrugCategories.Add(category);
             _dbContext.Entry(update).State = EntityState.Modified;
 

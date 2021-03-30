@@ -643,6 +643,7 @@
     <Content Include="Views\Notifications\GetAllNotifications.cshtml" />
     <Content Include="Views\Shared\EPage.cshtml" />
     <Content Include="Views\Drug\DrugDetails.cshtml" />
+    <Content Include="Views\Drug\_EditDrugPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

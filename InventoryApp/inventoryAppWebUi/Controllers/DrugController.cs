@@ -320,7 +320,7 @@ namespace inventoryAppWebUi.Controllers
             //    DrugViewModel = drugsBySupplier
             //};
 
-            return View("drug");
+            return View("DrugDetails");
         }
     }
 }

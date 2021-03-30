@@ -78,18 +78,6 @@ namespace inventoryAppWebUi.Controllers
             return PartialView("_DrugPartial", drugInDb);
         }
 
-        public ActionResult ViewDrug(int id)
-        {
-
-            var drugInDb = Mapper.Map<Drug, DrugViewModel>(_drugService.EditDrug(id));
-
-            if (drugInDb == null) return HttpNotFound("No drug found");
-
-            drugInDb.DrugCategory = _drugService.AllCategories();
-
-            return PartialView("_ViewDrugPartial", drugInDb);
-        }
-
         public ActionResult SaveDrug(DrugViewModel drug)
         {
             if (!ModelState.IsValid)

@@ -642,7 +642,6 @@
     <Content Include="Views\Notifications\ShowAllNotifications.cshtml" />
     <Content Include="Views\Notifications\GetAllNotifications.cshtml" />
     <Content Include="Views\Shared\EPage.cshtml" />
-    <Content Include="Views\Drug\DrugDetails.cshtml" />
     <Content Include="Views\Drug\_ViewDrugPartial.cshtml" />
     <Content Include="Views\Shared\_ViewDrugModalPartial.cshtml" />
   </ItemGroup>

@@ -642,6 +642,7 @@
     <Content Include="Views\Notifications\ShowAllNotifications.cshtml" />
     <Content Include="Views\Notifications\GetAllNotifications.cshtml" />
     <Content Include="Views\Shared\EPage.cshtml" />
+    <Content Include="Views\Drug\DrugDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -15,12 +15,6 @@ namespace inventoryAppWebUi.Models
         [DataType(DataType.Text)]
         public string UserName { get; set; }
         [Required]
-        [DataType(DataType.Text)]
-        public string FirstName { get; set; }
-        [Required]
-        [DataType(DataType.Text)]
-        public string LastName { get; set; }
-        [Required]
         [DataType(DataType.Password)]
         public string OldPassword { get; set; }
         [Required]

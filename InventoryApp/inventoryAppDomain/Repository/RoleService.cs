@@ -53,7 +53,11 @@ namespace inventoryAppDomain.Repository
         public List<string> GetAllRoles() => RoleManager.Roles.Where(role => role.Name != "Admin").Select(x => x.Name).ToList();
 
 
-        public IdentityRole GetAppUserRole(string roleId) => RoleManager.FindById(roleId);
+        public IdentityRole GetAppUserRole(string roleId)
+        {
+           var role = RoleManager.FindById(roleId);
+            return role;
+        }
 
 
         public async Task RemoveUserRole(string roleId)
@@ -62,7 +66,11 @@ namespace inventoryAppDomain.Repository
            await _roleManager.DeleteAsync(userRole);
         }
 
-        public IdentityRole FindByRoleName(string roleName) => RoleManager.FindByName(roleName);
+        public IdentityRole FindByRoleName(string roleName)
+        {
+          var role =  RoleManager.FindByName(roleName);
+            return role;
+        }
         public async Task<string> GetRoleByUser(string userId)
         {
             var result = await UserManager.GetRolesAsync(userId);

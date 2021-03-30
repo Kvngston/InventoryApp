@@ -14,17 +14,13 @@ namespace inventoryAppDomain.Repository
     public class DrugCartService : IDrugCartService
     {
 
-        private ApplicationDbContext _dbContext;
-        private ApplicationUserManager userManager;
+        private readonly ApplicationDbContext _dbContext;
+        private readonly ApplicationUserManager userManager;
 
         public DrugCartService()
         {
             _dbContext = HttpContext.Current.GetOwinContext().Get<ApplicationDbContext>();
             userManager = HttpContext.Current.GetOwinContext().Get<ApplicationUserManager>();
-        }
-
-        public DrugCartService(ApplicationDbContext @object)
-        {
         }
 
         public DrugCart CreateCart(string userId)

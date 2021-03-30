@@ -295,8 +295,6 @@ namespace inventoryAppWebUi.Controllers
         {
 
             _drugService.UpdateDrugCategory(Mapper.Map<DrugCategory>(category));
-            //_drugService.EditDrugCategory(category.Id);
-            // return View("ListDrugCategories");
             return Json(new { response = "success" }, JsonRequestBehavior.AllowGet);
 
         }

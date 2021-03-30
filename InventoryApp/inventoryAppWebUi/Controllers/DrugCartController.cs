@@ -40,13 +40,22 @@ namespace inventoryAppWebUi.Controllers
         {
             var userId = User.Identity.GetUserId();
             var selectedDrug = _drugCartService.GetDrugById(id);
-            if (selectedDrug == null)
+            try
             {
-                return HttpNotFound();
-            }
+                if (selectedDrug == null)
+                {
+                    return HttpNotFound();
+                }
 
-            _drugCartService.AddToCart(selectedDrug, userId);
-            return RedirectToAction("FilteredDrugsList", "Drug");
+                _drugCartService.AddToCart(selectedDrug, userId);
+                return RedirectToAction("FilteredDrugsList", "Drug");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return RedirectToAction("FilteredDrugsList", "Drug");
+            }
+         
         }
 
 

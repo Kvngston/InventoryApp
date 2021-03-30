@@ -100,7 +100,8 @@ namespace inventoryAppWebUi.Controllers
             catch (Exception e)
             {
                 Response.StatusCode = StatusCodes.Status400BadRequest;
-                return View(Response.StatusCode);
+                // TODO: error page here
+                return View();
             }
         }
 

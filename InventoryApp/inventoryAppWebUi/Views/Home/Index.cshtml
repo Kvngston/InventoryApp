@@ -19,11 +19,15 @@
 <div class="content-page" style="margin-top: -50px">
 @if (ViewBag.Dispensed == "dispensed")
 {
-    Html.Partial("_SwaSuccessPartial");
+    <script>
+            swal("Payment Success!", "", "success");
+    </script>
 }
 else if (ViewBag.Failure == "failure")
 {
-    Html.Partial("_SwaSuccessPartial");
+    <script>
+            swal("Payment Failed!", "", "Failed");
+    </script>
 }
 <div class="container-fluid">
 <div class="row">

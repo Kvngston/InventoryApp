@@ -63,7 +63,8 @@ namespace inventoryAppDomain.Repository
 
         public List<Notification> GetAllNotifications()
         {
-            return _dbContext.Notifications.ToList();
+            return _dbContext.Notifications.ToList()                
+                .OrderBy(n => n.NotificationStatus == NotificationStatus.READ).ToList();
         }
 
         public List<Notification> GetRecentFive()

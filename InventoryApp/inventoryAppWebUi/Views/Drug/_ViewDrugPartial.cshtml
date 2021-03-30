@@ -32,7 +32,7 @@
 
         <div class="form-group">
             <div class="col-sm-12">
-                @Html.Label("Price", "Price")<span>@NumberFormatInfo.CurrentInfo.CurrencySymbol</span>
+                @Html.Label("Price", "Price")<span>(@NumberFormatInfo.CurrentInfo.CurrencySymbol)</span>
                 @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control textbox", @readonly = "readonly", PlaceHolder = "Price" } })
             </div>
         </div>
@@ -42,7 +42,7 @@
         <div class="form-group">
             <div class="col-sm-12">
                 @Html.Label("ExpiryDate", "Expiry Date")
-                @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = Model.ExpiryDate != null ? Model.ExpiryDate.Date.ToString("{0:d MMM yyyy}") : null } })
+                @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"} })
             </div>
         </div>
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using inventoryAppDomain.Entities.Enums;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,13 +11,24 @@ namespace inventoryAppDomain.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        [Required (ErrorMessage = "Supplier Name needed")]
         public string SupplierName { get; set; }
+
+        [EmailAddress]
+        [Required(ErrorMessage = "Supplier Email needed")]
         public string Email { get; set; }
+
+        [Url]
+        [Required(ErrorMessage = "Supplier web address needed")]
         public string Website { get; set; }
+
+        public SupplierStatus Status { get; set; } = SupplierStatus.Active;
+
+        [Required]
         public int GrossAmountOfDrugsSupplied { get; set; }
+
+        [Required]
         public string TagNumber { get; set; }
-
-
-        public ICollection<Brand> Brands { get; set; }
     }
 }

@@ -1,12 +1,13 @@
-﻿@{
+﻿@using inventoryAppWebUi.Models
+@model inventoryAppWebUi.Models.LoginViewModel
+
+@{
     Layout = null;
 }
 
 <!DOCTYPE html>
-
 <html>
 <head>
-    
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
@@ -16,55 +17,33 @@
 
 
     <!-- Fav  Icon Link -->
-    <link rel="shortcut icon" type="image/png" href="~/Content/Assets/images/fav.png">
+    @*<link rel="shortcut icon" type="image/png" href="~/Content/Assets/images/fav.png">
 
-    <link rel="stylesheet" href="~/Content/assets/css/green.css" id="style_theme">
+        <link rel="stylesheet" href="~/Content/assets/css/green.css" id="style_theme">
 
-    <script src="~/Content/assets/js/modernizr.min.js"></script>
+        <script src="~/Content/assets/js/modernizr.min.js"></script>*@
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="http://iqonic.design/themes/posdash/html/assets/images/favicon.ico" />
+    <link rel="stylesheet" href="~/Content/assets/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="~/Content/assets/css/backende209.css?v=1.0.0">
+    <link rel="stylesheet" href="~/Content/assets/vendor/%40fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/remixicon/fonts/remixicon.css">
 
     <title>@ViewBag.Title - ProClinic-Bootstrap4 Hospital </title>
-    
-    <style>
-        #formContainer {
-            /*           background-color: #3CB371;*/
-            display: flex;
-            /*            align-content: center;*/
-            align-items: center;
-            /*            justify-content: center;*/
-            height: 600px;
-        }
 
-        .container-fluid {
-            background-color: #3CB371;
-            height: 60px;
-        }
-
-        #form {
-            border: 1px solid #3CB371;
-            position: relative;
-            top: -10px;
-        }
-
-        .textbox {
-            font-size: 20px;
-            color: black;
-            font-weight: bolder;
-        }
-
-        body {
-            overflow-x: hidden;
-        }
-    </style>
 
     @Styles.Render("~/Content/template/css")
     @Scripts.Render("~/bundles/modernizr")
+
 </head>
 <body>
-@Html.Partial("_PageLoading")
-<div>
-    @RenderBody()
-</div>
-@Scripts.Render("~/bundles/js")
-@RenderSection("scripts", required: false)
+    @Html.Partial("_PageLoading")
+    <div>
+        @RenderBody()
+    </div>
+    @Scripts.Render("~/bundles/js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

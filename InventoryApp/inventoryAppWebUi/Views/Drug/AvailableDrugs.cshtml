@@ -1,0 +1,61 @@
+﻿@model List<inventoryAppDomain.Entities.Drug>
+
+@{
+    ViewBag.Title = "AvailableDrugs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if ((string)TempData["dispensed"] == "dispensed")
+{
+    <script>
+            swal("Dispensed!", "", "success");
+    </script>
+
+}
+<div class="card-body col-lg-12">
+    @if (Model.Any())
+    {
+        <h2>AvailableDrugs</h2>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered text-left">
+                <thead>
+                    <tr class="table-success">
+                        <th>Drug Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+
+                        <th>Category</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                @foreach (var drug in Model)
+                {
+                    <tbody>
+                        <tr class="info" style="cursor: pointer">
+                            <td class="font-weight-bold">@drug.DrugName</td>
+                            <td>@drug.Quantity</td>
+                            <td>@drug.Price</td>
+                            <td>@drug.DrugCategory.CategoryName</td>
+                            <td>
+                                @Html.ActionLink("Add to cart", "AddToShoppingCart", "DrugCart", new { drug.Id },
+                                     new { @class = "btn btn-outline-primary" })
+                            </td>
+
+                        </tr>
+                    </tbody>
+                }
+            </table>
+            @Html.ActionLink("View Cart", "Index", "DrugCart", null,
+                                   new { @class = "btn btn-success" })
+
+        </div>
+
+    }
+
+    else
+    {
+        <h1>Available Drugs</h1>
+        <p>Sorry! No drugs are available at the moment.</p>
+    }
+</div>

@@ -19,14 +19,25 @@ namespace inventoryAppDomain.IdentityEntities
         }
     }
 
+
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Brand> Brands { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Drug> Drugs { get; set; } 
         public DbSet<Pharmacist> Pharmacists { get; set; }
         public DbSet<StoreManager> StoreManagers { get; set; }
 
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<DrugCategory> DrugCategories { get; set; }
+        public DbSet<DrugCartItem> DrugCartItems { get; set; }
+
+        public DbSet<DrugCart> DrugCarts { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        
+        public DbSet<Report> Reports { get; set; }
+
+        public DbSet<Transaction> Transactions { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

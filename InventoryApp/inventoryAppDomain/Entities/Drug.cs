@@ -9,18 +9,29 @@ namespace inventoryAppDomain.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required]
         public int Id { get; set; }
+        [Required]
         public string DrugName { get; set; }
+        [Required]
         public int Quantity { get; set; }
+        [Required]
         public decimal Price { get; set; }
+        [Required]
+        [Display(Name = "Expiration Date")]
         public DateTime ExpiryDate { get; set; }
+        [Required]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        [Required]
         public DrugStatus CurrentDrugStatus { get; set; } = DrugStatus.NOT_EXPIRED;
 
-        public int BrandId { get; set; }
-        public Brand Brand { get; set; }
+        [Required]
+        public string SupplierTag { get; set; }
 
-        public int SupplierId { get; set; }
-        public Supplier Supplier { get; set; }
+        [Required]
+        public int DrugCategoryId { get; set; }
+        public DrugCategory DrugCategory { get; set; }
+        
     }
 }

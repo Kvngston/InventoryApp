@@ -1,6 +1,9 @@
 ﻿@model inventoryAppDomain.Entities.Pharmacist
 @{
     Layout = null;
+    ViewBag.CurrentPage = "All Drugs";
+    
+
 }
 
 <!DOCTYPE html>
@@ -10,9 +13,9 @@
     <title>title</title>
 </head>
 <body>
-<div>
-    <p>@Model.FirstName</p>
-    <p>@Model.LastName</p>
-</div>
+    <div>
+        <p>@Model.FirstName</p>
+        <p>@Model.LastName</p>
+    </div>
 </body>
 </html>

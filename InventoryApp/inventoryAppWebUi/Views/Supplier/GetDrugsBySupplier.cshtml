@@ -1,0 +1,43 @@
+﻿@model IEnumerable<inventoryAppWebUi.Models.DrugViewModel>
+@using System.Globalization
+
+@{
+    ViewBag.CurrentPage = "Drugs by Supplier";
+}
+
+<div class="card">
+    <div class="card-body col-lg-12">
+
+        @if (!Model.Any())
+        {
+            <p>No Drugs by this Supplier</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered text-left">
+                    <thead>
+                        <tr class="table-success">
+                            <th>Drug Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Expiry date</th>
+                        </tr>
+                    </thead>
+                    @foreach (var drug in Model)
+                    {
+                        <tbody>
+                            <tr class="info" style="cursor: pointer">
+                                <td class="font-weight-bold">@drug.DrugName</td>
+                                <td class="">@drug.Quantity</td>
+                                <td class=""> <span>@NumberFormatInfo.CurrentInfo.CurrencySymbol</span> @drug.Price</td>
+                                <td>@drug.ExpiryDate.ToShortDateString() </td>
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+
+            </div>
+        }
+    </div>
+</div>

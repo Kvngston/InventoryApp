@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using inventoryAppDomain.IdentityEntities;
 using inventoryAppDomain.Services;
@@ -33,9 +34,7 @@ namespace inventoryAppDomain.Repository
         {
             get
             {
-                // return _userManager ?? new ApplicationUserManager(new UserStore<ApplicationUser>());
                 return HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                // return _userManager ?? new UserManager<ApplicationUser>(new UserStore<ApplicationUser>());
             }
             private set 
             { 
@@ -51,9 +50,59 @@ namespace inventoryAppDomain.Repository
             return result.Succeeded ? role : throw new Exception(result.Errors.ToString());
         }
 
-        public List<string> GetAllRoles() => RoleManager.Roles.Select(x => x.Name).ToList();
+        public List<string> GetAllRoles() => RoleManager.Roles.Where(role => role.Name != "Admin").Select(x => x.Name).ToList();
 
-        public IdentityRole FindByRoleName(string roleName) => RoleManager.FindByName(roleName);
-        public List<string> GetRolesByUser(string userId) => UserManager.GetRoles(userId).ToList();
+
+        public IdentityRole GetAppUserRole(string roleId)
+        {
+           var role = RoleManager.FindById(roleId);
+            return role;
+        }
+
+
+        public async Task RemoveUserRole(string roleId)
+        {
+            var userRole = RoleManager.FindById(roleId);
+           await _roleManager.DeleteAsync(userRole);
+        }
+
+        public IdentityRole FindByRoleName(string roleName)
+        {
+          var role =  RoleManager.FindByName(roleName);
+            return role;
+        }
+        public async Task<string> GetRoleByUser(string userId)
+        {
+            var result = await UserManager.GetRolesAsync(userId);
+            return result?.First();
+        }
+
+        public async Task RemoveUserFromRole(string userId)
+        {
+            await UserManager.RemoveFromRolesAsync(userId);
+        }
+
+        public async Task ChangeUserRole(string userId, string updatedRoleName)
+        {
+            var role = await RoleManager.FindByNameAsync(updatedRoleName);
+
+            if (role == null)
+            {
+                throw new Exception("Role Doesn't Exist");
+            }
+            
+            if (await UserManager.IsInRoleAsync(userId, updatedRoleName))
+            {
+                throw new Exception("User Already in Role");
+            }
+
+            var previousRole = await UserManager.GetRolesAsync(userId);
+            
+            var result = await UserManager.RemoveFromRoleAsync(userId, previousRole.First());
+            if (result.Succeeded)
+            {
+                await UserManager.AddToRoleAsync(userId, role.Name);
+            }
+        }
     }
 }

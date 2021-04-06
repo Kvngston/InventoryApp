@@ -7,9 +7,13 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using inventoryAppDomain.IdentityEntities;
+using inventoryAppDomain.Jobs;
 using inventoryAppDomain.Repository;
 using inventoryAppDomain.Services;
 using Ninject.Web.Common;
+using Microsoft.AspNetCore.Http;
+using inventoryAppDomain.Entities;
+using inventoryAppDomain.Infrastructure;
 
 namespace inventoryAppWebUi.Infrastructures
 {
@@ -36,6 +40,16 @@ namespace inventoryAppWebUi.Infrastructures
         {
             kernel.Bind<IRoleService>().To<RoleService>();
             kernel.Bind<IProfileService>().To<ProfileService>();
+            kernel.Bind<INotificationService>().To<NotificationService>();
+            kernel.Bind<ISupplierService>().To<SupplierService>();
+            kernel.Bind<IDrugService>().To<DrugService>();
+            kernel.Bind<IOrderService>().To<OrderService>();
+            kernel.Bind<IDrugCartService>().To<DrugCartService>();
+            kernel.Bind<IReportService>().To<ReportService>();
+            kernel.Bind<NotificationReminderJob>().ToSelf();
+            kernel.Bind<ReportPdfGenerator>().ToSelf();
+            kernel.Bind<IPaymentService>().To<MonnifyPaymentService>();
+            kernel.Bind<ITransactionService>().To<TransactionService>();
         }
     }
 }

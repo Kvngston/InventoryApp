@@ -20,20 +20,30 @@ namespace inventoryAppWebUi
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
-                "~/Content/Assets/js/jquery-3.2.1.min.js",
-                "~/Content/Assets/js/popper.min.js",
-                "~/Content/Assets/js/bootstrap.min.js",
-                "~/Content/Assets/js/custom.js"));
+                "~/Scripts/jquery-3.4.1.min.js",
+                "~/Content/assets/js/backend-bundle.min.js",
+                "~/Content/assets/js/customizer.js",
+                "~/Content/assets/js/chart-custom.js",
+                "~/Content/datatable/datatables.min.js",
+                "~/Content/assets/js/app.js"));
 
 
             bundles.Add(new StyleBundle("~/Content/template/css").Include(
-                      "~/Content/Assets/css/bootstrap.min.css",
-                      "~/Content/Assets/css/themify-icons.css",
-                      "~/Content/Assets/css/animate.css",
-                      "~/Content/Assets/css/styles.css",
-                      "~/Content/Assets/css/responsive.css",
-                      "~/Content/Assets/css/morris.css",
-                      "~/Content/Assets/css/jquery-jvectormap.css"));
+                      "~/Content/assets/css/backend-plugin.min.css",
+                      "~/Content/datatable/datatables.min.css",
+                      "~/Content/assets/css/backende209.css?v=1.0.0",
+                      "~/Content/assets/vendor/%40fortawesome/fontawesome-free/css/all.min.css",
+                      "~/Content/assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css",
+                      "~/Content/assets/vendor/remixicon/fonts/remixicon.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/ajaxUnobtrusive").Include(
+                        "~/Scripts/jquery.unobtrusive-ajax.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/dataTables").Include(
+                        "~/Scripts/jquery-3.4.1.min.js",
+                        "~/Content/datatable/datatables.min.js",
+                        "~/Content/datatable/datatables.min.css"));
+
         }
     }
 }

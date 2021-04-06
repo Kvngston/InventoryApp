@@ -71,6 +71,13 @@ namespace inventoryAppWebUi.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
+        [Required]
+        [DataType(DataType.Text)]
+        public string FirstName { get; set; }
+        [Required]
+        [DataType(DataType.Text)]
+        public string LastName { get; set; }
+
         public string RoleName { get; set; }
 
         public List<String> Roles { get; set; }

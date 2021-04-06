@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="DefaultConnection" uuid="4597b4a5-cc30-44b1-a65e-7b8162dea093">
+    <data-source source="LOCAL" name="DefaultConnection" uuid="b65b77fe-a727-4529-9da3-9674e69a7ce8">
       <driver-ref>sqlserver.jtds</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>

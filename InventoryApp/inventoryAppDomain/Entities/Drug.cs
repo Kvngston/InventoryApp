@@ -11,15 +11,26 @@ namespace inventoryAppDomain.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         public int Id { get; set; }
+
         [Required]
         public string DrugName { get; set; }
+
+        [Required]
+        public int TotalUnitPerDrugs { get; set; }
+
+        [Required]
+        public int PricePerUnit { get; set; }
+
         [Required]
         public int Quantity { get; set; }
+
         [Required]
         public decimal Price { get; set; }
+
         [Required]
         [Display(Name = "Expiration Date")]
         public DateTime ExpiryDate { get; set; }
+
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 

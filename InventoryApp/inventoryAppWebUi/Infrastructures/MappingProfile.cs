@@ -33,6 +33,9 @@ namespace inventoryAppWebUi.Infrastructures
             //
             // Use the prescribe Model instead of drug
             Mapper.CreateMap<Drug, DrugPrescriptionViewModel>().ReverseMap();
+            //Mapper.CreateMap<DrugPrescriptionViewModel, Drug>()
+            //    .ForMember(dest => dest. )
+            
             //
 
 

@@ -83,13 +83,17 @@
         const md = parseInt(document.getElementById("MorningDosage").value);
         const ad = parseInt(document.getElementById("AfternoonDosage").value);
         const ed = parseInt(document.getElementById("EveningDosage").value);
+        const ppu = parseInt
 
         const duration = parseInt(document.getElementById("PrescriptionDuration").value);
 
         const totalDosage = document.getElementById("totalDosage");
 
+        const totalPrice = document.getElementById("totalPrice")
+
         var result = await (md + ad + ed) * duration;
-        totalDosage.value = result;
+        totalDosage.value = result; 
+
     }
 
     async function PrescribeDrug() {

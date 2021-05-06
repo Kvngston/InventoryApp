@@ -7,47 +7,50 @@
 </head>
 
 <div id="quill-toolbar1">
-    @using (Ajax.BeginForm("", "Drug", null, new AjaxOptions
+
+    @*@using (Ajax.BeginForm("PrescribedDrug", "DrugCart", null, new AjaxOptions
     {
         OnSuccess = "OnSuccess",
         OnFailure = "OnFailure"
     }, new { @class = "form-horizontal", id = "form", role = "form" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    {*@
+        @using (Html.BeginForm("PrescribedDrug", "DrugCart", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            <div class="col-sm-12">
-
-                @Html.EditorFor(model => model.DrugName, new { htmlAttributes = new { @class = "form-control", PlaceHolder = "Drug Name" } })
-
-                @Html.ValidationMessageFor(model => model.DrugName, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @Html.EditorFor(model => model.DrugName, new { htmlAttributes = new { @class = "form-control textbox", PlaceHolder = "Drug Name" } })
+                    @Html.ValidationMessageFor(model => model.DrugName, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-       @* <div class="form-group">
-            <div class="col-sm-12">
-                @Html.EditorFor(model => model.DrugCategoryId, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.DrugCategoryId, "", new { @class = "text-danger" })
+            @*<div class="col-md-6">
+                    <div class="form-group">
+                        @Html.Label("Drug", "Drug Name")
+                        @Html.DropDownListFor(model => model.DrugId, new SelectList(Model.Drug, "id", "DrugName"), "Select Drug", new { @class = "form-control textbox" })
+                    </div>
+                </div>*@
 
-            </div>
-            </div>*@
+            @*<div class="col-md-6">
+                    <div class="form-group">
+                        @Html.Label("DrugCategory", "Drug Category")
+                        @Html.DropDownListFor(model => model.DrugCategoryId, new SelectList(Model.DrugCategory, "id", "CategoryName"), "Select Category", new { @class = "form-control textbox" })
+                    </div>
+                </div>*@
+
 
             <div class="form-group">
                 <div class="col-sm-12 form-row">
                     <div class="col-sm-4">
-                        @Html.LabelFor(model => model.MorningDosage)
                         @Html.EditorFor(model => model.MorningDosage, new { htmlAttributes = new { @class = "form-control textbox", Id = "MorningDosage", PlaceHolder = "Morning", min = "0" } })
                     </div>
                     <div class="col-sm-4">
-                        @Html.LabelFor(model => model.AfternoonDosage)
-
                         @Html.EditorFor(model => model.AfternoonDosage, new { htmlAttributes = new { @class = "form-control textbox", Id = "AfternoonDosage", PlaceHolder = "Afternoon", min = "0" } })
                     </div>
 
                     <div class="col-sm-4">
-                        @Html.LabelFor(model => model.EveningDosage)
-
                         @Html.EditorFor(model => model.EveningDosage, new { htmlAttributes = new { @class = "form-control textbox", Id = "EveningDosage", PlaceHolder = "Evening", min = "0" } })
                     </div>
                 </div>
@@ -71,17 +74,19 @@
             <div class="form-group">
                 <div class="col-sm-12">
                     <span>@NumberFormatInfo.CurrentInfo.CurrencySymbol</span>
-                    @Html.EditorFor(model => model.PricePerUnit, new { htmlAttributes = new { @class = "form-control textbox", PlaceHolder = "Price" } })
+                    @Html.EditorFor(model => model.PricePerUnit, new { htmlAttributes = new { @class = "form-control textbox", PlaceHolder = "Price", Id ="totalPrice", @readonly = "readonly" } })
                     @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger" })
+
+                    @*@Html.HiddenFor(model => model.PricePerUnit, new { htmlAttributes = new { Id = "pricePerUnit" } })*@
                 </div>
             </div>
 
             @*<div class="form-group">
-            <div class="col-sm-12">
-                @Html.EditorFor(model => model.TotalDosage, new { htmlAttributes = new { @class = "form-control textbox", PlaceHolder = "Dosage" } })
-                @Html.ValidationMessageFor(model => model.TotalDosage, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+                    <div class="col-sm-12">
+                        @Html.EditorFor(model => model.TotalDosage, new { htmlAttributes = new { @class = "form-control textbox", PlaceHolder = "Dosage" } })
+                        @Html.ValidationMessageFor(model => model.TotalDosage, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
 
             <div class="form-group">
                 <div class="col-sm-12">
@@ -90,6 +95,7 @@
             </div>
             @Html.HiddenFor(model => model.Id)
 
-            }
-        </div>
+        }
+
+    </div>
 

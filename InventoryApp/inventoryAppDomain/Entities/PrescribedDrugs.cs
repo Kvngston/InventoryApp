@@ -32,6 +32,23 @@ namespace inventoryAppDomain.Entities
 
         [Required]
         public int EveningDosage { get; set; }
-      
+
+        [Required]
+        public int TotalUnitPerDrugs { get; set; }
+
+        [Required]
+        public int PricePerUnit { get; set; }
+
+        [Required]
+        public int Quantity { get; set; }
+
+
+
+        [Required]
+        public string SupplierTag { get; set; }
+
+        [Required]
+        public int DrugCategoryId { get; set; }
+        public DrugCategory DrugCategory { get; set; }
     }
 }

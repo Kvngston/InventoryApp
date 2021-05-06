@@ -30,7 +30,7 @@ namespace InventoryAppWebUi.Test
             _mockSupp = new Mock<ISupplierService>();
             _mockDrugCart = new Mock<IDrugCartService>();
             _dcontroller = new DrugController(_mockDrug.Object, _mockSupp.Object);
-            _cartController = new DrugCartController(_mockDrugCart.Object);
+            _cartController = new DrugCartController(_mockDrugCart.Object, _mockDrug.Object);
         }
         [SetUp]
         public void Setup()

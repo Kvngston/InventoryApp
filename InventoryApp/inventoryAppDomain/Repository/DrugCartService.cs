@@ -52,7 +52,7 @@ namespace inventoryAppDomain.Repository
         }
 
 
-        public void AddToCart(Drug drug, string userId)
+        public void AddToCart(Drug drug, string userId, int amount = 1)
         {
             var drugCart = GetCart(userId, CartStatus.ACTIVE);
             var cartItem = _dbContext.DrugCartItems.FirstOrDefault(item => item.DrugId == drug.Id && item.DrugCartId == drugCart.Id);
@@ -63,7 +63,7 @@ namespace inventoryAppDomain.Repository
                     DrugCartId = drugCart.Id,
                     DrugCart = drugCart,
                     Drug = drug,
-                    Amount = 1
+                    Amount = amount
                 };
                 _dbContext.DrugCartItems.Add(cartItem);
             }
@@ -100,6 +100,12 @@ namespace inventoryAppDomain.Repository
         public Drug GetDrugById(int Id)
         {
             var drug = _dbContext.Drugs.FirstOrDefault(x => x.Id == Id);
+            return drug;
+        }
+
+        public Drug GetDrugByName(string Name)
+        {
+            var drug = _dbContext.Drugs.FirstOrDefault(x => x.DrugName == Name);
             return drug;
         }
 
@@ -145,8 +151,8 @@ namespace inventoryAppDomain.Repository
         }
         public int GetDrugCartTotalCount(string userId)
         {
-            var cart = GetCart(userId,CartStatus.ACTIVE);
-            var total = _dbContext.DrugCartItems.Count(c => c.DrugCartId == cart.Id);
+            var cart = GetCart(userId, CartStatus.ACTIVE);
+            var total = _dbContext.DrugCartItems.Where(c => c.DrugCartId == cart.Id).Select(c => c.Amount).Sum();
             return total;
         }
     }

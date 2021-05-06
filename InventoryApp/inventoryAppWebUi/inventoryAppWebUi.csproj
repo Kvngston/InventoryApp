@@ -375,6 +375,14 @@
     <Compile Include="Migrations\202103151516471_test.Designer.cs">
       <DependentUpon>202103151516471_test.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202105061318503_AddUnitToDrug.cs" />
+    <Compile Include="Migrations\202105061318503_AddUnitToDrug.Designer.cs">
+      <DependentUpon>202105061318503_AddUnitToDrug.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202105061328293_AddedPrescribedDrugsToDb.cs" />
+    <Compile Include="Migrations\202105061328293_AddedPrescribedDrugsToDb.Designer.cs">
+      <DependentUpon>202105061328293_AddedPrescribedDrugsToDb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DrugCartViewModel.cs" />
@@ -728,6 +736,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202103151516471_test.resx">
       <DependentUpon>202103151516471_test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105061318503_AddUnitToDrug.resx">
+      <DependentUpon>202105061318503_AddUnitToDrug.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105061328293_AddedPrescribedDrugsToDb.resx">
+      <DependentUpon>202105061328293_AddedPrescribedDrugsToDb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

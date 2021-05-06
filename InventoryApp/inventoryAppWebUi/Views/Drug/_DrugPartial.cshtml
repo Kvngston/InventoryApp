@@ -25,12 +25,20 @@
         <div class="form-group">
             <div class="form-row col-sm-12">
                 <div class="col-sm-6">
-                    <label for="NumPerCard">Units per drug</label>
-                    <input min="1" id="NumPerCard" type="number" class="form-control textbox" placeholder="Units per drug" />
+                    @Html.LabelFor(m => m.TotalUnitPerDrugs)
+                    @Html.EditorFor(model => model.TotalUnitPerDrugs, new { htmlAttributes = new { @class = "form-control textbox", min = "1" } })
+                    @Html.ValidationMessageFor(model => model.TotalUnitPerDrugs, "", new { @class = "text-danger" })
+
+                    @*<input min="1" id="NumPerCard" type="number" class="form-control textbox" placeholder="Units per drug" />*@
                 </div>
                 <div class="col-sm-6">
-                    <label for="pricePerTablet">Price per unit</label>
-                    <input min="1" id="pricePerTablet" type="number" class="form-control textbox" placeholder="Price per unit" />
+                    @Html.LabelFor(m => m.PricePerUnit)
+                    @Html.EditorFor(model => model.PricePerUnit, new { htmlAttributes = new { @class = "form-control textbox", min = "1" } })
+                    @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger" })
+
+
+                    @*<label for="pricePerTablet">Price per unit</label>
+                    <input min="1" id="pricePerTablet" type="number" class="form-control*@ textbox" placeholder="Price per unit" />
                 </div>
             </div>
         </div>
@@ -46,7 +54,7 @@
         <div class="form-group">
             <div class="col-sm-12">
                 <span>@NumberFormatInfo.CurrentInfo.CurrencySymbol</span>
-                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control textbox", PlaceHolder = "Price" } })
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control textbox", PlaceHolder = "Price", value = "(@Model.PricePerUnit * Model.TotalUnitPerDrugs)" } })
                 @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
             </div>
         </div>

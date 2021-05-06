@@ -14,7 +14,7 @@ namespace inventoryAppWebUi.Infrastructures
             Mapper.CreateMap<EditProfileViewModel, Pharmacist>()
                 .ForMember(pharmacist => pharmacist.ApplicationUser, act => act.Ignore())
                 .ForMember(pharmacist => pharmacist.ApplicationUserId, act => act.Ignore());
-            
+
             Mapper.CreateMap<EditProfileViewModel, StoreManager>()
                 .ForMember(pharmacist => pharmacist.ApplicationUser, act => act.Ignore())
                 .ForMember(pharmacist => pharmacist.ApplicationUserId, act => act.Ignore());
@@ -62,7 +62,7 @@ namespace inventoryAppWebUi.Infrastructures
                  .ForMember(details => details.email, act => act.MapFrom(model => model.Email))
                  .ForMember(details => details.expirymonth, act => act.MapFrom(model => model.ExpiryMonth))
                  .ForMember(details => details.expiryyear, act => act.MapFrom(model => model.ExpiryYear));
-             
+
         }
     }
 }

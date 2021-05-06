@@ -14,7 +14,7 @@ namespace inventoryAppWebUi.Controllers
     {
         private readonly IDrugService _drugService;
         private readonly ISupplierService _supplierService;
-        
+
         public DrugController(IDrugService drugService, ISupplierService supplierService)
         {
             _drugService = drugService;
@@ -29,7 +29,7 @@ namespace inventoryAppWebUi.Controllers
         public ActionResult AvailableDrugs()
         {
             var drugs = _drugService.GetAvailableDrugs();
-          
+
             return View(drugs);
         }
         public ActionResult FilteredDrugsList(string searchString)
@@ -60,7 +60,7 @@ namespace inventoryAppWebUi.Controllers
             {
                 DrugCategory = _drugService.AllCategories()
             };
-            
+
             return PartialView("_DrugPartial", drugCategory);
         }
 
@@ -105,7 +105,7 @@ namespace inventoryAppWebUi.Controllers
                 //Add a new drug
                 if (drug.Id == 0)
                 {
-                    //DRUG HAS EXPIRED 
+                    //DRUG HAS EXPIRED
                     if (expiryDate >= 0)
                     {
                         ModelState.AddModelError("ExpiryDate", "Must be later than today");
@@ -149,7 +149,7 @@ namespace inventoryAppWebUi.Controllers
                 {
                     // update existing drug
 
-                    //DRUG HAS EXPIRED 
+                    //DRUG HAS EXPIRED
                     if (expiryDate >= 0)
                     {
                         ModelState.AddModelError("ExpiryDate", "Must be later than today");
@@ -312,6 +312,9 @@ namespace inventoryAppWebUi.Controllers
         }
         public ActionResult PrescribeDrug()
         {
+
+            ViewBag.AvalableDrugs = _drugService.GetAvailableDrugs();
+            ViewBag.DrugCategory = _drugService.AllCategories();
             return PartialView("_PrescribePartial");
         }
 
@@ -342,7 +345,7 @@ namespace inventoryAppWebUi.Controllers
 
             if (drugInDb == null) return HttpNotFound("No drug found");
 
-            
+
 
             return PartialView("_ViewDrugPartial", drugInDb);
 

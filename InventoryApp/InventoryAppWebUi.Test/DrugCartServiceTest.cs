@@ -24,12 +24,13 @@ namespace InventoryAppWebUi.Test
     public class DrugCartControllerTest
     {
         private readonly Mock<IDrugCartService> _mockDrugCart;
+        private readonly Mock<IDrugService> _mockDrug;
         private readonly DrugCartController _cartController;
 
         public DrugCartControllerTest()
         {
             _mockDrugCart = new Mock<IDrugCartService>();
-            _cartController = new DrugCartController(_mockDrugCart.Object);
+            _cartController = new DrugCartController(_mockDrugCart.Object, _mockDrug.Object);
         }
 
         [SetUp]

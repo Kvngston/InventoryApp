@@ -43,6 +43,6 @@ namespace inventoryAppDomain.Entities
         [Required]
         public int DrugCategoryId { get; set; }
         public DrugCategory DrugCategory { get; set; }
-        
+      
     }
 }

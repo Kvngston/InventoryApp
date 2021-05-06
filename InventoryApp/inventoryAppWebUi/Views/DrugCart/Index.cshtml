@@ -25,6 +25,8 @@
                             <tr>
                                 <th>Drug Name</th>
                                 <th>Quantity</th>
+                                @*<th>Price Per Unit</th>*@
+                                <th>Unit Price</th>
                                 <th>Price</th>
                                 <th></th>
                             </tr>
@@ -38,7 +40,9 @@
                                     <td style="font-weight: bolder">
                                         <button class="fas fa-plus increase text-success" style="cursor: pointer; font-size: 20px"onclick="increase(@drug.DrugId)"> </button> @drug.Amount <button class="fas fa-minus decrease text-warning" style="cursor: pointer; font-size: 20px" onclick="decrease(@drug.Id)"> </button>
                                     </td>
+                                    @*<td>@drug.Drug.PricePerUnit</td>*@
                                     <td class="text-left">@drug.Drug.Price</td>
+                                    <td>@(drug.Drug.Price * drug.Amount) </td>
                                     <td>
 
                                         <a class="badge bg-warning mr-2"
@@ -56,7 +60,7 @@
                             <tfoot>
                             <tr>
                                 <td class="text-right">Total:</td>
-                                <td class="text-left">
+                                <td class="text-left" colspan="2">
                                     @Model.DrugCartItemsTotal.ToString()
                                 </td>
                                 <td class="text-left" colspan="2">

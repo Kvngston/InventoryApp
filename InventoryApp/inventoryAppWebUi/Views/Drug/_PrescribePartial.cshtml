@@ -19,70 +19,77 @@
         <div class="form-group">
             <div class="col-sm-12">
 
-                @Html.DropDownListFor(model => model.DrugName , new SelectList(ViewBag.AvalableDrugs, "Id", "DrugName"), new { @class = "form-control" })
+                @Html.EditorFor(model => model.DrugName, new { htmlAttributes = new { @class = "form-control", PlaceHolder = "Drug Name" } })
 
                 @Html.ValidationMessageFor(model => model.DrugName, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.DropDownListFor(model => model.DrugCategoryId, new SelectList(ViewBag.DrugCategory, "Id", "CategoryName"), new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.DrugCategoryId, "", new { @class = "text-danger" })
-
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-12 form-row">
-                <div class="col-sm-4">
-                    @Html.EditorFor(model => model.MorningDosage, new { htmlAttributes = new { @class = "form-control textbox", Id = "MorningDosage", PlaceHolder = "Morning", min = "0" } })
-                </div>
-                <div class="col-sm-4">
-                    @Html.EditorFor(model => model.AfternoonDosage, new { htmlAttributes = new { @class = "form-control textbox", Id = "AfternoonDosage", PlaceHolder = "Afternoon", min = "0" } })
-                </div>
-
-                <div class="col-sm-4">
-                    @Html.EditorFor(model => model.EveningDosage, new { htmlAttributes = new { @class = "form-control textbox", Id = "EveningDosage", PlaceHolder = "Evening", min = "0" } })
-                </div>
-            </div>
-
-        </div>
-
-        <div class="form-group">
+       @* <div class="form-group">
             <div class="col-sm-12">
-                @Html.EditorFor(model => model.PrescriptionDuration, new { htmlAttributes = new { @class = "form-control textbox", Id = "PrescriptionDuration", @onblur = "CalculatePrescription()", PlaceHolder = "Drug Duration in days" } })
-                @Html.ValidationMessageFor(model => model.PrescriptionDuration, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                @Html.EditorFor(model => model.DrugCategoryId, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DrugCategoryId, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            <div class="col-sm-12">
-                @Html.EditorFor(model => model.TotalDosage, new { htmlAttributes = new { @class = "form-control textbox", Id = "totalDosage", PlaceHolder = "Total dosage", @readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.TotalDosage, "", new { @class = "text-danger" })
             </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-12">
-                <span>@NumberFormatInfo.CurrentInfo.CurrencySymbol</span>
-                    @Html.EditorFor(model => model.PricePerUnit, new { htmlAttributes = new { @class = "form-control textbox", PlaceHolder = "Price" } })
-                @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @*<div class="form-group">
-                <div class="col-sm-12">
-                    @Html.EditorFor(model => model.TotalDosage, new { htmlAttributes = new { @class = "form-control textbox", PlaceHolder = "Dosage" } })
-                    @Html.ValidationMessageFor(model => model.TotalDosage, "", new { @class = "text-danger" })
-                </div>
             </div>*@
 
-        <div class="form-group">
-            <div class="col-sm-12">
-                <input id="formBtn" type="submit" value="Prescribe" class="btn btn-primary col-sm-12" />
-            </div>
-        </div>
-        @Html.HiddenFor(model => model.Id)
+            <div class="form-group">
+                <div class="col-sm-12 form-row">
+                    <div class="col-sm-4">
+                        @Html.LabelFor(model => model.MorningDosage)
+                        @Html.EditorFor(model => model.MorningDosage, new { htmlAttributes = new { @class = "form-control textbox", Id = "MorningDosage", PlaceHolder = "Morning", min = "0" } })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.LabelFor(model => model.AfternoonDosage)
 
-    }
-</div>
+                        @Html.EditorFor(model => model.AfternoonDosage, new { htmlAttributes = new { @class = "form-control textbox", Id = "AfternoonDosage", PlaceHolder = "Afternoon", min = "0" } })
+                    </div>
+
+                    <div class="col-sm-4">
+                        @Html.LabelFor(model => model.EveningDosage)
+
+                        @Html.EditorFor(model => model.EveningDosage, new { htmlAttributes = new { @class = "form-control textbox", Id = "EveningDosage", PlaceHolder = "Evening", min = "0" } })
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @Html.EditorFor(model => model.PrescriptionDuration, new { htmlAttributes = new { @class = "form-control textbox", Id = "PrescriptionDuration", @onblur = "CalculatePrescription()", PlaceHolder = "Drug Duration in days" } })
+                    @Html.ValidationMessageFor(model => model.PrescriptionDuration, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @Html.EditorFor(model => model.TotalDosage, new { htmlAttributes = new { @class = "form-control textbox", Id = "totalDosage", PlaceHolder = "Total dosage", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.TotalDosage, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <span>@NumberFormatInfo.CurrentInfo.CurrencySymbol</span>
+                    @Html.EditorFor(model => model.PricePerUnit, new { htmlAttributes = new { @class = "form-control textbox", PlaceHolder = "Price" } })
+                    @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @*<div class="form-group">
+            <div class="col-sm-12">
+                @Html.EditorFor(model => model.TotalDosage, new { htmlAttributes = new { @class = "form-control textbox", PlaceHolder = "Dosage" } })
+                @Html.ValidationMessageFor(model => model.TotalDosage, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input id="formBtn" type="submit" value="Prescribe" class="btn btn-primary col-sm-12" />
+                </div>
+            </div>
+            @Html.HiddenFor(model => model.Id)
+
+            }
+        </div>
 

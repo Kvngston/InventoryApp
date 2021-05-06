@@ -16,15 +16,11 @@ namespace inventoryAppWebUi.Models
         public string DrugName { get; set; }
 
         [Required]
-        [Display(Name = "Drug Category")]
-        public int DrugCategoryId { get; set; }
-
-        [Required]
         [Display(Name = "Quantity")]
         public int TotalDosage { get; set; }
 
         [Required]
-        public decimal Price { get; set; }
+        public decimal PricePerUnit { get; set; }
 
         [Required]
         [Display(Name = "Duration")]

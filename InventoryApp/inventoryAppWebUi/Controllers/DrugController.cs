@@ -300,9 +300,6 @@ namespace inventoryAppWebUi.Controllers
 
         public ActionResult Prescription()
         {
-             ViewBag.AvalableDrugs= _drugService.GetAvailableDrugs();
-            ViewBag.DrugCategory = _drugService.AllCategories();
-
             return View(_drugService.GetAvailableDrugs());
         }
         public ActionResult PrescribeParticularDrug(int id)
@@ -315,6 +312,9 @@ namespace inventoryAppWebUi.Controllers
         }
         public ActionResult PrescribeDrug()
         {
+
+            ViewBag.AvalableDrugs = _drugService.GetAvailableDrugs();
+            ViewBag.DrugCategory = _drugService.AllCategories();
             return PartialView("_PrescribePartial");
         }
 

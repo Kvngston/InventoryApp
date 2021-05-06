@@ -41,6 +41,12 @@ namespace inventoryAppDomain.Repository
             );
             return availableDrugs;
         }
+        public Drug GetAvailableDrugsById(int id)
+        {
+            var drug = GetAvailableDrugs().Find(d => d.Id == id);
+
+            return drug ?? null;
+        }
         public List<Drug> GetAvailableDrugFilter(string searchQuery)
         {
             var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower();
@@ -119,9 +125,12 @@ namespace inventoryAppDomain.Repository
 
         public Drug GetDrugById(int id)
         {
-            if (id == null)
+            var result = _dbContext.Drugs.FirstOrDefault(drug => drug.Id == id);
+
+            if (result == null)
                 return null;
-            return _dbContext.Drugs.FirstOrDefault(drug => drug.Id == id);
+
+            return result;
         }
 
         public List<DrugCategory> AllCategories() => _dbContext.DrugCategories.ToList();
@@ -187,9 +196,15 @@ namespace inventoryAppDomain.Repository
 
         public DrugCategory EditDrugCategory(int id)
         {
-            if (id == null)
-                return null;
-            return _dbContext.DrugCategories.SingleOrDefault(d => d.Id == id);
+
+            var result = _dbContext.DrugCategories.SingleOrDefault(d => d.Id == id);
+
+            return result ?? null;
+
+            //if (result == null)
+            //    return null;
+
+            //return result;
         }
 
         public void UpdateDrugCategory(DrugCategory category)

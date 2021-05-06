@@ -26,6 +26,7 @@ namespace inventoryAppDomain.Services
         bool RemoveDrugCategory(int id);
 
         List<Drug> GetAvailableDrugs();
+        Drug GetAvailableDrugsById(int id);
 
         List<Drug> GetAvailableDrugFilter(string searchQuery);
 

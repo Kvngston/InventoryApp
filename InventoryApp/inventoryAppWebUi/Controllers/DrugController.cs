@@ -54,8 +54,6 @@ namespace inventoryAppWebUi.Controllers
         }
 
 
-
-
         public ActionResult AddDrugForm()
         {
             var drugCategory = new DrugViewModel
@@ -302,12 +300,11 @@ namespace inventoryAppWebUi.Controllers
 
         public ActionResult Prescription()
         {
-            return View(_drugService.GetAllDrugs());
+            return View(_drugService.GetAvailableDrugs());
         }
         public ActionResult PrescribeParticularDrug(int id)
         {
-
-            var drugInDb = Mapper.Map<Drug, DrugPrescriptionViewModel>(_drugService.EditDrug(id));
+            var drugInDb = Mapper.Map<Drug, DrugPrescriptionViewModel>(_drugService.GetAvailableDrugsById(id));
 
             if (drugInDb == null) return HttpNotFound("No drug found");
 
@@ -317,6 +314,7 @@ namespace inventoryAppWebUi.Controllers
         {
             return PartialView("_PrescribePartial");
         }
+
         //public ActionResult DrugDetails(int id)
         //{
         //    var drug = Mapper.Map<DrugViewModel>(_drugService.GetDrugById(id));

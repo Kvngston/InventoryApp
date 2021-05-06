@@ -7,7 +7,7 @@
 </head>
 
 <div id="quill-toolbar1">
-    @using (Ajax.BeginForm("SaveDrug", "Drug", null, new AjaxOptions
+    @using (Ajax.BeginForm("", "Drug", null, new AjaxOptions
     {
         OnSuccess = "OnSuccess",
         OnFailure = "OnFailure"
@@ -69,8 +69,8 @@
         <div class="form-group">
             <div class="col-sm-12">
                 <span>@NumberFormatInfo.CurrentInfo.CurrencySymbol</span>
-                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control textbox", PlaceHolder = "Price" } })
-                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.PricePerUnit, new { htmlAttributes = new { @class = "form-control textbox", PlaceHolder = "Price" } })
+                @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger" })
             </div>
         </div>
 

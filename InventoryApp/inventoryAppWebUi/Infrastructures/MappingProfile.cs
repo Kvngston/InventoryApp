@@ -29,7 +29,12 @@ namespace inventoryAppWebUi.Infrastructures
 
             Mapper.CreateMap<DrugViewModel, Drug>().ReverseMap();
 
-            Mapper.CreateMap<PrescribedDrugs, DrugPrescriptionViewModel>().ReverseMap();
+
+            //
+            // Use the prescribe Model instead of drug
+            Mapper.CreateMap<Drug, DrugPrescriptionViewModel>().ReverseMap();
+            //
+
 
             Mapper.CreateMap<DrugCategoryViewModel, DrugCategory>().ReverseMap();
 

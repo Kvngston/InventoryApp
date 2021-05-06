@@ -18,7 +18,7 @@ namespace inventoryAppWebUi.Models
         [Display(Name = "Quantity")]
         public int TotalDosage { get; set; }
         [Required]
-        public decimal Price { get; set; }
+        public int PricePerUnit { get; set; }
 
         [Required]
         [Display(Name = "Duration")]

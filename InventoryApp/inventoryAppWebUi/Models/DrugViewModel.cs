@@ -17,18 +17,34 @@ namespace inventoryAppWebUi.Models
         public int Id { get; set; }
         [Required]
         public string DrugName { get; set; }
+
+
         [Required]
-        [Display(Name = "Quantity")]
+        [Display(Name = "Unit per drug")]
+        public int TotalUnitPerDrugs { get; set; }
+
+            
+        [Required]
+        [Display(Name = "Unit per drug")]
+        public int PricePerUnit { get; set; }
+
+
+        [Required]
+        [Display(Name = "Quantity Supplied")]
         public int Quantity { get; set; }
+
         [Required]
         public decimal Price { get; set; }
+
 
         [DataType(DataType.Date, ErrorMessage = "Date only")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Required]
         public DateTime ExpiryDate { get; set; }
+
         [Required]
         public string SupplierTag { get; set; }
+
         public List<DrugCategory> DrugCategory { get; set; }
         [Required]
         public int DrugCategoryId { get; set; }

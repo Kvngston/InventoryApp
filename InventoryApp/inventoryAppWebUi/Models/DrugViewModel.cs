@@ -23,7 +23,7 @@ namespace inventoryAppWebUi.Models
         [Display(Name = "Unit per drug")]
         public int TotalUnitPerDrugs { get; set; }
 
-            
+
         [Required]
         [Display(Name = "Unit per drug")]
         public int PricePerUnit { get; set; }

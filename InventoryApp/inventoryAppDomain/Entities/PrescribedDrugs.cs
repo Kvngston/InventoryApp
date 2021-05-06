@@ -32,5 +32,6 @@ namespace inventoryAppDomain.Entities
 
         [Required]
         public int EveningDosage { get; set; }
+      
     }
 }

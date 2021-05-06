@@ -379,6 +379,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DrugCartViewModel.cs" />
     <Compile Include="Models\DrugCategoryViewModel.cs" />
+    <Compile Include="Models\DrugPrescriptionViewModel.cs" />
     <Compile Include="Models\DrugSearchViewModel.cs" />
     <Compile Include="Models\DrugViewModel.cs" />
     <Compile Include="Models\EditCategoryViewModel.cs" />
@@ -642,6 +643,9 @@
     <Content Include="Views\Notifications\ShowAllNotifications.cshtml" />
     <Content Include="Views\Notifications\GetAllNotifications.cshtml" />
     <Content Include="Views\Shared\EPage.cshtml" />
+    <Content Include="Views\Drug\Prescription.cshtml" />
+    <Content Include="Views\Shared\_PrescribeModalPartial.cshtml" />
+    <Content Include="Views\Drug\_PrescribePartial.cshtml" />
     <Content Include="Views\Drug\_ViewDrugPartial.cshtml" />
     <Content Include="Views\Shared\_ViewDrugModalPartial.cshtml" />
   </ItemGroup>

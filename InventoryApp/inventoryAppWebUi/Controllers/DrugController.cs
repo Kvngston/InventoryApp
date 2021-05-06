@@ -300,6 +300,22 @@ namespace inventoryAppWebUi.Controllers
 
         }
 
+        public ActionResult Prescription()
+        {
+            return View(_drugService.GetAllDrugs());
+        }
+        public ActionResult PrescribeParticularDrug(int id)
+        {
+
+            var drugInDb = Mapper.Map<Drug, DrugPrescriptionViewModel>(_drugService.EditDrug(id));
+
+            if (drugInDb == null) return HttpNotFound("No drug found");
+
+            return PartialView("_PrescribePartial", drugInDb);
+        }
+        public ActionResult PrescribeDrug()
+        {
+            return PartialView("_PrescribePartial");
         //public ActionResult DrugDetails(int id)
         //{
         //    var drug = Mapper.Map<DrugViewModel>(_drugService.GetDrugById(id));

@@ -97,10 +97,11 @@ namespace inventoryAppWebUi.Controllers
                 return View(notifications);
 
             }
-            catch (Exception e)
+            catch
             {
                 Response.StatusCode = StatusCodes.Status400BadRequest;
-                return View(Response.StatusCode);
+                // TODO: error page here
+                return View();
             }
         }
 

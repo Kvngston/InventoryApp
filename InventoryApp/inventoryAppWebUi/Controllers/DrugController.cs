@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using AutoMapper;
 using inventoryAppDomain.Entities;
@@ -295,8 +296,6 @@ namespace inventoryAppWebUi.Controllers
         {
 
             _drugService.UpdateDrugCategory(Mapper.Map<DrugCategory>(category));
-            //_drugService.EditDrugCategory(category.Id);
-            // return View("ListDrugCategories");
             return Json(new { response = "success" }, JsonRequestBehavior.AllowGet);
 
         }
@@ -317,6 +316,37 @@ namespace inventoryAppWebUi.Controllers
         public ActionResult PrescribeDrug()
         {
             return PartialView("_PrescribePartial");
+        //public ActionResult DrugDetails(int id)
+        //{
+        //    var drug = Mapper.Map<DrugViewModel>(_drugService.GetDrugById(id));
+
+        //    if (drug == null)
+        //        return HttpNotFound("Drug not found");
+
+        //    //var drugsBySupplier = Mapper.Map<IEnumerable<DrugViewModel>>(_supplierService.GetAllDrugsBySupplier(supplier.TagNumber));
+
+        //    //if (drugsBySupplier == null)
+        //    //    return HttpNotFound("Not Drugs found by supplier!");
+
+        //    //var supplierAndDrugs = new SupplierAndDrugsViewModel
+        //    //{
+        //    //    SupplierViewModel = supplier,
+        //    //    DrugViewModel = drugsBySupplier
+        //    //};
+
+        //    return View("DrugDetails");
+        //}
+
+        public ActionResult ViewDrug(int id)
+        {
+            var drugInDb = Mapper.Map<Drug, DrugViewModel>(_drugService.EditDrug(id));
+
+            if (drugInDb == null) return HttpNotFound("No drug found");
+
+            
+
+            return PartialView("_ViewDrugPartial", drugInDb);
+
         }
     }
 }

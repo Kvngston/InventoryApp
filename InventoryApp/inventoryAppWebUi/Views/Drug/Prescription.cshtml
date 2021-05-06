@@ -39,7 +39,7 @@
                                 <tr>
                                     <th>Drug Name</th>
                                     <th>Quantity</th>
-                                    <th>Price</th>
+                                    <th>Unit Price</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -50,7 +50,7 @@
                                     <tr>
                                         <td>@drug.DrugName</td>
                                         <td>@drug.Quantity</td>
-                                        <td>@drug.Price</td>
+                                        <td>@drug.PricePerUnit</td>
                                         <td>
                                             <div class="d-flex align-items-center list-action">
                                                 <a onclick="PrescribeParticularDrug(@drug.Id)" data-target="#edit-note" class="badge bg-success mr-2"

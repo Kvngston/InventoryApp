@@ -316,6 +316,7 @@ namespace inventoryAppWebUi.Controllers
         public ActionResult PrescribeDrug()
         {
             return PartialView("_PrescribePartial");
+        }
         //public ActionResult DrugDetails(int id)
         //{
         //    var drug = Mapper.Map<DrugViewModel>(_drugService.GetDrugById(id));

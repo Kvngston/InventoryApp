@@ -383,6 +383,10 @@
     <Compile Include="Migrations\202105061328293_AddedPrescribedDrugsToDb.Designer.cs">
       <DependentUpon>202105061328293_AddedPrescribedDrugsToDb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202105071210011_AddPrescribeTotalToCart.cs" />
+    <Compile Include="Migrations\202105071210011_AddPrescribeTotalToCart.Designer.cs">
+      <DependentUpon>202105071210011_AddPrescribeTotalToCart.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DrugCartViewModel.cs" />
@@ -742,6 +746,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202105061328293_AddedPrescribedDrugsToDb.resx">
       <DependentUpon>202105061328293_AddedPrescribedDrugsToDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105071210011_AddPrescribeTotalToCart.resx">
+      <DependentUpon>202105071210011_AddPrescribeTotalToCart.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -24,10 +24,12 @@
                             <thead>
                             <tr>
                                 <th>Drug Name</th>
-                                <th>Quantity</th>
+                                <th>Quantity Per Pack</th>
                                 @*<th>Price Per Unit</th>*@
-                                <th>Unit Price</th>
-                                <th>Price</th>
+                                <th>Price Per Pack</th>
+                                <th>Prescribe Amount</th>
+                                <th>Price Per Tablet</th>
+                                <th>Sum Total</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -42,7 +44,9 @@
                                     </td>
                                     @*<td>@drug.Drug.PricePerUnit</td>*@
                                     <td class="text-left">@drug.Drug.Price</td>
-                                    <td>@(drug.Drug.Price * drug.Amount) </td>
+                                    <td>@drug.PrescribedAmount (@(drug.PrescribedAmount/ drug.Drug.PricePerUnit) tablets)</td>
+                                    <td>@drug.Drug.PricePerUnit </td>
+                                    <td>@((drug.Drug.Price * drug.Amount) + drug.PrescribedAmount)  </td>
                                     <td>
 
                                         <a class="badge bg-warning mr-2"

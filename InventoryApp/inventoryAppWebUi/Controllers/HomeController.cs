@@ -56,7 +56,6 @@ namespace inventoryAppWebUi.Controllers
                     ViewBag.Failure = "failure";
                 }
             }
-            ViewBag.Dispensed = "dispensed";
             return View(totalNumberOfSupplier);
         }
 

@@ -47,9 +47,6 @@ namespace inventoryAppWebUi.Models
         //public int DrugId { get; set; }
         public string UserId { get; set; }
 
-        public List<DrugCategory> DrugCategory { get; set; }
-        [Required]
-        public int DrugCategoryId { get; set; }
     }
 
     //public class DrugNameViewModel

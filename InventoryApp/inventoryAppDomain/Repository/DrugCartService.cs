@@ -152,7 +152,9 @@ namespace inventoryAppDomain.Repository
         public int GetDrugCartTotalCount(string userId)
         {
             var cart = GetCart(userId, CartStatus.ACTIVE);
-            var total = _dbContext.DrugCartItems.Where(c => c.DrugCartId == cart.Id).Select(c => c.Amount).Sum();
+            var total = _dbContext.DrugCartItems.Count(c => c.DrugCartId == cart.Id); ;
+
+       
             return total;
         }
     }

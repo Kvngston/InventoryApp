@@ -19,7 +19,8 @@ namespace inventoryAppDomain.Entities
         public int DrugId { get; set; }
         public Drug Drug { get; set; }
 
-        
+        public int PrescribedQuantity { get; set; }
+
         public int DrugCartId { get; set; }
 
         public DrugCart DrugCart { get; set; }

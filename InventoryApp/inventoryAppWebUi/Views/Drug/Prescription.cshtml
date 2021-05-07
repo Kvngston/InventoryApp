@@ -18,7 +18,7 @@
                         </p>
                     </div>
 
-                    <a id="addDrugModal" onclick="PrescribeDrug()" data-target="#edit-note" class="border border-primary add-list px-3 py-1 text-primary rounded"><i class="fas fa-plus mr-3"></i>Prescribe</a>
+                    @*<a id="addDrugModal" onclick="PrescribeDrug()" data-target="#edit-note" class="border border-primary add-list px-3 py-1 text-primary rounded"><i class="fas fa-plus mr-3"></i>Prescribe</a>*@
 
 
                     @*<a data-toggle="modal" data-target="#edit-note" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Add Drug</a>*@
@@ -94,18 +94,6 @@
         var result = await (md + ad + ed) * duration;
         totalDosage.value = result; 
 
-    }
-
-    async function PrescribeDrug() {
-        var url = "/Drug/PrescribeDrug/";
-        var data = await fetch(url);
-        data = await data.text();
-
-        var modalPartial = document.getElementById("contentpage");
-        modalPartial.innerHTML = data;
-
-        $.validator.unobtrusive.parse("#form");
-        $("#edit-note").modal('show');
     }
 
     async function PrescribeParticularDrug(id) {

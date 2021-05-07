@@ -65,7 +65,7 @@ namespace inventoryAppWebUi.Controllers
                     return HttpNotFound();
                 }
 
-                _drugCartService.AddToCart(selectedDrug, userId, drugPrescriptionViewModel.TotalDosage);
+                _drugCartService.AddToCart(selectedDrug, userId, drugPrescriptionViewModel.TotalDosage, 0);
                 return RedirectToAction("Index", "DrugCart");
             }
             catch (Exception ex)

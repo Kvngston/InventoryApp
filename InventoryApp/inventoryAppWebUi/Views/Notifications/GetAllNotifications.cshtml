@@ -18,9 +18,23 @@
                 <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
                     <div>
                         <h4 class="mb-3">All Notifications</h4>
-                        <p class="mb-0">
-                            This is the notifications page for POSDrugs
-                        </p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>
+                                    This is the notifications page for POSDrugs
+                                </p>
+                            </div>
+                          
+                            <div class="col-md-6">
+                                @using (Html.BeginForm("GetAllNotifications", "Notifications"))
+                                {
+                                    @Html.DropDownList("notificationCategory", new SelectList(Enum.GetValues(typeof(NotificationCategory))), "All",
+                                    new { @class = "form-control" })
+                                    <input type="submit" value="Filter" class="btn btn-info" />
+                                }
+                            </div>
+                            
+                            </div>
                     </div>
                 </div>
             </div>

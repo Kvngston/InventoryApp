@@ -9,7 +9,7 @@ namespace inventoryAppDomain.Services
 {
     public interface IOrderService
     {
-        Order CreateOrder(Order order, string userId);
+        Order CreateOrder(Order order, string userId, string clearedBy);
 
         Order GetOrderById(int orderId);
 

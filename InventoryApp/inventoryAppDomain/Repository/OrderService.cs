@@ -23,11 +23,12 @@ namespace inventoryAppDomain.Repository
             _ctx = HttpContext.Current.GetOwinContext().Get<ApplicationDbContext>();
         }
 
-        public Order CreateOrder(Order order, string userId)
+        public Order CreateOrder(Order order, string userId, string clearedBy)
         {
-            var cart = _drugCartService.GetCart(userId,CartStatus.ACTIVE);
+            var cart = _drugCartService.GetCart(userId, CartStatus.ACTIVE);
             order.OrderItems = cart.DrugCartItems;
             order.Price = _drugCartService.GetDrugCartSumTotal(userId);
+            order.ClearedBy = clearedBy;
             
             cart.DrugCartItems.ForEach(item =>
             {

@@ -20,5 +20,6 @@ namespace inventoryAppDomain.Entities
         public decimal Price { get; set; }
         public List<DrugCartItem> OrderItems { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public string ClearedBy { get; set; }
     }
 }

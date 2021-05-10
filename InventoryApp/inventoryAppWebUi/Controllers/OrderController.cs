@@ -38,7 +38,7 @@ namespace inventoryAppWebUi.Controllers
         public ActionResult Checkout(OrderViewModel viewModel)
         {
             var userId = User.Identity.GetUserId();
-            var items = _drugCartService.GetDrugCartItems(userId,CartStatus.ACTIVE);
+            var items = _drugCartService.GetDrugCartItems(userId, CartStatus.ACTIVE);
 
             if (!items.Any())
             {
@@ -47,7 +47,9 @@ namespace inventoryAppWebUi.Controllers
 
             if (ModelState.IsValid)
             {
-                var order = _orderService.CreateOrder(Mapper.Map<OrderViewModel, Order>(viewModel), userId);
+                var clearedBy = User.Identity.GetUserName();
+
+                var order = _orderService.CreateOrder(Mapper.Map<OrderViewModel, Order>(viewModel), userId, clearedBy);
                 _drugCartService.RefreshCart(userId);
                 return RedirectToAction("ProcessPayment", "Payment", new {orderId = order.OrderId});
              
@@ -69,7 +71,9 @@ namespace inventoryAppWebUi.Controllers
 
             if (ModelState.IsValid)
             {
-                var order = _orderService.CreateOrder(Mapper.Map<OrderViewModel, Order>(viewModel), userId);
+                var clearedBy = User.Identity.GetUserName();
+
+                var order = _orderService.CreateOrder(Mapper.Map<OrderViewModel, Order>(viewModel), userId, clearedBy);
                 _drugCartService.RefreshCart(userId);
                 TempData["dispensed"] = "dispensed";
                 return RedirectToAction("FilteredDrugsList", "Drug");
